@@ -145,7 +145,7 @@ set (STM32F4_DEVICE_VECTOR_TABLE_SOURCE_FILE  "${SYSTEM_FILES_DIR}/startup_stm32
 
 ################################################################################
 # find STM32F4xx Devices vector table
-set (STM32F4_SYSCALL_SOURCE_FILE  "${SYSTEM_FILES_DIR}/syscall.c")
+set (STM32F4_SYSCALL_SOURCE_FILE  "${STM32F4_ROOT_DIR}/../stm32fx/system_files/syscall.c")
 ################################################################################
 
 # adjust the default behaviour of the FIND_XXX() commands:
