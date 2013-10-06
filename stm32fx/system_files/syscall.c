@@ -42,6 +42,15 @@ volatile uint32_t psr;/* Program status register. */
 
     /* When the following line is hit, the variables contain the register values. */
     for( ;; );
+
+    UNUSED_PARAM(r0);
+    UNUSED_PARAM(r1);
+    UNUSED_PARAM(r2);
+    UNUSED_PARAM(r3);
+    UNUSED_PARAM(r12);
+    UNUSED_PARAM(lr);
+    UNUSED_PARAM(pc);
+    UNUSED_PARAM(psr);
 }
 
 
