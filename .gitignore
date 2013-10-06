@@ -1,0 +1,27 @@
+#Linux
+*~
+*.sw[a-p]
+.directory
+ 
+#Revisioning systems
+/.svn/*
+*/.svn/*
+/CVS/*
+*/CVS/*
+.cvsignore
+*/.cvsignore
+ 
+#Mac OS X
+.DS_Store
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+ 
+#Windows
+Thumbs.db
+Desktop.ini
+
+*.tmp
+*.bak
+*.swp
