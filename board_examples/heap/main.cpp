@@ -62,15 +62,10 @@ void HardFault_Handler(void)
 
 int main(void)
 {
-	unsigned int* heap_size = 0;
+	unsigned char* heap_size = 0;
 	int ctr = 0;
-	void* tab_mem[3];
-	//unsigned int  wait = 1;
 
-	//while (wait);
-
-
-	while ((tab_mem[ctr] = malloc(1024)) != 0)
+	while (malloc(1024) != 0)
 	{
 		ctr++;
 		heap_size += 1024;
