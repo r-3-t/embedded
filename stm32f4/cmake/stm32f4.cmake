@@ -40,6 +40,7 @@ include_directories(${CMAKE_CURRENT_LIST_DIR}/../../hal/)
 include_directories(${SYSTEM_FILES_DIR})
 include_directories(${SYSTEM_FILES_DIR}/STM32F4xx_StdPeriph_Driver/inc/)
 include_directories(${SYSTEM_FILES_DIR}/CMSIS/)
+include_directories("${STM32F4_ROOT_DIR}/../stm32fx/")
 
 
 ################################################################################
