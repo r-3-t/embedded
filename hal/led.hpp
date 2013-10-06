@@ -23,8 +23,8 @@ LedColor_t getLedColor(LedId_t LedId);
 class LedGroup
 {
 public:
-	// -1 means select all avalaibles leds
-	LedGroup(LedId_t ledIds = -1);
+	// invalidLedId means select all avalaibles leds
+	LedGroup(LedId_t ledIds = invalidLedId());
 
 
 	void on() const;
