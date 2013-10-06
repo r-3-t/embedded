@@ -284,22 +284,26 @@ void _exit(int code)
 /*appropriate definition of _heap and _heap_end has to be done in the linker script*/ 
 extern int _heap;
 extern int _heap_end;
- 
+
+void* _current_heap_ptr = NULL; 
+
 caddr_t  _sbrk ( int incr )
 {
-static unsigned char *heap = NULL;
-void *prev_heap;
-void *heap_end = &_heap_end;
+    void *prev_heap;
+    void *heap_end = &_heap_end;
 
-    if (heap == NULL)  prev_heap = heap = (unsigned char *)&_heap; 
- 
-    if ((prev_heap + incr) < heap_end)
-    	{
-      	prev_heap = heap;
-      	heap += incr;
-    	}
-    else return NULL;
-return (caddr_t) prev_heap;
+    if (_current_heap_ptr == NULL)
+        _current_heap_ptr = (unsigned char *)&_heap;
+    
+    if ((_current_heap_ptr + incr) < heap_end)
+    {
+      	prev_heap = _current_heap_ptr;
+      	_current_heap_ptr += incr;
+    }
+    else
+        return (caddr_t)-1;
+
+    return (caddr_t) prev_heap;
 }
 
 
