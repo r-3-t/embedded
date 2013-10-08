@@ -25,6 +25,7 @@ set (SYSTEM_FILES_DIR "${CMAKE_CURRENT_LIST_DIR}/../system_files")
 
 configure_file(${CMAKE_CURRENT_LIST_DIR}/../../hal/clock.hpp ${CMAKE_BINARY_DIR}/hal/clock.hpp COPYONLY)
 configure_file(${CMAKE_CURRENT_LIST_DIR}/../hal/hal_stm32f1_led.hpp ${CMAKE_BINARY_DIR}/hal/led.hpp COPYONLY)
+configure_file(${CMAKE_CURRENT_LIST_DIR}/../hal/hal_stm32f1_uart.hpp ${CMAKE_BINARY_DIR}/hal/uart.hpp COPYONLY)
 include_directories(${CMAKE_BINARY_DIR})
 
 include (arm-none-eabi-gcc)
@@ -37,6 +38,8 @@ include_directories(${CMAKE_CURRENT_LIST_DIR}/../../hal/)
 include_directories(${CMAKE_CURRENT_LIST_DIR}/../hal/)
 include_directories(${SYSTEM_FILES_DIR})
 include_directories(${SYSTEM_FILES_DIR}/STM32F10x_StdPeriph_Driver/inc/)
+include_directories("${STM32F1_ROOT_DIR}/../stm32fx/")
+
 
 ################################################################################
 # stm32f4 system sources
