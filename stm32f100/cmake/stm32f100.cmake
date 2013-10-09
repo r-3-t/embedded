@@ -5,13 +5,14 @@ function(add_executable ...)
 								${STM32F1_ACCESS_LAYER_SYSTEM_SOURCE_FILE}
 								${STM32F1_DEVICE_VECTOR_TABLE_SOURCE_FILE}
 								${STM32F1_SYSCALL_SOURCE_FILE}
-								${STM32F1_ROOT_DIR}/hal/hal_stm32f1_led.cpp
+								${STM32F100_ROOT_DIR}/hal/hal_stm32f100_led.cpp
 								${STM32F1_ROOT_DIR}/hal/hal_stm32f1_clock.cpp
 								#${STM32F1_ROOT_DIR}/system_files/core_cm3.c
 							)
 endfunction()
 
-set (STM32F1_ROOT_DIR "${CMAKE_CURRENT_LIST_DIR}/..")
+set (STM32F1_ROOT_DIR "${CMAKE_CURRENT_LIST_DIR}/../../stm32f1/")
+set (STM32F100_ROOT_DIR "${CMAKE_CURRENT_LIST_DIR}/..")
 
 SET(CMAKE_CROSSCOMPILING TRUE) 
 # the name of the target operating system
@@ -24,8 +25,8 @@ set (SYSTEM_FILES_DIR "${CMAKE_CURRENT_LIST_DIR}/../system_files")
 ################################################################################
 
 configure_file(${CMAKE_CURRENT_LIST_DIR}/../../hal/clock.hpp ${CMAKE_BINARY_DIR}/hal/clock.hpp COPYONLY)
-configure_file(${CMAKE_CURRENT_LIST_DIR}/../hal/hal_stm32f1_led.hpp ${CMAKE_BINARY_DIR}/hal/led.hpp COPYONLY)
-configure_file(${CMAKE_CURRENT_LIST_DIR}/../hal/hal_stm32f1_uart.hpp ${CMAKE_BINARY_DIR}/hal/uart.hpp COPYONLY)
+configure_file(${STM32F100_ROOT_DIR}/hal/hal_stm32f100_led.hpp ${CMAKE_BINARY_DIR}/hal/led.hpp COPYONLY)
+configure_file(${STM32F100_ROOT_DIR}/hal/hal_stm32f100_uart.hpp ${CMAKE_BINARY_DIR}/hal/uart.hpp COPYONLY)
 include_directories(${CMAKE_BINARY_DIR})
 
 include (arm-none-eabi-gcc)

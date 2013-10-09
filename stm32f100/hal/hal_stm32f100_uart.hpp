@@ -8,14 +8,14 @@
 #include <hal/stm32fx/usart_conf.hpp>
 
 
-namespace stm32f1 {
+namespace stm32f100 {
 
 namespace  uart {
 
 	using namespace stm32fx::uart;
 
 	template <class Policy = ::uart::PolicyNotifyOnChar<'\n'>>
-	class Stm32f1_Uart : public ::uart::UartWithPolicy<Policy>
+	class Stm32f100_Uart : public ::uart::UartWithPolicy<Policy>
 	{
 	public:
 
@@ -28,7 +28,7 @@ namespace  uart {
 		//	- configure the uart interrupt line
 		//	- nvic init
 		// enable the complete uart peripheral
-		Stm32f1_Uart(unsigned int id, void (*callback)(const std::string&, ::uart::Uart&), ::uart::Configuration config = ::uart::Configuration::_9600_8_N_1()) :
+		Stm32f100_Uart(unsigned int id, void (*callback)(const std::string&, ::uart::Uart&), ::uart::Configuration config = ::uart::Configuration::_9600_8_N_1()) :
 							::uart::UartWithPolicy<Policy>(callback)
 		{
 			// here perform the initialisation
@@ -156,7 +156,7 @@ namespace  uart {
 
 	private:
 
-		Stm32f1_Uart() {}
+		Stm32f100_Uart() {}
 
 		USART_TypeDef* _USARTx;
 	};
@@ -178,7 +178,7 @@ namespace  uart {
 
 	} /* namespace uart  */
 
-} /* namespace stm32f4  */
+} /* namespace stm32f100  */
 
 
 namespace uart
@@ -193,9 +193,9 @@ namespace uart
 	{
 		switch (id)
 		{
-			case 1: ::stm32f1::uart::gpUart_1 = new stm32f1::uart::Stm32f1_Uart<Policy>(1, callback, config); break;
-			case 2: ::stm32f1::uart::gpUart_2 = new stm32f1::uart::Stm32f1_Uart<Policy>(2, callback, config); break;
-			case 3: ::stm32f1::uart::gpUart_3 = new stm32f1::uart::Stm32f1_Uart<Policy>(3, callback, config); break;
+			case 1: ::stm32f100::uart::gpUart_1 = new stm32f100::uart::Stm32f100_Uart<Policy>(1, callback, config); break;
+			case 2: ::stm32f100::uart::gpUart_2 = new stm32f100::uart::Stm32f100_Uart<Policy>(2, callback, config); break;
+			case 3: ::stm32f100::uart::gpUart_3 = new stm32f100::uart::Stm32f100_Uart<Policy>(3, callback, config); break;
 		}	
 	}
 
@@ -203,10 +203,10 @@ namespace uart
 	{
 		switch (id)
 		{
-			case 1: return *::stm32f1::uart::gpUart_1;
-			case 2: return *::stm32f1::uart::gpUart_2;
-			case 3: return *::stm32f1::uart::gpUart_3;
+			case 1: return *::stm32f100::uart::gpUart_1;
+			case 2: return *::stm32f100::uart::gpUart_2;
+			case 3: return *::stm32f100::uart::gpUart_3;
 		}
-		return *::stm32f1::uart::gpUart_NULL;
+		return *::stm32f100::uart::gpUart_NULL;
 	}
 }
