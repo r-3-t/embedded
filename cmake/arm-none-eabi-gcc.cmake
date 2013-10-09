@@ -24,7 +24,9 @@ CMAKE_FORCE_C_COMPILER(${CPREF}-gcc GNU)
 CMAKE_FORCE_CXX_COMPILER(${CPREF}-g++ GNU)
 ################################################################################
 
-
+#fix '-rdynamic' cmake 2.8.9 bug
+SET(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
+SET(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "")
 
 # here is the target environment is located
 SET(CMAKE_FIND_ROOT_PATH	${CROSS_COMPIL_TOOLS})
