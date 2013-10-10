@@ -179,9 +179,9 @@ g_pfnVectors:
 	.word	I2C2_ER_IRQHandler
 	.word	SPI1_IRQHandler
 	.word	SPI2_IRQHandler
-	.word	_ZN7stm32f14uart11USART1_IRQ_HandlerEv
-	.word	_ZN7stm32f14uart11USART2_IRQ_HandlerEv
-	.word	_ZN7stm32f14uart11USART3_IRQ_HandlerEv
+	.word	_ZN9stm32f1004uart18USART1_IRQ_HandlerEv
+	.word	_ZN9stm32f1004uart18USART2_IRQ_HandlerEv
+	.word	_ZN9stm32f1004uart18USART3_IRQ_HandlerEv
 	.word	EXTI15_10_IRQHandler
 	.word	RTCAlarm_IRQHandler
 	.word	CEC_IRQHandler
@@ -379,14 +379,14 @@ g_pfnVectors:
   .weak  SPI2_IRQHandler
   .thumb_set SPI2_IRQHandler,Default_Handler
 
-  .weak  _ZN7stm32f14uart11USART1_IRQ_HandlerEv
-  .thumb_set _ZN7stm32f14uart11USART1_IRQ_HandlerEv,Default_Handler
+  .weak  _ZN9stm32f1004uart18USART1_IRQ_HandlerEv
+  .thumb_set _ZN9stm32f1004uart18USART1_IRQ_HandlerEv,Default_Handler
 
-  .weak  _ZN7stm32f14uart11USART2_IRQ_HandlerEv
-  .thumb_set _ZN7stm32f14uart11USART2_IRQ_HandlerEv,Default_Handler
+  .weak  _ZN9stm32f1004uart18USART2_IRQ_HandlerEv
+  .thumb_set _ZN9stm32f1004uart18USART2_IRQ_HandlerEv,Default_Handler
 
-  .weak  _ZN7stm32f14uart11USART13IRQ_HandlerEv
-  .thumb_set _ZN7stm32f14uart11USART3_IRQ_HandlerEv,Default_Handler
+  .weak  _ZN9stm32f1004uart18USART3_IRQ_HandlerEv
+  .thumb_set _ZN9stm32f1004uart18USART3_IRQ_HandlerEv,Default_Handler
 
   .weak  EXTI15_10_IRQHandler
   .thumb_set EXTI15_10_IRQHandler,Default_Handler
