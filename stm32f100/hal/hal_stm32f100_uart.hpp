@@ -45,6 +45,7 @@ namespace  uart {
 
 			// the gpio used
 			GPIO_TypeDef* 	GPIOx;
+			uint32_t	  	RCC_AHBxPeriph_GPIOx;
 			uint32_t		GPIO_Pin_Rx, GPIO_Pin_Tx;			// the selected pin
 
 
@@ -60,6 +61,7 @@ namespace  uart {
 								GPIOx						= GPIOA;
 								GPIO_Pin_Tx					= GPIO_Pin_9;
 								GPIO_Pin_Rx					= GPIO_Pin_10;
+								RCC_AHBxPeriph_GPIOx		= RCC_APB2Periph_GPIOA;
 
 								NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
 
@@ -71,6 +73,7 @@ namespace  uart {
 								GPIOx						= GPIOA;
 								GPIO_Pin_Tx					= GPIO_Pin_2;
 								GPIO_Pin_Rx					= GPIO_Pin_3;
+								RCC_AHBxPeriph_GPIOx		= RCC_APB2Periph_GPIOA;
 
 								NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;
 
@@ -82,6 +85,7 @@ namespace  uart {
 								GPIOx						= GPIOB;
 								GPIO_Pin_Tx					= GPIO_Pin_10;
 								GPIO_Pin_Rx					= GPIO_Pin_11;
+								RCC_AHBxPeriph_GPIOx		= RCC_APB2Periph_GPIOB;
 
 								NVIC_InitStructure.NVIC_IRQChannel = USART3_IRQn;
 
@@ -93,8 +97,10 @@ namespace  uart {
 								GPIOx						= nullptr;
 								GPIO_Pin_Tx					= -1;
 								GPIO_Pin_Rx					= -1;
+								RCC_AHBxPeriph_GPIOx		= -1;
 			}
 			pfvRCC_APBxPeriphClockCmd(RCC_APBxPeriph_USARTx, ENABLE);
+			RCC_APB2PeriphClockCmd(RCC_AHBxPeriph_GPIOx, ENABLE);
 
 			GPIO_InitTypeDef GPIO_InitStructure;
 			
@@ -106,7 +112,7 @@ namespace  uart {
 
 			/* RX Pin */
 			GPIO_InitStructure.GPIO_Pin = GPIO_Pin_Rx;
-			GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
+			GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
 			GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 			GPIO_Init(GPIOx, &GPIO_InitStructure);
 
