@@ -6,7 +6,7 @@
 
 #define UNUSED(expr) do { (void)(expr); } while (0)
 
-#define CURRENT_UART  4
+#define CURRENT_UART  1
 
 //------------------------------------------------------------------------------
 
@@ -35,7 +35,7 @@ int main(void)
   while(1)
   {
     printf ("Index : %d\r\n", Idx);
-    clock::usleep(1500);
+    clock::usleep(500);
     Idx++;
   }
 }
