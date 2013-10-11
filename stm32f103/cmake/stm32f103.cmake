@@ -167,7 +167,7 @@ set (GDBFLASH_CONTENT
 "target remote 127.0.0.1:3333
 monitor reset init
 monitor flash erase_address 0x08000000 0x10000
-monitor flash write_image test_uart.elf
+monitor flash write_image ${CMAKE_PROJECT_NAME}.elf
 quit
 ")
 
