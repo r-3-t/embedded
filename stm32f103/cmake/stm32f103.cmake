@@ -6,7 +6,6 @@ function(add_executable ...)
 								${STM32F1_DEVICE_VECTOR_TABLE_SOURCE_FILE}
 								${STM32F1_SYSCALL_SOURCE_FILE}
 								${STM32F1_ROOT_DIR}/hal/hal_stm32f1_clock.cpp
-								#${STM32F1_ROOT_DIR}/system_files/core_cm3.c
 							)
 endfunction()
 
@@ -39,6 +38,8 @@ include_directories(${CMAKE_CURRENT_LIST_DIR}/../../hal/)
 include_directories(${CMAKE_CURRENT_LIST_DIR}/../hal/)
 include_directories(${SYSTEM_FILES_DIR})
 include_directories(${STM32F1_ROOT_DIR}/system_files/STM32F10x_StdPeriph_Driver/inc/)
+include_directories(${STM32F1_ROOT_DIR}/system_files)
+
 
 ################################################################################
 # stm32f4 system sources
@@ -115,7 +116,7 @@ endif()
 
 ################################################################################
 # find stm32 system file (CMSIS Cortex-M4 Device Peripheral Access Layer System Source File)
-set (STM32F1_ACCESS_LAYER_SYSTEM_SOURCE_FILE  "${SYSTEM_FILES_DIR}/system_stm32f10x.c")
+set (STM32F1_ACCESS_LAYER_SYSTEM_SOURCE_FILE  "${STM32F1_ROOT_DIR}/system_files/system_stm32f10x.c")
 ################################################################################
 
 
