@@ -38,11 +38,11 @@ include (arm-none-eabi-gcc)
 include_directories(${CMAKE_CURRENT_LIST_DIR}/../../hal/)
 include_directories(${CMAKE_CURRENT_LIST_DIR}/../hal/)
 include_directories(${SYSTEM_FILES_DIR})
-include_directories(${SYSTEM_FILES_DIR}/STM32F10x_StdPeriph_Driver/inc/)
+include_directories(${STM32F1_ROOT_DIR}/system_files/STM32F10x_StdPeriph_Driver/inc/)
 
 ################################################################################
 # stm32f4 system sources
-set(STM32F1xx_StdPeriph_Driver		${SYSTEM_FILES_DIR}/STM32F10x_StdPeriph_Driver/src)
+set(STM32F1xx_StdPeriph_Driver		${STM32F1_ROOT_DIR}/system_files/STM32F10x_StdPeriph_Driver/src)
 set(STM32F1_MISC_SOURCE				${STM32F1xx_StdPeriph_Driver}/misc.c)
 set(STM32F1_ADC_SOURCE				${STM32F1xx_StdPeriph_Driver}/stm32f10x_adc.c)
 set(STM32F1_BKP_SOURCE				${STM32F1xx_StdPeriph_Driver}/stm32f10x_bkp.c)
