@@ -7,9 +7,12 @@ prerequisite
 * [cmake](http://cmake.org) must be installed on your system
 * [GNU Tools for ARM Embedded Processors](https://launchpad.net/gcc-arm-embedded) must be installed on your system
 
-supported board
----------------
+supported board and MCU
+-----------------------
 
+* STM32VLDISCOVERY
+* STM32F4DISCOVERY
+* STM32F103 
 
 examples
 -------- 
