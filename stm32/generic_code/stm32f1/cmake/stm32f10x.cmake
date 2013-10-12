@@ -28,7 +28,7 @@ include (arm-none-eabi-gcc)
 # stm32f4 system headers
 
 
-include_directories(${CMAKE_CURRENT_LIST_DIR}/../../hal/)
+include_directories(${BASE_HAL_DIR})
 include_directories(${CMAKE_CURRENT_LIST_DIR}/../hal/)
 include_directories(${SYSTEM_FILES_DIR})
 include_directories(${STM32F1_ROOT_DIR}/system_files/STM32F10x_StdPeriph_Driver/inc/)
@@ -122,7 +122,7 @@ set (STM32F1_DEVICE_VECTOR_TABLE_SOURCE_FILE  "${SYSTEM_FILES_DIR}/startup_stm32
 
 ################################################################################
 # find STM32F4xx Devices vector table
-set (STM32F1_SYSCALL_SOURCE_FILE  "${STM32F10x_ROOT_DIR}/../stm32fx/system_files/syscall.c")
+set (STM32F1_SYSCALL_SOURCE_FILE  "${STM32F1_ROOT_DIR}/../stm32fx/system_files/syscall.c")
 ################################################################################
 
 

@@ -10,7 +10,9 @@ function(add_executable ...)
 							)
 endfunction()
 
-set (STM32F4_ROOT_DIR "${CMAKE_CURRENT_LIST_DIR}/..")
+set (STM32F4_ROOT_DIR		"${CMAKE_CURRENT_LIST_DIR}/..")
+set (BASE_HAL_DIR			"${CMAKE_CURRENT_LIST_DIR}/../../../hal/")
+
 
 SET(CMAKE_CROSSCOMPILING TRUE) 
 # the name of the target operating system
@@ -25,7 +27,7 @@ set (SYSTEM_FILES_DIR "${CMAKE_CURRENT_LIST_DIR}/../system_files")
 configure_file(${CMAKE_CURRENT_LIST_DIR}/../hal/hal_stm32f4_gpio.hpp ${CMAKE_BINARY_DIR}/hal/gpio.hpp COPYONLY)
 configure_file(${CMAKE_CURRENT_LIST_DIR}/../hal/hal_stm32f4_spi.hpp ${CMAKE_BINARY_DIR}/hal/spi.hpp COPYONLY)
 configure_file(${CMAKE_CURRENT_LIST_DIR}/../hal/hal_stm32f4_uart.hpp ${CMAKE_BINARY_DIR}/hal/uart.hpp COPYONLY)
-configure_file(${CMAKE_CURRENT_LIST_DIR}/../../hal/clock.hpp ${CMAKE_BINARY_DIR}/hal/clock.hpp COPYONLY)
+configure_file(${BASE_HAL_DIR}/clock.hpp ${CMAKE_BINARY_DIR}/hal/clock.hpp COPYONLY)
 configure_file(${CMAKE_CURRENT_LIST_DIR}/../hal/hal_stm32f4_led.hpp ${CMAKE_BINARY_DIR}/hal/led.hpp COPYONLY)
 include_directories(${CMAKE_BINARY_DIR})
 
@@ -36,11 +38,11 @@ include (arm-none-eabi-gcc)
 
 ################################################################################
 # stm32f4 system headers
-include_directories(${CMAKE_CURRENT_LIST_DIR}/../../hal/)
+include_directories(${BASE_HAL_DIR})
 include_directories(${SYSTEM_FILES_DIR})
 include_directories(${SYSTEM_FILES_DIR}/STM32F4xx_StdPeriph_Driver/inc/)
 include_directories(${SYSTEM_FILES_DIR}/CMSIS/)
-include_directories("${STM32F4_ROOT_DIR}/../stm32fx/")
+include_directories("${STM32F4_ROOT_DIR}/../generic_code/stm32fx/")
 
 
 ################################################################################
@@ -146,7 +148,7 @@ set (STM32F4_DEVICE_VECTOR_TABLE_SOURCE_FILE  "${SYSTEM_FILES_DIR}/startup_stm32
 
 ################################################################################
 # find STM32F4xx Devices vector table
-set (STM32F4_SYSCALL_SOURCE_FILE  "${STM32F4_ROOT_DIR}/../stm32fx/system_files/syscall.c")
+set (STM32F4_SYSCALL_SOURCE_FILE  "${STM32F4_ROOT_DIR}/../generic_code/stm32fx/system_files/syscall.c")
 ################################################################################
 
 # adjust the default behaviour of the FIND_XXX() commands:

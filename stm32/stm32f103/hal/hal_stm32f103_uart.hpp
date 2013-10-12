@@ -5,15 +5,14 @@
 #include <stm32f10x_gpio.h>
 #include <stm32f10x_rcc.h>
 #include <misc.h>
-#include <hal/gpio.hpp>
 #include <hal/stm32fx/usart_conf.hpp>
-
+#include <string.h>
 
 namespace stm32f103 {
 
 namespace  uart {
 
-	using namespace stm32f103::uart;
+	using namespace stm32fx::uart;
 
 	template <class Policy = ::uart::PolicyNotifyOnChar<'\n'>>
 	class Stm32f103_Uart : public ::uart::UartWithPolicy<Policy>
@@ -29,7 +28,7 @@ namespace  uart {
 		//	- configure the uart interrupt line
 		//	- nvic init
 		// enable the complete uart peripheral
-		Stm32f103_Uart(unsigned int id, void (*callback)(const std::string&, ::uart::Uart&), ::uart::Configuration config = ::uart::Configuration::_9600_8_N_1()) :
+		Stm32f103_Uart(unsigned int id, ::uart::Uart::uart_callback callback, ::uart::Configuration config = ::uart::Configuration::_9600_8_N_1()) :
 							::uart::UartWithPolicy<Policy>(callback)
 		{
 			// here perform the initialisation
@@ -46,9 +45,8 @@ namespace  uart {
 
 			// the gpio used
 			GPIO_TypeDef* 	GPIOx;
-			uint32_t		GPIO_Pin_RX;			// the selected RX pin
-			uint32_t		GPIO_Pin_TX;			// the selected TX pin
-
+			uint32_t	  	RCC_AHBxPeriph_GPIOx;
+			uint32_t		GPIO_Pin_Rx, GPIO_Pin_Tx;			// the selected pin
 
 
 			  /* enable APB1 peripheral clock for USART2
@@ -59,10 +57,11 @@ namespace  uart {
 			   {
 					case 1: 	pfvRCC_APBxPeriphClockCmd 	= RCC_APB2PeriphClockCmd;
 								RCC_APBxPeriph_USARTx 		= RCC_APB2Periph_USART1;
-								_USARTx						= USART1;
+								_USARTx						= USART1;			
 								GPIOx						= GPIOA;
-								GPIO_Pin_TX					= GPIO_Pin_9;
-								GPIO_Pin_RX					= GPIO_Pin_10;
+								GPIO_Pin_Tx					= GPIO_Pin_9;
+								GPIO_Pin_Rx					= GPIO_Pin_10;
+								RCC_AHBxPeriph_GPIOx		= RCC_APB2Periph_GPIOA;
 
 								NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
 
@@ -72,39 +71,66 @@ namespace  uart {
 								RCC_APBxPeriph_USARTx		= RCC_APB1Periph_USART2;
 								_USARTx						= USART2;
 								GPIOx						= GPIOA;
-								GPIO_Pin_TX					= GPIO_Pin_2;
-								GPIO_Pin_RX					= GPIO_Pin_3;
+								GPIO_Pin_Tx					= GPIO_Pin_2;
+								GPIO_Pin_Rx					= GPIO_Pin_3;
+								RCC_AHBxPeriph_GPIOx		= RCC_APB2Periph_GPIOA;
 
 								NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;
 
 								break;
 
+					case 3: 	pfvRCC_APBxPeriphClockCmd	= RCC_APB1PeriphClockCmd;
+								RCC_APBxPeriph_USARTx		= RCC_APB1Periph_USART3;
+								_USARTx						= USART3;
+								GPIOx						= GPIOB;
+								GPIO_Pin_Tx					= GPIO_Pin_10;
+								GPIO_Pin_Rx					= GPIO_Pin_11;
+								RCC_AHBxPeriph_GPIOx		= RCC_APB2Periph_GPIOB;
+
+								NVIC_InitStructure.NVIC_IRQChannel = USART3_IRQn;
+
+								break;
 
 					default:	pfvRCC_APBxPeriphClockCmd	= nullptr;
 								RCC_APBxPeriph_USARTx		= -1;
 								_USARTx						= nullptr;
 								GPIOx						= nullptr;
-								GPIO_Pin_TX					= -1;
-								GPIO_Pin_RX					= -1;
-
+								GPIO_Pin_Tx					= -1;
+								GPIO_Pin_Rx					= -1;
+								RCC_AHBxPeriph_GPIOx		= -1;
 			}
 			pfvRCC_APBxPeriphClockCmd(RCC_APBxPeriph_USARTx, ENABLE);
+			RCC_APB2PeriphClockCmd(RCC_AHBxPeriph_GPIOx, ENABLE);
+
+			GPIO_InitTypeDef GPIO_InitStructure;
+			
+			/* TX Pin */
+			GPIO_InitStructure.GPIO_Pin = GPIO_Pin_Tx;
+			GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+			GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+			GPIO_Init(GPIOx, &GPIO_InitStructure);
+
+			/* RX Pin */
+			GPIO_InitStructure.GPIO_Pin = GPIO_Pin_Rx;
+			GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+			GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+			GPIO_Init(GPIOx, &GPIO_InitStructure);
+
+
 
 			/* Now the USART_InitStruct is used to define the
 			* properties of USART1
 			*/
-			USART_InitStruct.USART_BaudRate = stm32fx::uart::conf_2_baudrate(config.baudRate);       // the baudrate is set to the value we passed into this init function
-			USART_InitStruct.USART_WordLength = stm32fx::uart::conf_2_WordLength(config.WordLength);// we want the data frame size to be 8 bits (standard)
-			USART_InitStruct.USART_StopBits = stm32fx::uart::conf_2_StopBits(config.StopBits);   // we want 1 stop bit (standard)
-			USART_InitStruct.USART_Parity = stm32fx::uart::conf_2_Parity(config.Parity);    // we don't want a parity bit (standard)
-			USART_InitStruct.USART_HardwareFlowControl = stm32fx::uart::conf_2_HardwareFlowControl(config.HardwareFlowControl); // we don't want flow control (standard)
-			USART_InitStruct.USART_Mode = stm32fx::uart::conf_2_Mode(config.Mode); // we want to enable the transmitter and the receiver
+			USART_InitStruct.USART_BaudRate = conf_2_baudrate(config.baudRate);       // the baudrate is set to the value we passed into this init function
+			USART_InitStruct.USART_WordLength = conf_2_WordLength(config.WordLength);// we want the data frame size to be 8 bits (standard)
+			USART_InitStruct.USART_StopBits = conf_2_StopBits(config.StopBits);   // we want 1 stop bit (standard)
+			USART_InitStruct.USART_Parity = conf_2_Parity(config.Parity);    // we don't want a parity bit (standard)
+			USART_InitStruct.USART_HardwareFlowControl = conf_2_HardwareFlowControl(config.HardwareFlowControl); // we don't want flow control (standard)
+			USART_InitStruct.USART_Mode = conf_2_Mode(config.Mode); // we want to enable the transmitter and the receiver
 			USART_Init(_USARTx, &USART_InitStruct);          // again all the properties are passed to the USART_Init function which takes care of all the bit setting
 
-			::stm32f1::gpio::configure_pin(GPIOx, GPIO_Pin_RX, GPIO_Mode_IPU);
-			::stm32f1::gpio::configure_pin(GPIOx, GPIO_Pin_TX, GPIO_Mode_AF_PP);
-
-			USART_ITConfig(_USARTx, USART_IT_RXNE, ENABLE);
+			  				
+    		USART_ITConfig(_USARTx, USART_IT_RXNE, ENABLE);
 
 			NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;// this sets the priority group of the USART2 interrupts
 			NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;     // this sets the subpriority inside the group
@@ -113,6 +139,12 @@ namespace  uart {
 
 			// finally this enables the complete USART1 peripheral
 			USART_Cmd(_USARTx, ENABLE);
+		}
+
+
+		virtual void send(const char* const str)
+		{
+			send((const unsigned char*)str, strlen(str));
 		}
 
 		virtual void send(const types::buffer& buf)
@@ -141,45 +173,41 @@ namespace  uart {
 		USART_TypeDef* _USARTx;
 	};
 
-	#define USART_IRQ_CALLBACK(UsartX)	void USART##UsartX##_IRQn()										\
+	#define USART_IRQ_CALLBACK(UsartX)	void USART##UsartX##_IRQ_Handler()										\
 										{																\
 										    ::uart::get_instance(UsartX).accumulator(USART##UsartX ->DR);		\
 										}
 
-	#define UART_IRQ_CALLBACK(UartX)	void UART##UartX##_IRQn()										\
-										{																\
-										    ::uart::get_instance(UartX).accumulator(UART##UartX ->DR);		\
-										}
-
-
 	USART_IRQ_CALLBACK(1)
 	USART_IRQ_CALLBACK(2)
-
+	USART_IRQ_CALLBACK(3)
 
 	static ::uart::Uart* gpUart_1 = nullptr;
 	static ::uart::Uart* gpUart_2 = nullptr;
+	static ::uart::Uart* gpUart_3 = nullptr;
 
 	static ::uart::Uart* gpUart_NULL = nullptr;
 
 	} /* namespace uart  */
 
-} /* namespace stm32f103  */
+} /* namespace stm32f100  */
 
 
 namespace uart
 {
 	unsigned int	num_instance()
 	{
-		return 2;
+		return 3;
 	}
 
 	template <class Policy>
-	void init_instance(unsigned int id, void (*callback)(const std::string&, uart::Uart&), Configuration config = Configuration::_9600_8_N_1())
+	void init_instance(unsigned int id, ::uart::Uart::uart_callback callback, Configuration config = Configuration::_9600_8_N_1())
 	{
 		switch (id)
 		{
-			case 1: ::stm32f103::uart::gpUart_1 = new stm32f103::uart::Stm32f103_Uart<Policy>(1, callback, config); break;
-			case 2: ::stm32f103::uart::gpUart_2 = new stm32f103::uart::Stm32f103_Uart<Policy>(2, callback, config); break;
+			case 1: ::stm32f103::uart::gpUart_1 = new ::stm32f103::uart::Stm32f103_Uart<Policy>(1, callback, config); break;
+			case 2: ::stm32f103::uart::gpUart_2 = new ::stm32f103::uart::Stm32f103_Uart<Policy>(2, callback, config); break;
+			case 3: ::stm32f103::uart::gpUart_3 = new ::stm32f103::uart::Stm32f103_Uart<Policy>(3, callback, config); break;
 		}	
 	}
 
@@ -189,6 +217,7 @@ namespace uart
 		{
 			case 1: return *::stm32f103::uart::gpUart_1;
 			case 2: return *::stm32f103::uart::gpUart_2;
+			case 3: return *::stm32f103::uart::gpUart_3;
 		}
 		return *::stm32f103::uart::gpUart_NULL;
 	}

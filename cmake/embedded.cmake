@@ -1,6 +1,10 @@
 
+
+set (SUPPORTED_MCU_ROOT_DIR ${CMAKE_CURRENT_LIST_DIR}/../stm32)
+
 function (show_available_arch)
-	file(GLOB SUB_DIRECTORIES ${CMAKE_CURRENT_LIST_DIR}/../*)
+
+	file(GLOB SUB_DIRECTORIES ${SUPPORTED_MCU_ROOT_DIR}/*)
 
 	foreach (DIRECTORY ${SUB_DIRECTORIES})
 
@@ -37,8 +41,8 @@ if (NOT arch)
 	show_available_arch()
 	message (FATAL_ERROR "Please run cmake again with option -Darch=<architecture>")
 else()
-	if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/../${arch}/cmake/${arch}.cmake)
-		include (${CMAKE_CURRENT_LIST_DIR}/../${arch}/cmake/${arch}.cmake)
+	if (EXISTS ${SUPPORTED_MCU_ROOT_DIR}/${arch}/cmake/${arch}.cmake)
+		include (${SUPPORTED_MCU_ROOT_DIR}/${arch}/cmake/${arch}.cmake)
 	else()
 		show_available_arch()
 		message ("${arch} is not a valid architecure")
