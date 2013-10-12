@@ -105,14 +105,19 @@ if (${STM32F1_NEEDED_SYSTEM_FILES_LENGTH} GREATER 0)
 endif()
 ################################################################################
 
-
-
+################################################################################
+# just warn user if HSE is not set that default HSE value from ST std periph will be used
+################################################################################
+if (NOT HSE)
+	message("No HSE is provide, so default HSE value will be used.")
+else()
+	add_definitions(-DHSE_VALUE=${HSE})
+endif()
 
 ################################################################################
 # find stm32 system file (CMSIS Cortex-M4 Device Peripheral Access Layer System Source File)
-set (STM32F1_ACCESS_LAYER_SYSTEM_SOURCE_FILE  "${STM32F1_ROOT_DIR}/system_files/system_stm32f10x.c")
+set (STM32F1_ACCESS_LAYER_SYSTEM_SOURCE_FILE  "${STM32F10x_ROOT_DIR}/system_files/system_stm32f10x.c")
 ################################################################################
-
 
 ################################################################################
 # find STM32F4xx Devices vector table
@@ -159,14 +164,6 @@ set (GDBINIT_CONTENT
 "target remote localhost:3333
 ")
 
-set (GDBFLASH_CONTENT
-"target remote 127.0.0.1:3333
-monitor reset init
-monitor flash erase_address 0x08000000 0x10000
-monitor flash write_image ${CMAKE_PROJECT_NAME}.elf
-quit
-")
-
 set (OPENOCDCFG_CONTENT
 "interface ft2232
 ft2232_device_desc "USB<=>JTAG&RS232"
@@ -186,7 +183,6 @@ reset_config trst_and_srst separate
 
 
 file (WRITE ${CMAKE_BINARY_DIR}/.gdbinit ${GDBINIT_CONTENT})
-file (WRITE ${CMAKE_BINARY_DIR}/.gdbflash ${GDBFLASH_CONTENT})
 file (WRITE ${CMAKE_BINARY_DIR}/openocd.cfg ${OPENOCDCFG_CONTENT})
 
 ENABLE_LANGUAGE(ASM)
