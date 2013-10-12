@@ -2,18 +2,18 @@
 #include <hal/clock.hpp>
 #include <hal/uart.hpp>
 #include <hal/spi.hpp>
-#include <misc.h>
+
 #include <stdio.h>
 
 #define UNUSED(expr) do { (void)(expr); } while (0)
 
-#define CURRENT_UART  4
+#define CURRENT_UART  1
 
 //------------------------------------------------------------------------------
 
-void callback (const std::string& buffer, uart::Uart& uart)
+void callback (const types::buffer& buffer, uart::Uart& uart)
 {
-  uart.send(buffer.c_str());
+  uart.send(buffer);
   uart.send("\r\n");
 }
 
