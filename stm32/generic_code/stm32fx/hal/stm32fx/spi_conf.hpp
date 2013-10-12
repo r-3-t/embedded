@@ -7,7 +7,6 @@ namespace stm32fx
 namespace spi
 {
 
-namespace {
 	namespace sp = ::spi;
 	inline static uint16_t conf_2_direction(sp::Configuration::Direction_t direction)
 	{
@@ -104,5 +103,7 @@ namespace {
 
 		return (uint16_t)-1;
 	}
-} // end namespace
+} // end namespace spi
+
+} // end namespace stm32fx
 

@@ -22,9 +22,11 @@
 */ 
 
 
+namespace stm32f4 {
 
+namespace  spi {
 
-
+	using namespace stm32fx::spi;
 	class Stm32f4_Spi : public ::spi::Spi
 	{
 	public:
@@ -238,9 +240,9 @@ namespace spi
 	{
 		switch (id)
 		{
-			case 1: ::stm32fx::spi::gpSpi_1 = new stm32fx::spi::Stm32f4_Spi(1, config); break;
-			case 2: ::stm32fx::spi::gpSpi_2 = new stm32fx::spi::Stm32f4_Spi(2, config); break;
-			case 3: ::stm32fx::spi::gpSpi_3 = new stm32fx::spi::Stm32f4_Spi(3, config); break;
+			case 1: ::stm32f4::spi::gpSpi_1 = new stm32f4::spi::Stm32f4_Spi(1, config); break;
+			case 2: ::stm32f4::spi::gpSpi_2 = new stm32f4::spi::Stm32f4_Spi(2, config); break;
+			case 3: ::stm32f4::spi::gpSpi_3 = new stm32f4::spi::Stm32f4_Spi(3, config); break;
 		}	
 	}
 
@@ -248,11 +250,11 @@ namespace spi
 	{
 		switch (id)
 		{
-			case 1: return *::stm32fx::spi::gpSpi_1;
-			case 2: return *::stm32fx::spi::gpSpi_2;
-			case 3: return *::stm32fx::spi::gpSpi_3;
+			case 1: return *::stm32f4::spi::gpSpi_1;
+			case 2: return *::stm32f4::spi::gpSpi_2;
+			case 3: return *::stm32f4::spi::gpSpi_3;
 		}
-		return *::stm32fx::spi::gpSpi_NULL;
+		return *::stm32f4::spi::gpSpi_NULL;
 	}
 }
 
