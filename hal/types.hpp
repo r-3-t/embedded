@@ -1,14 +1,15 @@
 #pragma once
 
-#include <string>
+#include <vector>
 
 namespace types {
 
-	typedef std::string		buffer;
+	typedef unsigned char			byte;
+	typedef byte*					bytes;
 
-	typedef unsigned char	byte;
-	typedef byte*			bytes;
+	typedef unsigned int			uint32;
+	typedef unsigned int			uint16;
 
-	typedef unsigned int	uint32;
-	typedef unsigned int	uint16;
+
+	typedef std::vector<byte>		buffer;
 }

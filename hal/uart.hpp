@@ -8,13 +8,16 @@ namespace uart {
 	class Uart
 	{
 	public:
-		Uart(void (*callback)(const std::string&, uart::Uart&)) : _callback(callback){};
-		virtual void send(const types::buffer& buf) 		= 0;
+		typedef void (*uart_callback)(const types::buffer&, uart::Uart&);
+
+		Uart(uart_callback callback) : _callback(callback){};
+		virtual void send(const char* const str)								= 0;
+		virtual void send(const types::buffer& buf) 							= 0;
 		virtual void send(const unsigned char* buf, unsigned int length) 		= 0;
-		virtual void accumulator(types::byte b)				= 0;
+		virtual void accumulator(types::byte b)									= 0;
 
 	protected:
-		void (*_callback)(const std::string&, uart::Uart&);
+		uart_callback _callback;
 	};
 
 	//--------------------------------------------------------------------------
@@ -92,7 +95,7 @@ namespace uart {
 	public:
 		void accumulator(types::byte b);
 	protected:
-		UartWithPolicy(void (*callback)(const std::string&, uart::Uart&)) : Uart(callback) {}
+		UartWithPolicy(uart_callback callback) : Uart(callback) {}
 
 	private:
 		//std::function<void (const buffer&)> _callback;
@@ -107,7 +110,7 @@ namespace uart {
 	unsigned int	num_instance();
 
 	template <class T>
-	void init_instance(unsigned int id, void (*callback)(const std::string&, uart::Uart&), Configuration config = Configuration::_9600_8_N_1());
+	void init_instance(unsigned int id, void (*callback)(const types::buffer&, uart::Uart&), Configuration config = Configuration::_9600_8_N_1());
 
 	Uart& get_instance(unsigned int id);
 

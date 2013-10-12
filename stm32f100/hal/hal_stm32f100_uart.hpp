@@ -6,7 +6,7 @@
 #include <stm32f10x_rcc.h>
 #include <misc.h>
 #include <hal/stm32fx/usart_conf.hpp>
-
+#include <string.h>
 
 namespace stm32f100 {
 
@@ -28,7 +28,7 @@ namespace  uart {
 		//	- configure the uart interrupt line
 		//	- nvic init
 		// enable the complete uart peripheral
-		Stm32f100_Uart(unsigned int id, void (*callback)(const std::string&, ::uart::Uart&), ::uart::Configuration config = ::uart::Configuration::_9600_8_N_1()) :
+		Stm32f100_Uart(unsigned int id, ::uart::Uart::uart_callback callback, ::uart::Configuration config = ::uart::Configuration::_9600_8_N_1()) :
 							::uart::UartWithPolicy<Policy>(callback)
 		{
 			// here perform the initialisation
@@ -141,6 +141,12 @@ namespace  uart {
 			USART_Cmd(_USARTx, ENABLE);
 		}
 
+
+		virtual void send(const char* const str)
+		{
+			send((const unsigned char*)str, strlen(str));
+		}
+
 		virtual void send(const types::buffer& buf)
 		{
 			for (auto c : buf)
@@ -195,7 +201,7 @@ namespace uart
 	}
 
 	template <class Policy>
-	void init_instance(unsigned int id, void (*callback)(const std::string&, uart::Uart&), Configuration config = Configuration::_9600_8_N_1())
+	void init_instance(unsigned int id, ::uart::Uart::uart_callback callback, Configuration config = Configuration::_9600_8_N_1())
 	{
 		switch (id)
 		{
