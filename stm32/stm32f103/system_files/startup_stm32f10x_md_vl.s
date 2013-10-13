@@ -177,8 +177,8 @@ g_pfnVectors:
 	.word	I2C1_ER_IRQHandler
 	.word	I2C2_EV_IRQHandler
 	.word	I2C2_ER_IRQHandler
-	.word	SPI1_IRQHandler
-	.word	SPI2_IRQHandler
+	.word	_ZN9stm32f1xx3spi16SPI1_IRQ_HandlerEv
+	.word	_ZN9stm32f1xx3spi16SPI2_IRQ_HandlerEv
 	.word	USART1_IRQHandler
 	.word	USART2_IRQHandler
 	.word	USART3_IRQHandler
@@ -373,11 +373,11 @@ g_pfnVectors:
   .weak  I2C2_ER_IRQHandler
   .thumb_set I2C2_ER_IRQHandler,Default_Handler
 
-  .weak  SPI1_IRQHandler
-  .thumb_set SPI1_IRQHandler,Default_Handler
+  .weak  _ZN9stm32f1xx3spi16SPI1_IRQ_HandlerEv
+  .thumb_set _ZN9stm32f1xx3spi16SPI1_IRQ_HandlerEv,Default_Handler
 
-  .weak  SPI2_IRQHandler
-  .thumb_set SPI2_IRQHandler,Default_Handler
+  .weak  _ZN9stm32f1xx3spi16SPI2_IRQ_HandlerEv
+  .thumb_set _ZN9stm32f1xx3spi16SPI2_IRQ_HandlerEv,Default_Handler
 
   .weak  USART1_IRQHandler
   .thumb_set USART1_IRQHandler,Default_Handler

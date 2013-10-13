@@ -17,6 +17,8 @@ set (STM32F1_BOARD_SPECIFIC_FILES ${STM32F10x_ROOT_DIR}/hal/hal_stm32f100_led.cp
 configure_file(${BASE_HAL_DIR}/clock.hpp ${CMAKE_BINARY_DIR}/hal/clock.hpp COPYONLY)
 configure_file(${STM32F10x_ROOT_DIR}/hal/hal_stm32f100_led.hpp ${CMAKE_BINARY_DIR}/hal/led.hpp COPYONLY)
 configure_file(${STM32F1_ROOT_DIR}/hal/hal_stm32f1_uart.hpp ${CMAKE_BINARY_DIR}/hal/uart.hpp COPYONLY)
+configure_file(${STM32F1_ROOT_DIR}/hal/hal_stm32f1_gpio.hpp ${CMAKE_BINARY_DIR}/hal/gpio.hpp COPYONLY)
+configure_file(${STM32F1_ROOT_DIR}/hal/hal_stm32f1_spi.hpp ${CMAKE_BINARY_DIR}/hal/spi.hpp COPYONLY)
 include_directories(${CMAKE_BINARY_DIR})
 
 

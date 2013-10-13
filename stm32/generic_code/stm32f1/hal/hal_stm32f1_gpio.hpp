@@ -5,7 +5,7 @@
 
 #include <gpio.hpp>
 
-namespace stm32f1
+namespace stm32f1xx
 {
 	namespace gpio
 	{
@@ -45,10 +45,10 @@ namespace stm32f1
 		}
 
 
-		class Stm32f1_PinOut : public ::gpio::PinOut
+		class Stm32f1xx_PinOut : public ::gpio::PinOut
 		{
 		public:
-			Stm32f1_PinOut(GPIO_TypeDef* 	GPIOx, uint16_t Gpio_Pin) : _GPIOx(GPIOx), _Gpio_Pin(Gpio_Pin)
+			Stm32f1xx_PinOut(GPIO_TypeDef* 	GPIOx, uint16_t Gpio_Pin) : _GPIOx(GPIOx), _Gpio_Pin(Gpio_Pin)
 			{
 				configure_pin(GPIOx, Gpio_Pin, GPIO_Mode_Out_PP);
 			}
