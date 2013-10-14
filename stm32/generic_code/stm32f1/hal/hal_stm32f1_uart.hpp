@@ -173,9 +173,9 @@ namespace  uart {
 		USART_TypeDef* _USARTx;
 	};
 
-	#define USART_IRQ_CALLBACK(UsartX)	void USART##UsartX##_IRQ_Handler()										\
-										{																\
-										    ::uart::get_instance(UsartX).accumulator(USART##UsartX ->DR);		\
+	#define USART_IRQ_CALLBACK(UsartX)	void USART##UsartX##_IRQ_Handler()									\
+										{																	\
+										    ::uart::get_instance(UsartX).accumulator(USART##UsartX ->DR);	\
 										}
 
 	USART_IRQ_CALLBACK(1)
@@ -218,7 +218,7 @@ namespace uart
 			case 1: return *::stm32f1xx::uart::gpUart_1;
 			case 2: return *::stm32f1xx::uart::gpUart_2;
 			case 3: return *::stm32f1xx::uart::gpUart_3;
+			default: return *::stm32f1xx::uart::gpUart_NULL;
 		}
-		return *::stm32f1xx::uart::gpUart_NULL;
 	}
 }

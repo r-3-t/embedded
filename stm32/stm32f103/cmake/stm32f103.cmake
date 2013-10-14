@@ -7,12 +7,12 @@ set (BASE_HAL_DIR			"${CMAKE_CURRENT_LIST_DIR}/../../../hal/")
 
 #add medium device definitions
 add_definitions(-DSTM32F10X_MD)
+
+# hal files for stm32f103
+set (HAL_IMPLEMENTED_LED 			) # no available led
+set (HAL_IMPLEMENTED_CLOCK			${BASE_HAL_DIR}/clock.hpp)
+set (HAL_IMPLEMENTED_UART			${STM32F1_ROOT_DIR}/hal/hal_stm32f1_uart.hpp)
+set (HAL_IMPLEMENTED_GPIO			${STM32F1_ROOT_DIR}/hal/hal_stm32f1_gpio.hpp)
+set (HAL_IMPLEMENTED_SPI			${STM32F1_ROOT_DIR}/hal/hal_stm32f1_spi.hpp)
+
 include (${STM32F1_ROOT_DIR}/cmake/stm32f10x.cmake)
-
-
-configure_file(${BASE_HAL_DIR}/clock.hpp ${CMAKE_BINARY_DIR}/hal/clock.hpp COPYONLY)
-configure_file(${STM32F1_ROOT_DIR}/hal/hal_stm32f1_uart.hpp ${CMAKE_BINARY_DIR}/hal/uart.hpp COPYONLY)
-configure_file(${STM32F1_ROOT_DIR}/hal/hal_stm32f1_gpio.hpp ${CMAKE_BINARY_DIR}/hal/gpio.hpp COPYONLY)
-configure_file(${STM32F1_ROOT_DIR}/hal/hal_stm32f1_spi.hpp ${CMAKE_BINARY_DIR}/hal/spi.hpp COPYONLY)
-
-
