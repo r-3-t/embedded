@@ -56,9 +56,9 @@ namespace clock
 
 	void usleep(unsigned int nTime)
 	{
-	  uint32_t end_TickCount = getTickCount() + (nTime * gTickFactor);
+		uint32_t start_TickCount = getTickCount();
 
-		while(end_TickCount > getTickCount());
+		while( (getTickCount() - start_TickCount) < (nTime * gTickFactor) );
 	}
 
 	constexpr unsigned int getTickPerMs()
