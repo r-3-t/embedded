@@ -115,7 +115,7 @@ int main(void)
   while(1)
   {
     printf ("Index : %d\r\n", Idx);
-    clock::usleep(1500);
+    clock::msleep(1500);
     Idx++;
   }
 }

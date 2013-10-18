@@ -7,7 +7,7 @@ namespace arduino
 	{
 		void delay(::types::uint32 delay)
 		{
-			::clock::usleep(delay);
+			::clock::msleep(delay);
 		}
 	}
 }

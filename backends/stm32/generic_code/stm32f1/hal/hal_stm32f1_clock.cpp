@@ -54,7 +54,7 @@ namespace clock
 		return gTickCount * gTickFactor;
 	}
 
-	void usleep(unsigned int nTime)
+	void msleep(unsigned int nTime)
 	{
 		uint32_t start_TickCount = getTickCount();
 

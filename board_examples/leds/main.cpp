@@ -30,11 +30,11 @@ static void led_round(void)
     /* Turn on led */
     led::LedList[i].on();
     /* Wait a short time */
-    clock::usleep(PAUSE_LONG);
+    clock::msleep(PAUSE_LONG);
     /* Turn off led */
     led::LedList[i].off();
     /* Wait again before looping */
-    clock::usleep(PAUSE_SHORT);
+    clock::msleep(PAUSE_SHORT);
   }
 }
 
@@ -48,11 +48,11 @@ static void flash_all_leds(void)
     /* Turn on all user leds */
     allLed.on();
     // Wait a short time 
-    clock::usleep(PAUSE_SHORT);
+    clock::msleep(PAUSE_SHORT);
     /* Turn off all leds */
     allLed.off();
     /* Wait again before looping */
-    clock::usleep(PAUSE_SHORT);
+    clock::msleep(PAUSE_SHORT);
   }
 }
 
@@ -66,7 +66,7 @@ void snake()
       // Turn on led 
       led::LedList[i].toggle();
       /* Wait a short time */
-      clock::usleep(PAUSE_LONG);
+      clock::msleep(PAUSE_LONG);
     }
   }
 }

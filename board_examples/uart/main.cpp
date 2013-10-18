@@ -35,7 +35,7 @@ int main(void)
   while(1)
   {
     printf ("Index : %d\r\n", Idx);
-    clock::usleep(500);
+    clock::msleep(500);
     Idx++;
   }
 }
