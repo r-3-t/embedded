@@ -1,9 +1,20 @@
 #pragma once
 
 #include <spi.hpp>
-#include <hal_stm32f1_gpio.hpp> //TODO: fix stm32f1xx namespace if this file is not included
+#include <hal/gpio.hpp>
 #include <stm32f10x_spi.h>
 #include <hal/stm32fx/spi_conf.hpp>
+
+
+namespace spi
+{
+	unsigned int	num_instance();
+
+	void init_instance(unsigned int id, Configuration config /*= Configuration::_default()*/);
+
+	Spi& get_instance(unsigned int id);
+
+}
 
 
 namespace stm32f1xx {
@@ -80,26 +91,26 @@ namespace  spi {
 			if (conf_2_mode(config.mode) == SPI_Mode_Master)
 			{
 				//master
-				::stm32f1xx::gpio::configure_pin(GPIOx, GPIO_Pin_SCK, GPIO_Mode_AF_PP);
-				::stm32f1xx::gpio::configure_pin(GPIOx, GPIO_Pin_MOSI, GPIO_Mode_AF_PP);
-				::stm32f1xx::gpio::configure_pin(GPIOx, GPIO_Pin_MISO, GPIO_Mode_IN_FLOATING);
+				::gpio::configure_pin(GPIOx, GPIO_Pin_SCK, GPIO_Mode_AF_PP);
+				::gpio::configure_pin(GPIOx, GPIO_Pin_MOSI, GPIO_Mode_AF_PP);
+				::gpio::configure_pin(GPIOx, GPIO_Pin_MISO, GPIO_Mode_IN_FLOATING);
 				if (conf_2_SlaveSelectManagement(config.slaveSelectManagement) == SPI_NSS_Hard)
 				{
 					//nss hard
-					::stm32f1xx::gpio::configure_pin(GPIOx, GPIO_Pin_NSS, GPIO_Mode_AF_PP);
+					::gpio::configure_pin(GPIOx, GPIO_Pin_NSS, GPIO_Mode_AF_PP);
 				}
 
 			}
 			else
 			{
 				//slave
-				::stm32f1xx::gpio::configure_pin(GPIOx, GPIO_Pin_SCK, GPIO_Mode_IN_FLOATING);
-				::stm32f1xx::gpio::configure_pin(GPIOx, GPIO_Pin_MOSI, GPIO_Mode_IN_FLOATING);
-				::stm32f1xx::gpio::configure_pin(GPIOx, GPIO_Pin_MISO, GPIO_Mode_AF_PP);
+				::gpio::configure_pin(GPIOx, GPIO_Pin_SCK, GPIO_Mode_IN_FLOATING);
+				::gpio::configure_pin(GPIOx, GPIO_Pin_MOSI, GPIO_Mode_IN_FLOATING);
+				::gpio::configure_pin(GPIOx, GPIO_Pin_MISO, GPIO_Mode_AF_PP);
 				if (conf_2_SlaveSelectManagement(config.slaveSelectManagement) == SPI_NSS_Hard)
 				{
 					//nss hard
-					::stm32f1xx::gpio::configure_pin(GPIOx, GPIO_Pin_NSS, GPIO_Mode_IN_FLOATING);
+					::gpio::configure_pin(GPIOx, GPIO_Pin_NSS, GPIO_Mode_IN_FLOATING);
 				}
 
 			}
@@ -210,7 +221,6 @@ namespace  spi {
 
 } /* namespace stm32f1xx  */
 
-
 namespace spi
 {
 	unsigned int	num_instance()
@@ -224,7 +234,7 @@ namespace spi
 		{
 			case 1: ::stm32f1xx::spi::gpSpi_1 = new stm32f1xx::spi::Stm32f1xx_Spi(1, config); break;
 			case 2: ::stm32f1xx::spi::gpSpi_2 = new stm32f1xx::spi::Stm32f1xx_Spi(2, config); break;
-		}	
+		}
 	}
 
 	Spi& get_instance(unsigned int id)
@@ -237,6 +247,3 @@ namespace spi
 		return *::stm32f1xx::spi::gpSpi_NULL;
 	}
 }
-
-
-
