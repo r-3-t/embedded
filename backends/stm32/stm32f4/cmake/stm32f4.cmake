@@ -11,7 +11,6 @@ function(add_executable ...)
 endfunction()
 
 set (STM32F4_ROOT_DIR		"${CMAKE_CURRENT_LIST_DIR}/..")
-set (BASE_HAL_DIR			"${CMAKE_CURRENT_LIST_DIR}/../../../hal/")
 
 
 SET(CMAKE_CROSSCOMPILING TRUE) 
