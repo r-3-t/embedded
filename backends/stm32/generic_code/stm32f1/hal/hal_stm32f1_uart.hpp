@@ -147,6 +147,18 @@ namespace  uart {
 			send((const unsigned char*)str, strlen(str));
 		}
 
+#ifdef STREAM_DEBUG
+		virtual void send(const types::buffer& buf)
+		{
+			unsigned int size = buf.size();
+			for (unsigned int i = 0; i < size; i++)
+			{
+		            while ((_USARTx->SR & USART_FLAG_TC) == (uint16_t) RESET) {}
+		            	_USARTx->DR = (buf[i] & (uint16_t) 0x01FF);
+        	}
+
+		}
+#else
 		virtual void send(const types::buffer& buf)
 		{
 			for (auto c : buf)
@@ -156,6 +168,7 @@ namespace  uart {
         	}
 
 		}
+#endif
 
 		virtual void send(const unsigned char* buf, unsigned int length)
 		{

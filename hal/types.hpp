@@ -1,6 +1,10 @@
 #pragma once
 
+#ifdef STREAM_DEBUG
+#include <stream.hpp>
+#else
 #include <vector>
+#endif
 
 namespace types {
 
@@ -10,6 +14,9 @@ namespace types {
 	typedef unsigned int			uint32;
 	typedef unsigned int			uint16;
 
-
+#ifdef STREAM_DEBUG
+	typedef stream					buffer;
+#else
 	typedef std::vector<byte>		buffer;
+#endif
 }

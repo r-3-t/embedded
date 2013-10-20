@@ -1,4 +1,6 @@
-
+if (NOT CMAKE_BUILD_TYPE)
+	set (CMAKE_BUILD_TYPE Release)
+endif()
 
 set (SUPPORTED_MCU_ROOT_DIR ${CMAKE_CURRENT_LIST_DIR}/../backends/stm32)
 
