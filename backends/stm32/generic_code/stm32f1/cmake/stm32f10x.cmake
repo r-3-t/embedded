@@ -22,6 +22,8 @@ set (SYSTEM_FILES_DIR "${STM32F10x_ROOT_DIR}/system_files")
 
 include_directories(${CMAKE_BINARY_DIR})
 
+SET(MCFLAGS "-mlittle-endian -mthumb -mcpu=cortex-m3 -mfix-cortex-m3-ldrd")
+set (LDSCRIPT "${STM32F10x_ROOT_DIR}/system_files/stm32_flash.ld")
 include (arm-none-eabi-gcc)
 
 
@@ -173,36 +175,6 @@ set (STM32F1_DEVICE_VECTOR_TABLE_SOURCE_FILE  "${SYSTEM_FILES_DIR}/startup_stm32
 # find STM32F4xx Devices vector table
 set (STM32F1_SYSCALL_SOURCE_FILE  "${STM32F1_ROOT_DIR}/../stm32fx/system_files/syscall.c")
 ################################################################################
-
-
-
-# adjust the default behaviour of the FIND_XXX() commands:
-# search headers and libraries in the target environment, search 
-# programs in the host environment
-SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
-SET(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
-SET(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
-
-SET(MCFLAGS "-mlittle-endian -mthumb -mcpu=cortex-m3 -mfix-cortex-m3-ldrd")
-SET(CMAKE_ASM_FLAGS "${MCFLAGS}")
-SET(CMAKE_C_FLAGS "${MCFLAGS} -Wall -Wextra -Warray-bounds -ffunction-sections -fdata-sections")
-SET(CMAKE_CXX_FLAGS "${MCFLAGS} -std=c++11 -Wall -Wextra -Warray-bounds -fno-builtin -fno-rtti -fno-exceptions -ffunction-sections -fdata-sections")
-
-SET(CMAKE_C_FLAGS_DEBUG "-O0 -g")
-SET(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
-SET(CMAKE_ASM_FLAGS_DEBUG "-g")
-
-SET(CMAKE_C_FLAGS_RELEASE "-O3")
-SET(CMAKE_CXX_FLAGS_RELEASE "-O3")
-SET(CMAKE_ASM_FLAGS_RELEASE "")
-
-################################################################################
-# find stm32_flash.ld linker script files
-set (LDSCRIPT "${STM32F10x_ROOT_DIR}/system_files/stm32_flash.ld")
-################################################################################
-
-SET(CMAKE_CXX_LINK_FLAGS "${MCFLAGS} -T${LDSCRIPT} -Wl,--gc-sections --specs=nano.specs")
-SET(CMAKE_C_LINK_FLAGS "${MCFLAGS} -T${LDSCRIPT} -Wl,--gc-sections --specs=nano.specs")
 
 set (GDBINIT_CONTENT
 "target remote localhost:3333

@@ -1,4 +1,13 @@
 
+
+if (NOT MCFLAGS)
+	message("MCFLAGS is not set, abort ....")
+endif()
+
+if (NOT LDSCRIPT)
+	message("LDSCRIPT is not set, abort ....")
+endif()
+
 ################################################################################
 # cross compilation tools
 find_program(CROSS_GCC_FULL_PATH "arm-none-eabi-gcc")
@@ -32,3 +41,19 @@ SET(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "")
 SET(CMAKE_FIND_ROOT_PATH	${CROSS_COMPIL_TOOLS})
 include_directories(${CROSS_COMPIL_TOOLS}/../arm-none-eabi/include/)
 include_directories(${CROSS_COMPIL_TOOLS}/../arm-none-eabi/include/c++/4.7.4)
+
+SET(CMAKE_ASM_FLAGS "${MCFLAGS}")
+SET(CMAKE_C_FLAGS "${MCFLAGS} -Wall -Wextra -Warray-bounds -ffunction-sections -fdata-sections")
+SET(CMAKE_CXX_FLAGS "${MCFLAGS} -std=c++11 -Wall -Wextra -Warray-bounds -fno-builtin -fno-rtti -fno-exceptions -ffunction-sections -fdata-sections")
+
+SET(CMAKE_C_FLAGS_DEBUG "-O0 -g")
+SET(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
+SET(CMAKE_ASM_FLAGS_DEBUG "-g")
+
+SET(CMAKE_C_FLAGS_RELEASE "-O3")
+SET(CMAKE_CXX_FLAGS_RELEASE "-O3")
+SET(CMAKE_ASM_FLAGS_RELEASE "")
+
+SET(CMAKE_CXX_LINK_FLAGS "${MCFLAGS} -T${LDSCRIPT} -Wl,--gc-sections --specs=nano.specs")
+SET(CMAKE_C_LINK_FLAGS "${MCFLAGS} -T${LDSCRIPT} -Wl,--gc-sections --specs=nano.specs")
+
