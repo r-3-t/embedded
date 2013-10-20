@@ -13,8 +13,10 @@ set (HAL_IMPLEMENTED_CLOCK			${BASE_HAL_DIR}/clock.hpp)
 set (HAL_IMPLEMENTED_UART			${STM32F1_ROOT_DIR}/hal/hal_stm32f1_uart.hpp)
 set (HAL_IMPLEMENTED_GPIO			${STM32F1_ROOT_DIR}/hal/hal_stm32f1_gpio.hpp)
 set (HAL_IMPLEMENTED_SPI			${STM32F1_ROOT_DIR}/hal/hal_stm32f1_spi.hpp)
+set (HAL_IMPLEMENTED_PINOUT			${BASE_HAL_DIR}/pinout.hpp)
 
-set (STM32F1_BOARD_SPECIFIC_FILES	${STM32F10x_ROOT_DIR}/hal/hal_stm32f100_led.cpp)
+set (STM32F1_BOARD_SPECIFIC_FILES	${STM32F10x_ROOT_DIR}/hal/hal_stm32f100_led.cpp
+									${STM32F10x_ROOT_DIR}/hal/hal_stm32f100_pinout.cpp)
 
 include (${STM32F1_ROOT_DIR}/cmake/stm32f10x.cmake)
 
