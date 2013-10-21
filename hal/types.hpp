@@ -6,6 +6,8 @@
 #include <vector>
 #endif
 
+#include <stdint.h>
+
 namespace types {
 
 	typedef unsigned char			byte;

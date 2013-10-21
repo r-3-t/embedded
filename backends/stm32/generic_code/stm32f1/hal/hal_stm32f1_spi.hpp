@@ -3,6 +3,7 @@
 #include <spi.hpp>
 #include <hal/gpio.hpp>
 #include <stm32f10x_spi.h>
+#include <misc.h>
 #include <hal/stm32fx/spi_conf.hpp>
 
 
