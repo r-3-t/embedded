@@ -9,5 +9,16 @@ namespace arduino
 		{
 			::clock::msleep(delay);
 		}
+
+		void delayMicroseconds(::types::uint32 _delay)
+		{
+			//TODO: implement udelay
+			return delay(1);
+		}
+
+		::types::uint32 millis()
+		{
+			return ::clock::getTickCount() / ::clock::getTickPerMs();
+		}
 	}
 }
