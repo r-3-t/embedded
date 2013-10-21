@@ -1,6 +1,6 @@
 #include <stm32f10x_rcc.h>
 
-uint32_t gTickCount = 0;
+volatile uint32_t gTickCount = 0;
 
 static const uint32_t gTickFactor = 1000;
 
