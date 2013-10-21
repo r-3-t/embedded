@@ -10,7 +10,7 @@ namespace arduino
 {
 	namespace gpio
 	{
-		void pinMode(int pin, Arduino_GPIO_Pin_Mode Pin_Mode)
+		void pinMode(int pin, int Pin_Mode)
 		{
 			switch (Pin_Mode)
 			{
@@ -24,7 +24,7 @@ namespace arduino
 
 		}
 
-		void digitalWrite(int pin, Arduino_GPIO_Pin_State Pin_State)
+		void digitalWrite(int pin, int Pin_State)
 		{
 			switch (Pin_State)
 			{

@@ -1,25 +1,19 @@
 #pragma once
 
-typedef enum
-{
-	INPUT = 0,
-	OUTPUT,
-	INPUT_PULLUP
-} Arduino_GPIO_Pin_Mode;
+#define INPUT 				0
+#define OUTPUT 				1
+#define INPUT_PULLUP 		2
 
-typedef enum
-{
-	LOW = 0,
-	HIGH
-} Arduino_GPIO_Pin_State;
+#define LOW					0
+#define HIGH				1
 
 namespace arduino
 {
 	namespace gpio
 	{
 
-		void pinMode(int pin, Arduino_GPIO_Pin_Mode Pin_Mode);
-		void digitalWrite(int pin, Arduino_GPIO_Pin_State Pin_State);
+		void pinMode(int pin, int Pin_Mode);
+		void digitalWrite(int pin, int Pin_State);
 
 	}
 }
