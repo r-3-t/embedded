@@ -1,5 +1,5 @@
 
-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/../../cmake/)
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/../../backends/cmake/)
 include(embedded)
 
 ADD_EXECUTABLE(${CMAKE_PROJECT_NAME}.elf		${PROJECT_SOURCES})

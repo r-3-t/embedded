@@ -2,10 +2,10 @@ if (NOT CMAKE_BUILD_TYPE)
 	set (CMAKE_BUILD_TYPE Release)
 endif()
 
-set (SUPPORTED_MCU_ROOT_DIR ${CMAKE_CURRENT_LIST_DIR}/../backends/stm32)
+set (SUPPORTED_MCU_ROOT_DIR ${CMAKE_CURRENT_LIST_DIR}/../stm32)
 
 #define HAL path
-set (BASE_HAL_DIR			"${CMAKE_CURRENT_LIST_DIR}/../hal/")
+set (BASE_HAL_DIR			"${CMAKE_CURRENT_LIST_DIR}/../../hal/")
 
 function (show_available_arch)
 
