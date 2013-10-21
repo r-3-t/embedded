@@ -1,67 +1,9 @@
-if (${CMAKE_BUILD_TYPE} MATCHES "Debug")
-	add_definitions(-DSTREAM_DEBUG)
-endif()
+include (compile_flag_helper)
 
-function(add_executable ...)
-#	foreach (INTERNAL_FILE ${STM32F1_SYSTEM_FILES_SOURCES})
-#		get_filename_component (FILE_TO_ADD_TO_EXE ${INTERNAL_FILE} NAME)
-#		list (APPEND SYSTEM_FILES_LIST ${CMAKE_BINARY_DIR}/extracted_files/${FILE_TO_ADD_TO_EXE}.o)
-#		if (NOT EXISTS )
-#			file(WRITE ${CMAKE_BINARY_DIR}/extracted_files/${FILE_TO_ADD_TO_EXE}.o "<this is not a real content>")
-#		endif()
-#	endforeach()
+include (add_executable_hook)
 
-	foreach (SYSTEM_FILE_SRC ${STM32F1_SYSTEM_FILES_SOURCES})
-		get_filename_component(file_ext ${SYSTEM_FILE_SRC} EXT)
-		set (COMPILE_FLAGS "")
-		if (${file_ext} MATCHES ".*\\.cpp$")
-			set (COMPILE_FLAGS	${SAVE_CMAKE_CXX_FLAGS_RELEASE})
-		elseif (${file_ext} MATCHES ".*\\.c$")
-			set (COMPILE_FLAGS	${SAVE_CMAKE_C_FLAGS_RELEASE})
-		elseif (${file_ext} MATCHES ".*\\.s$")
-			set (COMPILE_FLAGS	${SAVE_CMAKE_ASM_FLAGS_RELEASE})
-		else ()
-			message ("ignoring file : ${SYSTEM_FILE_SRC}")
-		endif()
-
-		if (COMPILE_FLAGS)
-			set_source_files_properties(${SYSTEM_FILE_SRC} PROPERTIES COMPILE_FLAGS "${COMPILE_FLAGS}")
-			#message ("setting compile flag (${COMPILE_FLAGS}) for '${SYSTEM_FILE_SRC}'")
-		endif()
-	endforeach()
-
-	set (LIST_SOURCES_FILE ${ARGV})
-	#message ("list src : ${LIST_SOURCES_FILE}")
-	list (REMOVE_AT LIST_SOURCES_FILE 0)
-	#message ("list src : ${LIST_SOURCES_FILE}")
-	string (TOUPPER ${CMAKE_BUILD_TYPE} CMAKE_BUILD_TYPE_UPPER)
-	foreach (SYSTEM_FILE_SRC ${LIST_SOURCES_FILE})
-		get_filename_component(file_ext ${SYSTEM_FILE_SRC} EXT)
-		set (COMPILE_FLAGS "")
-		if (${file_ext} MATCHES ".*\\.cpp$")
-			set (COMPILE_FLAGS	${SAVE_CMAKE_CXX_FLAGS_${CMAKE_BUILD_TYPE_UPPER}})
-		elseif (${file_ext} MATCHES ".*\\.c$")
-			set (COMPILE_FLAGS	${SAVE_CMAKE_C_FLAGS_${CMAKE_BUILD_TYPE_UPPER}})
-		elseif (${file_ext} MATCHES ".*\\.s$")
-			set (COMPILE_FLAGS	${SAVE_CMAKE_ASM_FLAGS_${CMAKE_BUILD_TYPE_UPPER}})
-		else ()
-			message ("ignoring file : ${SYSTEM_FILE_SRC}")
-		endif()
-
-		if (COMPILE_FLAGS)
-			set_source_files_properties(${SYSTEM_FILE_SRC} PROPERTIES COMPILE_FLAGS "${COMPILE_FLAGS}")
-			#message ("setting compile flag (${COMPILE_FLAGS}) for '${SYSTEM_FILE_SRC}'")
-		endif()
-	endforeach()
-
-	_add_executable(${ARGV} ${STM32F1_SYSTEM_FILES_HEADERS} ${STM32F1_SYSTEM_FILES_SOURCES})
-
-	list (GET ARGV 0 _executable_name)
-	add_dependencies(${_executable_name} _stm32f10x_core_library)
-endfunction()
-
-list(APPEND STM32F1_SYSTEM_FILES_SOURCES ${STM32F1_BOARD_SPECIFIC_FILES})
-list(APPEND STM32F1_SYSTEM_FILES_SOURCES ${STM32F1_ROOT_DIR}/hal/hal_stm32f1_clock.cpp)
+list(APPEND STM32F1_HAL_FILES_SOURCES ${STM32F1_BOARD_SPECIFIC_FILES})
+list(APPEND STM32F1_HAL_FILES_SOURCES ${STM32F1_ROOT_DIR}/hal/hal_stm32f1_clock.cpp)
 
 
 SET(CMAKE_CROSSCOMPILING TRUE) 
@@ -103,9 +45,9 @@ set( CMAKE_ASM_FLAGS_RELEASE		"")
 macro (add_hal_files hal_implemented hal_type)
 
 	if (NOT ${hal_implemented})
-		message ("${hal_type} is not implemented for this architecture")
+		message (">>>>>>>>>>>>>>>>>>>>> ${hal_type} is not implemented for this architecture")
 	elseif (${${hal_implemented}} STREQUAL "")
-		message ("${hal_type} is not implemented for this architecture")
+		message (">>>>>>>>>>>>>>>>>>>>> ${hal_type} is not implemented for this architecture")
 	else()
 
 		set(hal_filename ${hal_type}.hpp)
@@ -128,10 +70,10 @@ macro (add_hal_files hal_implemented hal_type)
 		file (APPEND ${CMAKE_BINARY_DIR}/hal/${hal_filename} "${FILE_CONTENT}")
 
 		
-		list(APPEND STM32F1_NEEDED_SYSTEM_FILES ${HAL_NATIVE_PATH})
+		list(APPEND STM32F1_HAL_FILES_SOURCES ${HAL_NATIVE_PATH})
 		if (NOT (${HAL_IMPLEMENTED_NATIVE_PATH} STREQUAL ${HAL_NATIVE_PATH}))
 			#message ("append : ${HAL_IMPLEMENTED_NATIVE_PATH}")
-			list(APPEND STM32F1_NEEDED_SYSTEM_FILES ${HAL_IMPLEMENTED_NATIVE_PATH})
+			list(APPEND STM32F1_HAL_FILES_SOURCES ${HAL_IMPLEMENTED_NATIVE_PATH})
 		endif()
 
 	endif()
@@ -142,6 +84,7 @@ add_hal_files(HAL_IMPLEMENTED_CLOCK		"clock")
 add_hal_files(HAL_IMPLEMENTED_UART		"uart")
 add_hal_files(HAL_IMPLEMENTED_GPIO		"gpio")
 add_hal_files(HAL_IMPLEMENTED_SPI		"spi")
+add_hal_files(HAL_IMPLEMENTED_PINOUT	"pinout")
 
 ################################################################################
 # stm32f4 system headers
@@ -241,10 +184,6 @@ list(APPEND STM32F1_SYSTEM_FILES_SOURCES  "${SYSTEM_FILES_DIR}/startup_stm32f10x
 list(APPEND STM32F1_SYSTEM_FILES_SOURCES  "${STM32F1_ROOT_DIR}/../stm32fx/system_files/syscall.c")
 ################################################################################
 
-if (${CMAKE_BUILD_TYPE} MATCHES "Debug")
-	list(APPEND STM32F1_SYSTEM_FILES_SOURCES  "${BASE_HAL_DIR}/stream.cpp")
-endif()
-
 set (GDBINIT_CONTENT
 "target remote localhost:3333
 ")
@@ -273,19 +212,8 @@ file (WRITE ${CMAKE_BINARY_DIR}/openocd.cfg ${OPENOCDCFG_CONTENT})
 ENABLE_LANGUAGE(ASM)
 
 
+set (MCU_SYSTEM_FILES_SOURCES	${STM32F1_SYSTEM_FILES_SOURCES})
+set (MCU_SYSTEM_FILES_HEADERS	${STM32F1_SYSTEM_FILES_HEADERS})
+set (MCU_HAL_FILES_SOURCES		${STM32F1_HAL_FILES_SOURCES})
 
-#add_library(_stm32f10x_core_library STATIC ${STM32F1_SYSTEM_FILES_SOURCES} ${STM32F1_SYSTEM_FILES_HEADERS})
-
-
-
-#set (CMAKE_BUILD_TYPE ${SAVE_BUILD_TYPE})
-#add_custom_command(	TARGET _stm32f10x_core_library
-#					POST_BUILD
-#					COMMAND mkdir -p ${CMAKE_BINARY_DIR}/extracted_files
-#					COMMAND rm -rf ${CMAKE_BINARY_DIR}/extracted_files/*)
-
-#add_custom_command(	TARGET _stm32f10x_core_library
-#					POST_BUILD
-#					COMMAND ${CMAKE_AR} x $<TARGET_FILE:_stm32f10x_core_library>
-#					WORKING_DIRECTORY	${CMAKE_BINARY_DIR}/extracted_files/)
 
