@@ -1,3 +1,6 @@
 [submodule "drivers/arduino/RF24"]
 	path = drivers/arduino/RF24
 	url = https://github.com/maniacbug/RF24.git
+[submodule "RF24"]
+	path = drivers/arduino/RF24
+	url = https://github.com/maniacbug/RF24.git
