@@ -2,6 +2,8 @@ if (_ADD_EXECUTABLE_HOOK)
 	return()
 endif()
 
+include (compile_flag_helper)
+
 function(add_executable ...)
 
 	set_compile_flags(	MCU_SYSTEM_FILES_SOURCES
@@ -31,9 +33,9 @@ function(add_executable ...)
 						SAVE_CMAKE_CXX_FLAGS_${CMAKE_BUILD_TYPE_UPPER}
 						SAVE_CMAKE_ASM_FLAGS_${CMAKE_BUILD_TYPE_UPPER})
 
-	_add_executable(${ARGV} 	${STM32F1_HAL_FILES_SOURCES}
-								${STM32F1_SYSTEM_FILES_HEADERS}
-								${STM32F1_SYSTEM_FILES_SOURCES})
+	_add_executable(${ARGV} 	${MCU_HAL_FILES_SOURCES}
+								${MCU_SYSTEM_FILES_HEADERS}
+								${MCU_SYSTEM_FILES_SOURCES})
 
 	list (GET ARGV 0 _executable_name)
 	add_dependencies(${_executable_name} _stm32f10x_core_library)
