@@ -111,5 +111,3 @@ set (MCU_SYSTEM_FILES_HEADERS	${STM32F1_SYSTEM_FILES_HEADERS})
 SET(MCFLAGS "-mlittle-endian -mthumb -mcpu=cortex-m3 -mfix-cortex-m3-ldrd")
 set (LDSCRIPT "${STM32F10x_ROOT_DIR}/system_files/stm32_flash.ld")
 
-include (${CMAKE_CURRENT_LIST_DIR}/../../stm32fx/cmake/stm32fx.cmake)
-

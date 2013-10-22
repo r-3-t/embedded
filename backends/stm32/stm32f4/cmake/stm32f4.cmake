@@ -139,4 +139,4 @@ file (WRITE ${CMAKE_BINARY_DIR}/.gdbinit ${GDBINIT_CONTENT})
 
 SET(MCFLAGS "-mlittle-endian -mthumb -mcpu=cortex-m4 -mthumb-interwork -mfloat-abi=hard -mfpu=fpv4-sp-d16")
 set (LDSCRIPT "${CMAKE_CURRENT_LIST_DIR}/../system_files/stm32_flash.ld")
-include (${CMAKE_CURRENT_LIST_DIR}/../../generic_code/stm32fx/cmake/stm32fx.cmake)
+
