@@ -16,7 +16,8 @@ if (NOT arch)
 endif()
 
 # if the given arch is not supported, return
-if (NOT EXISTS ${SUPPORTED_MCU_ROOT_DIR}/${arch}/cmake/${arch}.cmake)
+get_cmake_path_for_arch(${arch} arch_cmake_path)
+if (NOT EXISTS ${arch_cmake_path})
 	show_available_arch()
 	message (FATAL_ERROR "${arch} is not a valid architecure")
 	return()
@@ -34,7 +35,7 @@ endif()
 #    * set the MCU_SYSTEM_FILES_SOURCES and MCU_SYSTEM_FILES_HEADERS variables. These files are those given by the board vendors
 #    * set the MCFLAGS (e.g "-mlittle-endian -mthumb -mcpu=cortex-m3 -mfix-cortex-m3-ldrd")
 #    * set the LDSCRIPT (e.g. "xxx/yyyy/zzzzz/stm32_flash.ld")
-include (${SUPPORTED_MCU_ROOT_DIR}/${arch}/cmake/${arch}.cmake)
+include (${arch_cmake_path})
 
 # set the hal thanks to the preceding include file
 include(copy_hal_files_helper)

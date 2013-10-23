@@ -18,15 +18,15 @@ if (NOT arch)
 endif()
 
 # if the given arch is not supported, return
-if (NOT EXISTS ${SUPPORTED_MCU_ROOT_DIR}/${arch}/cmake/${arch}.cmake)
+get_cmake_path_for_arch(${arch} arch_cmake_path)
+if (NOT EXISTS ${arch_cmake_path})
 	show_available_arch()
 	message (FATAL_ERROR "${arch} is not a valid architecure")
 	return()
 endif()
 
 
-
-include (${SUPPORTED_MCU_ROOT_DIR}/${arch}/cmake/${arch}.cmake)
+include (${arch_cmake_path})
 
 if (NOT HAL_IMPLEMENTED_PINOUT_CPP)
 	message (FATAL_ERROR "Architecture ${arch} doest not support pinout")
