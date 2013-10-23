@@ -14,8 +14,7 @@ int main (int argc, char** argv)
 						"gpio_id: "		<< "\t" << pin.id			<< "\t" <<
 						"bus: "			<< "\t" << pin.bus		 	<< "\t" <<
 						"bus_id: "		<< "\t" << pin.bus_id		<< "\t" <<
-						"function: "	<< "\t" << pin.function	 	<< "\t" <<
-						"gpio: "		<< "\t" << pin.gpio			<< std::endl;
+						"function: "	<< "\t" << pin.function	 	<< std::endl;
 	}
 
 	std::cout << "USART 1 : " << std::endl;
@@ -28,8 +27,7 @@ int main (int argc, char** argv)
 						"gpio_id: "		<< "\t" << (*iter).id		<< "\t" << 
 						"bus: "			<< "\t" << (*iter).bus		<< "\t" << 
 						"bus_id: "		<< "\t" << (*iter).bus_id	<< "\t" << 
-						"function: "	<< "\t" << (*iter).function	<< "\t" << 
-						"gpio: "		<< "\t" << (*iter).gpio		<< std::endl;
+						"function: "	<< "\t" << (*iter).function	<< std::endl;
 
 		iter++;
 	}
