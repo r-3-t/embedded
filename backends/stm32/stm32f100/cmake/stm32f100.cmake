@@ -15,6 +15,9 @@ set (HAL_IMPLEMENTED_GPIO			${STM32F1_ROOT_DIR}/hal/hal_stm32f1_gpio.hpp)
 set (HAL_IMPLEMENTED_SPI			${STM32F1_ROOT_DIR}/hal/hal_stm32f1_spi.hpp)
 set (HAL_IMPLEMENTED_PINOUT			${BASE_HAL_DIR}/pinout.hpp)
 
+set (HAL_IMPLEMENTED_PINOUT_CPP		${STM32F10x_ROOT_DIR}/hal/hal_stm32f100_pinout.cpp)
+
+
 set (STM32F1_BOARD_SPECIFIC_FILES	${STM32F10x_ROOT_DIR}/hal/hal_stm32f100_led.cpp
 									${STM32F10x_ROOT_DIR}/hal/hal_stm32f100_pinout.cpp)
 

@@ -1,6 +1,6 @@
 #pragma once
 
-
+#include <vector>
 
 namespace pinout {
 
@@ -28,7 +28,7 @@ namespace pinout {
 		Pin_Function	function;
 	};
 
-	unsigned int NumPin();
-	const Pin_Description* PinDescription();
+	const std::vector<Pin_Description>& PinDescription();
 
+	unsigned int NumPin();
 }
