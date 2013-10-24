@@ -43,6 +43,11 @@ SET(CMAKE_FIND_ROOT_PATH	${CROSS_COMPIL_TOOLS})
 include_directories(${CROSS_COMPIL_TOOLS}/../arm-none-eabi/include/)
 include_directories(${CROSS_COMPIL_TOOLS}/../arm-none-eabi/include/c++/4.7.4)
 
+if (USE_LTO)
+	set (COMPIL_FLAGS_LTO "-flto")
+	set (LINK_FLAGS_LTO "-O3 -flto")
+endif()
+
 SET(CMAKE_ASM_FLAGS "${MCFLAGS}")
 SET(CMAKE_C_FLAGS "${MCFLAGS} -Wall -Wextra -Warray-bounds -ffunction-sections -fdata-sections")
 SET(CMAKE_CXX_FLAGS "${MCFLAGS} -std=c++11 -Wall -Wextra -Warray-bounds -fno-builtin -fno-rtti -fno-exceptions -ffunction-sections -fdata-sections")
@@ -51,12 +56,12 @@ SET(CMAKE_C_FLAGS_DEBUG "-O1 -g")
 SET(CMAKE_CXX_FLAGS_DEBUG "-O1 -g")
 SET(CMAKE_ASM_FLAGS_DEBUG "-g")
 
-SET(CMAKE_C_FLAGS_RELEASE "-O3")
-SET(CMAKE_CXX_FLAGS_RELEASE "-O3")
+SET(CMAKE_C_FLAGS_RELEASE "-O3 ${COMPIL_FLAGS_LTO}")
+SET(CMAKE_CXX_FLAGS_RELEASE "-O3 ${COMPIL_FLAGS_LTO}")
 SET(CMAKE_ASM_FLAGS_RELEASE "")
 
-SET(CMAKE_CXX_LINK_FLAGS "${MCFLAGS} -T${LDSCRIPT} -Wl,--gc-sections --specs=nano.specs -O3")
-SET(CMAKE_C_LINK_FLAGS "${MCFLAGS} -T${LDSCRIPT} -Wl,--gc-sections --specs=nano.specs -O3")
+SET(CMAKE_CXX_LINK_FLAGS "${MCFLAGS} -T${LDSCRIPT} -Wl,--gc-sections --specs=nano.specs ${LINK_FLAGS_LTO}")
+SET(CMAKE_C_LINK_FLAGS "${MCFLAGS} -T${LDSCRIPT} -Wl,--gc-sections --specs=nano.specs ${LINK_FLAGS_LTO}")
 
 
 SET(CMAKE_CROSSCOMPILING TRUE) 
