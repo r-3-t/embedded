@@ -21,5 +21,11 @@ set (HAL_IMPLEMENTED_PINOUT_CPP		${STM32F10x_ROOT_DIR}/hal/hal_stm32f100_pinout.
 set (STM32F1_BOARD_SPECIFIC_FILES	${STM32F10x_ROOT_DIR}/hal/hal_stm32f100_led.cpp
 									${STM32F10x_ROOT_DIR}/hal/hal_stm32f100_pinout.cpp)
 
+
+set (_RAM_SIZE				8K)
+set (_FLASH_SIZE			128K)
+set (_MIN_STACK_SIZE		0xC00)
+set (_MIN_HEAP_SIZE			0x800)
+
 include (${STM32F1_ROOT_DIR}/cmake/stm32f10x.cmake)
 

@@ -15,6 +15,11 @@ set (HAL_IMPLEMENTED_UART			${STM32F1_ROOT_DIR}/hal/hal_stm32f1_uart.hpp)
 set (HAL_IMPLEMENTED_GPIO			${STM32F1_ROOT_DIR}/hal/hal_stm32f1_gpio.hpp)
 set (HAL_IMPLEMENTED_SPI			${STM32F1_ROOT_DIR}/hal/hal_stm32f1_spi.hpp)
 
+set (_RAM_SIZE				20K)
+set (_FLASH_SIZE			64K)
+set (_MIN_STACK_SIZE		0x800)
+set (_MIN_HEAP_SIZE			0x800)
+
 include (${STM32F1_ROOT_DIR}/cmake/stm32f10x.cmake)
 
 set (GDBINIT_CONTENT
