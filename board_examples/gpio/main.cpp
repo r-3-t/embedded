@@ -2,12 +2,15 @@
 #include <hal/clock.hpp>
 #include <hal/gpio.hpp>
 
+#define LED_PORT							6
+#define LED_PIN								1
+
 //------------------------------------------------------------------------------
 
 int main(void)
 {
 
-  ::gpio::GPIO pinLed = ::gpio::GPIO(1, 0);
+  ::gpio::GPIO pinLed = ::gpio::GPIO(LED_PORT, LED_PIN);
 
   int			time;
 
