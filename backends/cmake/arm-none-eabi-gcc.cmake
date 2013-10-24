@@ -55,8 +55,8 @@ SET(CMAKE_C_FLAGS_RELEASE "-O3 -flto")
 SET(CMAKE_CXX_FLAGS_RELEASE "-O3 -flto")
 SET(CMAKE_ASM_FLAGS_RELEASE "")
 
-SET(CMAKE_CXX_LINK_FLAGS "${MCFLAGS} -T${LDSCRIPT} -Wl,--gc-sections --specs=nano.specs -flto")
-SET(CMAKE_C_LINK_FLAGS "${MCFLAGS} -T${LDSCRIPT} -Wl,--gc-sections --specs=nano.specs -flto")
+SET(CMAKE_CXX_LINK_FLAGS "${MCFLAGS} -T${LDSCRIPT} -Wl,--gc-sections --specs=nano.specs -O3 -flto")
+SET(CMAKE_C_LINK_FLAGS "${MCFLAGS} -T${LDSCRIPT} -Wl,--gc-sections --specs=nano.specs -O3 -flto")
 
 
 SET(CMAKE_CROSSCOMPILING TRUE) 
