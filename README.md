@@ -13,6 +13,7 @@ supported board and MCU
 * STM32VLDISCOVERY
 * STM32F4DISCOVERY
 * STM32F103 
+* LM4F120XL
 
 examples
 -------- 
@@ -32,3 +33,7 @@ r-3-t:build_dir$ rm -rf * && cmake  <path_to_dev>/board_examples/leds/ -DCMAKE_B
 r-3-t:build_dir$ rm -rf * && cmake  <path_to_dev>/board_examples/leds/ -DCMAKE_BUILD_TYPE=Debug -Darch=stm32f4
 ```
 
+* lm4f120xl
+```
+r-3-t:build_dir$ rm -rf * && cmake  <path_to_dev>/board_examples/gpio/ -DCMAKE_BUILD_TYPE=Debug -Darch=lm4f120xl
+```
