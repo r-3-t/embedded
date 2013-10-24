@@ -15,6 +15,7 @@ extern "C" {
 
 typedef unsigned int uint32_t;
 
+void prvGetRegistersFromStack( uint32_t *pulFaultStackAddress ) __attribute__( (used ) );
 void prvGetRegistersFromStack( uint32_t *pulFaultStackAddress )
 {
 /* These are volatile to try and prevent the compiler/linker optimising them
@@ -56,7 +57,7 @@ volatile uint32_t psr;/* Program status register. */
 
 /* The prototype shows it is a naked function - in effect this is just an
 assembly function. */
-void HardFault_Handler( void ) __attribute__( ( naked ) );
+void HardFault_Handler( void ) __attribute__( (used,  naked ) );
 
 /* The fault handler implementation calls a function called
 prvGetRegistersFromStack(). */
