@@ -24,8 +24,7 @@
 
 #include "inc/hw_nvic.h"
 #include "inc/hw_types.h"
-#include <sysctl.h>
-#include <systick.h>
+
 
 //*****************************************************************************
 //
@@ -225,23 +224,6 @@ extern unsigned long _edata;
 extern unsigned long _bss;
 extern unsigned long _ebss;
 
-//system initialization:
-// - enable sys clock
-void SystemInit()
-{
-    //
-    // Set the clocking to run directly from the crystal.
-    //
-    SysCtlClockSet(SYSCTL_SYSDIV_1 | SYSCTL_USE_OSC | SYSCTL_OSC_MAIN |
-                       SYSCTL_XTAL_16MHZ);
-
-    //we set a period with maximum value
-    SysTickPeriodSet(0x00FFFFFF);
-    //SysTickPeriodSet(0x1);
-    //enable systick counter
-    SysTickEnable();
-}
-
 extern void __libc_init_array();
 
 //*****************************************************************************
@@ -295,8 +277,6 @@ Reset_Handler(void)
                          ~(NVIC_CPAC_CP10_M | NVIC_CPAC_CP11_M)) |
                         NVIC_CPAC_CP10_FULL | NVIC_CPAC_CP11_FULL);
 
-    //call system init (clock initialization)
-    SystemInit();
 
     // Call static constructors
     __libc_init_array();
