@@ -1850,7 +1850,7 @@ SysCtlDelay(unsigned long ulCount)
 }
 #endif
 #if defined(codered) || defined(gcc) || defined(sourcerygxx)
-void __attribute__((naked))
+void __attribute__((used,naked))
 SysCtlDelay(unsigned long ulCount)
 {
     __asm("    subs    r0, #1\n"
