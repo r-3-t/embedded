@@ -37,3 +37,11 @@ r-3-t:build_dir$ rm -rf * && cmake  <path_to_dev>/board_examples/leds/ -DCMAKE_B
 ```
 r-3-t:build_dir$ rm -rf * && cmake  <path_to_dev>/board_examples/gpio/ -DCMAKE_BUILD_TYPE=Debug -Darch=lm4f120xl
 ```
+
+Options
+-------- 
+
+* LTO
+
+You can enable LTO (Link Time Optimization, see http://gcc.gnu.org/onlinedocs/gccint/LTO.html ) by adding "-DUSE_LTO=on" on your cmake command line.
+Beware that this function is still highly experimental, and may not work with your code (or with the backend/frontend you selected)
