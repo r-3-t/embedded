@@ -1,32 +1,24 @@
 /*
-*****************************************************************************
-**
-**  File        : stm32_flash.ld
-**
-**  Abstract    : Linker script for STM32F100VB Device with
-**                128KByte FLASH, 8KByte RAM
-**
-**                Set heap size, stack size and stack location according
-**                to application requirements.
-**
-**                Set memory bank area and size if external memory is used.
-**
-**  Target      : STMicroelectronics STM32
-**
-**  Environment : Atollic TrueSTUDIO(R)
-**
-**  Distribution: The file is distributed “as is,” without any warranty
-**                of any kind.
-**
-**  (c)Copyright Atollic AB.
-**  You may use this file as-is or modify it according to the needs of your
-**  project. Distribution of this file (unmodified or modified) is not
-**  permitted. Atollic AB permit registered Atollic TrueSTUDIO(R) users the
-**  rights to distribute the assembled, compiled & linked contents of this
-**  file as part of an application binary file, provided that it is built
-**  using the Atollic TrueSTUDIO(R) toolchain.
-**
-*****************************************************************************
+The MIT License (MIT)
+
+Copyright (c) 2013 r-3-t
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 /* Entry Point */
@@ -34,21 +26,20 @@ ENTRY(Reset_Handler)
 
 _ram_size = @_RAM_SIZE@;    /* RAM on AHB bus*/
 
-/* Highest address of the user mode stack */
-/*_estack = 0x20002000; */   /* end of 8K RAM */
-
 /* Generate a link error if heap and stack don't fit into RAM */
-_Heap_Size = @_MIN_HEAP_SIZE@;      /* required amount of heap  */
+_Min_Heap_Size = @_MIN_HEAP_SIZE@;      /* required amount of heap  */
 _Min_Stack_Size = @_MIN_STACK_SIZE@; /* required amount of stack */
 
 /* Specify the memory areas */
 MEMORY
 {
-  FLASH (rx)      : ORIGIN = 0x08000000, LENGTH = @_FLASH_SIZE@
+  FLASH (rx)      : ORIGIN = @_FLASH_ORIGIN@, LENGTH = @_FLASH_SIZE@
   @EXTRAM_MEMORY_AREA@
-  RAM (xrw)       : ORIGIN = 0x20000000, LENGTH = @_RAM_SIZE@
-  MEMORY_B1 (rx)  : ORIGIN = 0x60000000, LENGTH = 0K
+  RAM (xrw)       : ORIGIN = @_RAM_ORIGIN@, LENGTH = @_RAM_SIZE@
 }
+
+/* Highest address of the user mode stack */
+_estack = ORIGIN(RAM) + LENGTH(RAM);
 
 /* Define output sections */
 SECTIONS
@@ -61,7 +52,7 @@ SECTIONS
     . = ALIGN(4);
   } >FLASH
 
-  /* The program code and other data goes into FLASH */
+  /* Next, put code */
   .text :
   {
     . = ALIGN(4);
@@ -150,7 +141,7 @@ SECTIONS
   .heap (NOLOAD):
    {
      _heap = . ;
-     . = . + _Heap_Size;  /* define _Heap_Size at the start of the link file */
+     . = . + _Min_Heap_Size;  /* define _Heap_Size at the start of the link file */
      . = ALIGN(4);
      _heap_end = . ;
    } > RAM
@@ -163,19 +154,6 @@ SECTIONS
     . = ALIGN(4);
    _ram_required = .;
   } >RAM
-
-_estack = 0x20000000 + _ram_size;
-
-
-  /* MEMORY_bank1 section, code must be located here explicitly            */
-  /* Example: extern int foo(void) __attribute__ ((section (".mb1text"))); */
-  .memory_b1_text :
-  {
-    *(.mb1text)        /* .mb1text sections (code) */
-    *(.mb1text*)       /* .mb1text* sections (code)  */
-    *(.mb1rodata)      /* read-only data (constants) */
-    *(.mb1rodata*)
-  } >MEMORY_B1
 
   /* Remove information from the standard libraries */
   /DISCARD/ :
