@@ -121,6 +121,6 @@ endif()
 if (NOT _MIN_HEAP_SIZE)
 	message (FATAL_ERROR "_MIN_HEAP_SIZE must be defined")
 endif()
-configure_file(${CMAKE_CURRENT_LIST_DIR}/../system_files/stm32_flash.ld ${CMAKE_BINARY_DIR}/)
+configure_file(${CMAKE_CURRENT_LIST_DIR}/../../stm32fx/system_files/stm32_flash.ld ${CMAKE_BINARY_DIR}/)
 set (LDSCRIPT "${CMAKE_BINARY_DIR}/stm32_flash.ld")
 
