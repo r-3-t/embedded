@@ -41,6 +41,12 @@ r-3-t:build_dir$ rm -rf * && cmake  <path_to_dev>/board_examples/gpio/ -DCMAKE_B
 Options
 -------- 
 
+* OPTIM_SPEED
+
+You can select the optimization level by adding "-DOPTIM_LEVEL=2" on your cmake command line. (default is 3).
+This option only work in release mode.
+
+
 * LTO
 
 You can enable LTO (Link Time Optimization, see http://gcc.gnu.org/onlinedocs/gccint/LTO.html ) by adding "-DUSE_LTO=on" on your cmake command line.
