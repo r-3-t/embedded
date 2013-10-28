@@ -64,5 +64,12 @@ set (MCU_SYSTEM_FILES_HEADERS	${TIX_SYSTEM_FILES_HEADERS})
 
 
 SET(MCFLAGS "-mlittle-endian -mthumb -mcpu=cortex-m4")
-set (LDSCRIPT "${TIX_ROOT_DIR}/system_files/lm4f120.ld")
+set (_RAM_ORIGIN			0x20000000)
+set (_RAM_SIZE				32k)
+set (_FLASH_ORIGIN			0x00000000)
+set (_FLASH_SIZE			256k)
+set (_MIN_STACK_SIZE		0x800)
+set (_MIN_HEAP_SIZE			0x800)
+configure_file(${CMAKE_CURRENT_LIST_DIR}/../../../generic_code/linker_script.ld ${CMAKE_BINARY_DIR}/)
+set (LDSCRIPT "${CMAKE_BINARY_DIR}/linker_script.ld")
 
