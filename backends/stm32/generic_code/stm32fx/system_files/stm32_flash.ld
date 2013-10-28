@@ -45,6 +45,7 @@ _Min_Stack_Size = @_MIN_STACK_SIZE@; /* required amount of stack */
 MEMORY
 {
   FLASH (rx)      : ORIGIN = 0x08000000, LENGTH = @_FLASH_SIZE@
+  @EXTRAM_MEMORY_AREA@
   RAM (xrw)       : ORIGIN = 0x20000000, LENGTH = @_RAM_SIZE@
   MEMORY_B1 (rx)  : ORIGIN = 0x60000000, LENGTH = 0K
 }
@@ -108,6 +109,8 @@ SECTIONS
     KEEP (*(SORT(.fini_array.*)))
     PROVIDE_HIDDEN (__fini_array_end = .);
   } >FLASH
+
+  @EXTRAM_MEMORY_SECTION@
 
   /* used by the startup to initialize data */
   _sidata = .;

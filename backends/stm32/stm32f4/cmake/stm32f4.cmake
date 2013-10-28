@@ -138,5 +138,21 @@ load
 file (WRITE ${CMAKE_BINARY_DIR}/.gdbinit ${GDBINIT_CONTENT})
 
 SET(MCFLAGS "-mlittle-endian -mthumb -mcpu=cortex-m4 -mthumb-interwork -mfloat-abi=hard -mfpu=fpv4-sp-d16")
-set (LDSCRIPT "${CMAKE_CURRENT_LIST_DIR}/../system_files/stm32_flash.ld")
+set (_RAM_SIZE				128K)
+set (_FLASH_SIZE			1024K)
+set (_MIN_STACK_SIZE		0x2000)
+set (_MIN_HEAP_SIZE			0x8000)
+set (EXTRAM_MEMORY_AREA 	"CCMRAM (rw)     : ORIGIN = 0x10000000, LENGTH = 64K")
+set (EXTRAM_MEMORY_SECTION	
+".ccmram (NOLOAD):
+{
+	. = ALIGN(4);
+	_ccm_ram_begin = .;
+	*(.ccmram)
+	*(.ccmram*)
+	. = ALIGN(4);
+	_ccm_ram_end = .;
+} > CCMRAM")
+configure_file(${CMAKE_CURRENT_LIST_DIR}/../../generic_code/stm32fx/system_files/stm32_flash.ld ${CMAKE_BINARY_DIR}/)
+set (LDSCRIPT "${CMAKE_BINARY_DIR}/stm32_flash.ld")
 
