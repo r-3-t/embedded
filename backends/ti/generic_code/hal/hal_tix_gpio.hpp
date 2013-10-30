@@ -73,6 +73,100 @@ namespace tix
 namespace gpio
 {
 
+	unsigned long get_GPIO_port_from_id(::pinout::Gpio_id 	GPIOId)
+	{
+
+		switch (GPIOId)
+		{
+		case 1:
+			//GPIOA
+			return GPIO_PORTA_BASE;
+			break;
+		case 2:
+			//GPIOB
+			return GPIO_PORTB_BASE;
+			break;
+		case 3:
+			//GPIOC
+			return GPIO_PORTC_BASE;
+			break;
+		case 4:
+			//GPIOD
+			return GPIO_PORTD_BASE;
+			break;
+		case 5:
+			//GPIOE
+			return GPIO_PORTE_BASE;
+			break;
+		case 6:
+			//GPIOF
+			return GPIO_PORTF_BASE;
+			break;
+		case 7:
+			//GPIOG
+			return GPIO_PORTG_BASE;
+			break;
+		case 8:
+			//GPIOH
+			return GPIO_PORTH_BASE;
+			break;
+		default:
+			return 0;
+			break;
+		}
+	}
+
+	unsigned long get_GPIO_pin_from_id(::pinout::Pin_id PINId)
+	{
+
+		return (1 << PINId);
+	}
+
+	void configure_gpio_pin(::pinout::Gpio_id 	GPIOId, ::pinout::Pin_id PINId)
+	{
+		unsigned long ulPort;
+
+		ulPort = get_GPIO_port_from_id(GPIOId);
+
+		//TODO: error management when no GPIO port exists
+		if (ulPort == 0)
+		{
+			return;
+		}
+
+		::tix::gpio::configure_gpio_pin(ulPort, get_GPIO_pin_from_id(PINId));
+	}
+
+	void set_pin(::pinout::Gpio_id 	GPIOId, ::pinout::Pin_id PINId)
+	{
+		unsigned long ulPort;
+
+		ulPort = get_GPIO_port_from_id(GPIOId);
+
+		//TODO: error management when no GPIO port exists
+		if (ulPort == 0)
+		{
+			return;
+		}
+
+		::tix::gpio::set_pin(ulPort, get_GPIO_pin_from_id(PINId));
+	}
+
+	void reset_pin(::pinout::Gpio_id 	GPIOId, ::pinout::Pin_id PINId)
+	{
+		unsigned long ulPort;
+
+		ulPort = get_GPIO_port_from_id(GPIOId);
+
+		//TODO: error management when no GPIO port exists
+		if (ulPort == 0)
+		{
+			return;
+		}
+
+		::tix::gpio::reset_pin(ulPort, get_GPIO_pin_from_id(PINId));
+	}
+
 	class GPIO : public ::gpio::PinOut
 	{
 	public:
@@ -81,47 +175,17 @@ namespace gpio
 
 			_ucPins = 1 << PINId;
 
-			switch (GPIOId)
+			_ulPort = get_GPIO_port_from_id(GPIOId);
+
+			//TODO: error management when no GPIO port exists
+			if (_ulPort == 0)
 			{
-			case 1:
-				//GPIOA
-				_ulPort = GPIO_PORTA_BASE;
-				break;
-			case 2:
-				//GPIOB
-				_ulPort = GPIO_PORTB_BASE;
-				break;
-			case 3:
-				//GPIOC
-				_ulPort = GPIO_PORTC_BASE;
-				break;
-			case 4:
-				//GPIOD
-				_ulPort = GPIO_PORTD_BASE;
-				break;
-			case 5:
-				//GPIOE
-				_ulPort = GPIO_PORTE_BASE;
-				break;
-			case 6:
-				//GPIOF
-				_ulPort = GPIO_PORTF_BASE;
-				break;
-			case 7:
-				//GPIOG
-				_ulPort = GPIO_PORTG_BASE;
-				break;
-			case 8:
-				//GPIOH
-				_ulPort = GPIO_PORTH_BASE;
-				break;
-			default:
-				_ulPort = 0;
-				break;
+				return;
 			}
 
 			::tix::gpio::configure_gpio_pin(_ulPort, _ucPins);
 		}
+
 
 		virtual void high()
 		{
