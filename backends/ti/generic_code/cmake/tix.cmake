@@ -1,9 +1,10 @@
 
-list(APPEND MCU_HAL_FILES_SOURCES ${TIX_ROOT_DIR}/hal/hal_lm4f120_clock.cpp)
+list(APPEND MCU_HAL_FILES_SOURCES ${TIX_ROOT_DIR}/hal/hal_tix_clock.cpp)
 
 ################################################################################
 # TI system headers
 set(TIX_LIBRARY_PATH ${TIX_ROOT_DIR}/system_files/)
+include_directories(${TIX_ROOT_DIR})
 include_directories(${TIX_LIBRARY_PATH})
 include_directories(${TIX_LIBRARY_PATH}/inc/)
 include_directories(${TIX_LIBRARY_PATH}/driverlib/)
@@ -18,6 +19,8 @@ set(TIX_DriverLib				${TIX_LIBRARY_PATH}/driverlib)
 set(TIX_SYSCTL_SOURCE				sysctl)
 set(TIX_SYSTICK_SOURCE				systick)
 set(TIX_GPIO_SOURCE				gpio)
+set(TIX_SSI_SOURCE				ssi)
+set(TIX_UART_SOURCE				uart)
 
 ################################################################################
 
@@ -26,6 +29,8 @@ set(TIX_GPIO_SOURCE				gpio)
 set(TIX_SYSTEM_SOURCES				TIX_SYSCTL_SOURCE
 						TIX_SYSTICK_SOURCE
 						TIX_GPIO_SOURCE
+						TIX_SSI_SOURCE
+						TIX_UART_SOURCE
 						)
 																																																																																																																																																
 
