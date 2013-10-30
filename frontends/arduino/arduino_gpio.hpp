@@ -1,5 +1,7 @@
 #pragma once
 
+#include <pinout.hpp>
+
 #define INPUT 				0
 #define OUTPUT 				1
 #define INPUT_PULLUP 		2
@@ -12,8 +14,8 @@ namespace arduino
 	namespace gpio
 	{
 
-		void pinMode(int pin, int Pin_Mode);
-		void digitalWrite(int pin, int Pin_State);
+		void pinMode(::pinout::Pin_id pin, int Pin_Mode);
+		void digitalWrite(::pinout::Pin_id pin, int Pin_State);
 
 	}
 }

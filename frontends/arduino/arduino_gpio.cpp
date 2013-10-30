@@ -1,16 +1,17 @@
 #include <arduino_gpio.hpp>
 #include <hal/gpio.hpp>
 #include <gpio.hpp>
+#include <pinout.hpp>
 
 //TODO: must be placed in mapping file
-#define DEFAULT_GPIO_PORT							GPIOA
+#define DEFAULT_GPIO_PORT							1
 
 
 namespace arduino
 {
 	namespace gpio
 	{
-		void pinMode(int pin, int Pin_Mode)
+		void pinMode(::pinout::Pin_id pin, int Pin_Mode)
 		{
 			switch (Pin_Mode)
 			{
@@ -24,7 +25,7 @@ namespace arduino
 
 		}
 
-		void digitalWrite(int pin, int Pin_State)
+		void digitalWrite(::pinout::Pin_id pin, int Pin_State)
 		{
 			switch (Pin_State)
 			{
