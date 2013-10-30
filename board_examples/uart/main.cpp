@@ -6,7 +6,7 @@
 
 #define UNUSED(expr) do { (void)(expr); } while (0)
 
-#define CURRENT_UART  1
+#define CURRENT_UART  2
 
 //------------------------------------------------------------------------------
 
