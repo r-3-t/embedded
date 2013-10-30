@@ -90,9 +90,9 @@
 
 //------------------------------------------------------------------------------
 
-void callback (const std::string& buffer, uart::Uart& uart)
+void callback (const types::buffer& buffer, uart::Uart& uart)
 {
-  uart.send(buffer.c_str());
+  uart.send(buffer);
   uart.send("\r\n");
 }
 
