@@ -69,47 +69,103 @@ namespace stm32f1xx
 namespace gpio
 {
 
+	GPIO_TypeDef* get_GPIO_port_from_id(::pinout::Gpio_id 	GPIOId)
+	{
+
+		switch (GPIOId)
+		{
+		case 1:
+			//GPIOA
+			return GPIOA;
+			break;
+		case 2:
+			//GPIOB
+			return GPIOB;
+			break;
+		case 3:
+			//GPIOC
+			return GPIOC;
+			break;
+		case 4:
+			//GPIOD
+			return GPIOD;
+			break;
+		case 5:
+			//GPIOE
+			return GPIOE;
+			break;
+		case 6:
+			//GPIOF
+			return GPIOF;
+			break;
+		case 7:
+			//GPIOG
+			return GPIOG;
+			break;
+		default:
+			return nullptr;
+			break;
+		}
+	}
+
+	uint16_t get_GPIO_pin_from_id(::pinout::Pin_id PINId)
+	{
+
+		return (1 << PINId);
+	}
+
+	void configure_gpio_pin(::pinout::Gpio_id 	GPIOId, ::pinout::Pin_id PINId)
+	{
+		GPIO_TypeDef* Port;
+
+		Port = get_GPIO_port_from_id(GPIOId);
+
+		//TODO: error management when no GPIO port exists
+		if (Port == 0)
+		{
+			return;
+		}
+
+		::stm32f1xx::gpio::configure_gpio_pin(Port, get_GPIO_pin_from_id(PINId));
+	}
+
+	void set_pin(::pinout::Gpio_id 	GPIOId, ::pinout::Pin_id PINId)
+	{
+		GPIO_TypeDef* Port;
+
+		Port = get_GPIO_port_from_id(GPIOId);
+
+		//TODO: error management when no GPIO port exists
+		if (Port == 0)
+		{
+			return;
+		}
+
+		::stm32f1xx::gpio::set_pin(Port, get_GPIO_pin_from_id(PINId));
+	}
+
+	void reset_pin(::pinout::Gpio_id 	GPIOId, ::pinout::Pin_id PINId)
+	{
+		GPIO_TypeDef* Port;
+
+		Port = get_GPIO_port_from_id(GPIOId);
+
+		//TODO: error management when no GPIO port exists
+		if (Port == 0)
+		{
+			return;
+		}
+
+		::stm32f1xx::gpio::reset_pin(Port, get_GPIO_pin_from_id(PINId));
+	}
+
 	class GPIO : public ::gpio::PinOut
 	{
 	public:
 		GPIO(::pinout::Gpio_id 	GPIOId, ::pinout::Pin_id PINId)
 		{
-			_Gpio_Pin = 1 << PINId;
-
-			switch (GPIOId)
-			{
-			case 1:
-				//GPIOA
-				_GPIOx = GPIOA;
-				break;
-			case 2:
-				//GPIOB
-				_GPIOx = GPIOB;
-				break;
-			case 3:
-				//GPIOC
-				_GPIOx = GPIOC;
-				break;
-			case 4:
-				//GPIOD
-				_GPIOx = GPIOD;
-				break;
-			case 5:
-				//GPIOE
-				_GPIOx = GPIOE;
-				break;
-			case 6:
-				//GPIOF
-				_GPIOx = GPIOF;
-				break;
-			case 7:
-				//GPIOG
-				_GPIOx = GPIOG;
-				break;
-			default:
-				_GPIOx = nullptr;
-				break;
-			}
+			_GPIOx = get_GPIO_port_from_id(GPIOId);
+			_Gpio_Pin = get_GPIO_pin_from_id(PINId);
 
 			::stm32f1xx::gpio::configure_gpio_pin(_GPIOx, _Gpio_Pin);
 		}
