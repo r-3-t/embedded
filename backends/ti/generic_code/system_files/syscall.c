@@ -343,14 +343,15 @@ void _exit(int code)
 
 /*appropriate definition of _heap and _eheap has to be done in the linker script*/
 extern int _heap;
-extern int _eheap;
+extern int _heap_end;
 
 void* _current_heap_ptr = NULL; 
 
 caddr_t  _sbrk ( int incr )
 {
     void *prev_heap;
-    void *heap_end = &_eheap;
+    void *heap_end = &_heap_end;
+
 
     if (_current_heap_ptr == NULL)
         _current_heap_ptr = (unsigned char *)&_heap;

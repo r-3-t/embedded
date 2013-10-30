@@ -218,7 +218,7 @@ void (* const g_pfnVectors[])(void) =
 // for the "data" segment resides immediately following the "text" segment.
 //
 //*****************************************************************************
-extern unsigned long _etext;
+extern unsigned long _sidata;
 extern unsigned long _sdata;
 extern unsigned long _edata;
 extern unsigned long _sbss;
@@ -244,7 +244,7 @@ Reset_Handler(void)
     //
     // Copy the data segment initializers from flash to SRAM.
     //
-    pulSrc = &_etext;
+    pulSrc = &_sidata;
     for(pulDest = &_sdata; pulDest < &_edata; )
     {
         *pulDest++ = *pulSrc++;
