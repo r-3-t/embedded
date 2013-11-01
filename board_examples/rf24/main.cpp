@@ -15,7 +15,7 @@ HardwareSPI SPI;
 
 #define UNUSED(expr) do { (void)(expr); } while (0)
 
-#define CURRENT_UART  1
+#define CURRENT_UART  2
 
 void callback (const types::buffer& buffer, uart::Uart& uart)
 {
@@ -41,7 +41,7 @@ int main ()
 
 	uart::init_instance<uart::PolicyNotifyOnChar<'\r'>>(CURRENT_UART, callback);
 
-	RF24 radio(1,2);
+	RF24 radio(7,6);
 
 	radio.begin();
 
