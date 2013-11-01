@@ -9,7 +9,7 @@ set (HAL_IMPLEMENTED_LED 			) # no available led
 set (HAL_IMPLEMENTED_CLOCK			${BASE_HAL_DIR}/clock.hpp)
 set (HAL_IMPLEMENTED_UART			${TIX_ROOT_DIR}/hal/hal_tix_uart.hpp)
 set (HAL_IMPLEMENTED_GPIO			${TIX_ROOT_DIR}/hal/hal_tix_gpio.hpp)
-#set (HAL_IMPLEMENTED_SPI			${TIX_ROOT_DIR}/hal/hal_tix_spi.hpp)
+set (HAL_IMPLEMENTED_SPI			${TIX_ROOT_DIR}/hal/hal_tix_spi.hpp)
 set (HAL_IMPLEMENTED_PINOUT			${BASE_HAL_DIR}/pinout.hpp)
 
 
