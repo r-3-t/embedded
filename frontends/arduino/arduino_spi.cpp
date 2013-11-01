@@ -9,15 +9,7 @@ namespace arduino
 
 		void ArduinoSPI::begin()
 		{
-			  ::spi::init_instance(DEFAULT_SPI_NUMBER,     { ::spi::Configuration::_2Lines_FullDuplex,
-															  ::spi::Configuration::Master,
-															  ::spi::Configuration::Low,
-															  ::spi::Configuration::_1_Edge,
-															  ::spi::Configuration::Soft,
-															  ::spi::Configuration::_4,
-															  ::spi::Configuration::MSB,
-															  8
-										});
+			  ::spi::init_instance(DEFAULT_SPI_NUMBER);
 			return;
 		}
 
