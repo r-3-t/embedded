@@ -43,11 +43,13 @@ namespace spi {
 		FirstBitTransmission_t firstBitTransmission;            /*!< Specifies whether data transfers start from MSB or LSB bit.
 											This parameter can be a value of @ref SPI_MSB_LSB_transmission */
 
-		uint16_t CRCPolynomial;       /*!< Specifies the polynomial used for the CRC calculation. */
+		unsigned long CRCPolynomial;       /*!< Specifies the polynomial used for the CRC calculation. */
+
+		unsigned long DataRate;       /*!< Specifies the data rate. */
 
 		static Configuration _default()
 		{
-			return {_2Lines_FullDuplex, Master, /*_8b,*/ Low, _1_Edge, Soft, _2, MSB, 7};
+			return {_2Lines_FullDuplex, Master, /*_8b,*/ Low, _1_Edge, Soft, _2, MSB, 8, 1000000};
 		}
 	};
 
