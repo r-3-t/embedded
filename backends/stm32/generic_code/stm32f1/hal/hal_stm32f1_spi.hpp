@@ -92,26 +92,26 @@ namespace  spi {
 			if (conf_2_mode(config.mode) == SPI_Mode_Master)
 			{
 				//master
-				::gpio::configure_pin(GPIOx, GPIO_Pin_SCK, GPIO_Mode_AF_PP);
-				::gpio::configure_pin(GPIOx, GPIO_Pin_MOSI, GPIO_Mode_AF_PP);
-				::gpio::configure_pin(GPIOx, GPIO_Pin_MISO, GPIO_Mode_IN_FLOATING);
+				::stm32f1xx::gpio::configure_pin(GPIOx, GPIO_Pin_SCK, GPIO_Mode_AF_PP);
+				::stm32f1xx::gpio::configure_pin(GPIOx, GPIO_Pin_MOSI, GPIO_Mode_AF_PP);
+				::stm32f1xx::gpio::configure_pin(GPIOx, GPIO_Pin_MISO, GPIO_Mode_IN_FLOATING);
 				if (conf_2_SlaveSelectManagement(config.slaveSelectManagement) == SPI_NSS_Hard)
 				{
 					//nss hard
-					::gpio::configure_pin(GPIOx, GPIO_Pin_NSS, GPIO_Mode_AF_PP);
+					::stm32f1xx::gpio::configure_pin(GPIOx, GPIO_Pin_NSS, GPIO_Mode_AF_PP);
 				}
 
 			}
 			else
 			{
 				//slave
-				::gpio::configure_pin(GPIOx, GPIO_Pin_SCK, GPIO_Mode_IN_FLOATING);
-				::gpio::configure_pin(GPIOx, GPIO_Pin_MOSI, GPIO_Mode_IN_FLOATING);
-				::gpio::configure_pin(GPIOx, GPIO_Pin_MISO, GPIO_Mode_AF_PP);
+				::stm32f1xx::gpio::configure_pin(GPIOx, GPIO_Pin_SCK, GPIO_Mode_IN_FLOATING);
+				::stm32f1xx::gpio::configure_pin(GPIOx, GPIO_Pin_MOSI, GPIO_Mode_IN_FLOATING);
+				::stm32f1xx::gpio::configure_pin(GPIOx, GPIO_Pin_MISO, GPIO_Mode_AF_PP);
 				if (conf_2_SlaveSelectManagement(config.slaveSelectManagement) == SPI_NSS_Hard)
 				{
 					//nss hard
-					::gpio::configure_pin(GPIOx, GPIO_Pin_NSS, GPIO_Mode_IN_FLOATING);
+					::stm32f1xx::gpio::configure_pin(GPIOx, GPIO_Pin_NSS, GPIO_Mode_IN_FLOATING);
 				}
 
 			}
