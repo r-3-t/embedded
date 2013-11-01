@@ -117,6 +117,7 @@ list(APPEND MCU_SYSTEM_FILES_SOURCES  "${SYSTEM_FILES_DIR}/system_stm32f4xx.c")
 list(APPEND MCU_SYSTEM_FILES_SOURCES "${SYSTEM_FILES_DIR}/startup_stm32f4xx.s")
 ################################################################################
 
+list(APPEND MCU_SYSTEM_FILES_SOURCES "${SYSTEM_FILES_DIR}/interruption.cpp")
 
 ################################################################################
 # find STM32F4xx Devices vector table

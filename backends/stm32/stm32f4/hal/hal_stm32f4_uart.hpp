@@ -209,24 +209,6 @@ namespace  uart {
 		USART_TypeDef* _USARTx;
 	};
 
-	#define USART_IRQ_CALLBACK(UsartX)	void USART##UsartX##_IRQn()										\
-										{																\
-										    ::uart::get_instance(UsartX).accumulator(USART##UsartX ->DR);		\
-										}
-
-	#define UART_IRQ_CALLBACK(UartX)	void UART##UartX##_IRQn()										\
-										{																\
-										    ::uart::get_instance(UartX).accumulator(UART##UartX ->DR);		\
-										}
-
-
-	USART_IRQ_CALLBACK(1)
-	USART_IRQ_CALLBACK(2)
-	USART_IRQ_CALLBACK(3)
-	UART_IRQ_CALLBACK(4)
-	UART_IRQ_CALLBACK(5)
-	USART_IRQ_CALLBACK(6)
-
 
 	static ::uart::Uart* gpUart_1 = nullptr;
 	static ::uart::Uart* gpUart_2 = nullptr;
@@ -245,13 +227,13 @@ namespace  uart {
 
 namespace uart
 {
-	unsigned int	num_instance()
+	inline unsigned int	num_instance()
 	{
 		return 6;
 	}
 
 	template <class Policy>
-	void init_instance(unsigned int id,  ::uart::Uart::uart_callback callback, Configuration config = Configuration::_9600_8_N_1())
+	inline void init_instance(unsigned int id,  ::uart::Uart::uart_callback callback, Configuration config = Configuration::_9600_8_N_1())
 	{
 		switch (id)
 		{
@@ -264,7 +246,7 @@ namespace uart
 		}	
 	}
 
-	Uart& get_instance(unsigned int id)
+	inline Uart& get_instance(unsigned int id)
 	{
 		switch (id)
 		{
