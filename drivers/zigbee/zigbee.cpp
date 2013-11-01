@@ -1,9 +1,9 @@
-#include "Zigbee.hpp"
+#include "zigbee.hpp"
 #include "clock.hpp"
 #include <sstream>
 #include <string.h>
 
-namespace wirelless
+namespace wireless
 {
 
 	//__________________________________________________________________________

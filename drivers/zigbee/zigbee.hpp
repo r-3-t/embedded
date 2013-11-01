@@ -4,7 +4,7 @@
 #include <uart.hpp>
 #include <types.hpp>
 
-namespace wirelless
+namespace wireless
 {
 	class Zigbee
 	{
