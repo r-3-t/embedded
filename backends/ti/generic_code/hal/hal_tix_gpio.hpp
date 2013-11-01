@@ -73,7 +73,7 @@ namespace tix
 namespace gpio
 {
 
-	unsigned long get_GPIO_port_from_id(::pinout::Gpio_id 	GPIOId)
+	inline unsigned long get_GPIO_port_from_id(::pinout::Gpio_id 	GPIOId)
 	{
 
 		switch (GPIOId)
@@ -116,13 +116,13 @@ namespace gpio
 		}
 	}
 
-	unsigned long get_GPIO_pin_from_id(::pinout::Pin_id PINId)
+	inline unsigned long get_GPIO_pin_from_id(::pinout::Pin_id PINId)
 	{
 
 		return (1 << PINId);
 	}
 
-	void configure_gpio_pin(::pinout::Gpio_id 	GPIOId, ::pinout::Pin_id PINId)
+	inline void configure_gpio_pin(::pinout::Gpio_id 	GPIOId, ::pinout::Pin_id PINId)
 	{
 		unsigned long ulPort;
 
@@ -137,7 +137,7 @@ namespace gpio
 		::tix::gpio::configure_gpio_pin(ulPort, get_GPIO_pin_from_id(PINId));
 	}
 
-	void set_pin(::pinout::Gpio_id 	GPIOId, ::pinout::Pin_id PINId)
+	inline void set_pin(::pinout::Gpio_id 	GPIOId, ::pinout::Pin_id PINId)
 	{
 		unsigned long ulPort;
 
@@ -152,7 +152,7 @@ namespace gpio
 		::tix::gpio::set_pin(ulPort, get_GPIO_pin_from_id(PINId));
 	}
 
-	void reset_pin(::pinout::Gpio_id 	GPIOId, ::pinout::Pin_id PINId)
+	inline void reset_pin(::pinout::Gpio_id 	GPIOId, ::pinout::Pin_id PINId)
 	{
 		unsigned long ulPort;
 

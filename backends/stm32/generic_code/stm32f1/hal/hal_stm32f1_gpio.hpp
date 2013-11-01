@@ -69,7 +69,7 @@ namespace stm32f1xx
 namespace gpio
 {
 
-	GPIO_TypeDef* get_GPIO_port_from_id(::pinout::Gpio_id 	GPIOId)
+	inline GPIO_TypeDef* get_GPIO_port_from_id(::pinout::Gpio_id 	GPIOId)
 	{
 
 		switch (GPIOId)
@@ -108,13 +108,13 @@ namespace gpio
 		}
 	}
 
-	uint16_t get_GPIO_pin_from_id(::pinout::Pin_id PINId)
+	inline uint16_t get_GPIO_pin_from_id(::pinout::Pin_id PINId)
 	{
 
 		return (1 << PINId);
 	}
 
-	void configure_gpio_pin(::pinout::Gpio_id 	GPIOId, ::pinout::Pin_id PINId)
+	inline void configure_gpio_pin(::pinout::Gpio_id 	GPIOId, ::pinout::Pin_id PINId)
 	{
 		GPIO_TypeDef* Port;
 
@@ -129,7 +129,7 @@ namespace gpio
 		::stm32f1xx::gpio::configure_gpio_pin(Port, get_GPIO_pin_from_id(PINId));
 	}
 
-	void set_pin(::pinout::Gpio_id 	GPIOId, ::pinout::Pin_id PINId)
+	inline void set_pin(::pinout::Gpio_id 	GPIOId, ::pinout::Pin_id PINId)
 	{
 		GPIO_TypeDef* Port;
 
@@ -144,7 +144,7 @@ namespace gpio
 		::stm32f1xx::gpio::set_pin(Port, get_GPIO_pin_from_id(PINId));
 	}
 
-	void reset_pin(::pinout::Gpio_id 	GPIOId, ::pinout::Pin_id PINId)
+	inline void reset_pin(::pinout::Gpio_id 	GPIOId, ::pinout::Pin_id PINId)
 	{
 		GPIO_TypeDef* Port;
 
