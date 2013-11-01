@@ -109,12 +109,12 @@ namespace uart {
 	/** return the number of available uart on the target system
 		@return the number of available uart on the target system
 	*/
-	unsigned int	num_instance();
+	inline unsigned int	num_instance();
 
 	template <class T>
-	void init_instance(unsigned int id, Uart::uart_callback callback, Configuration config = Configuration::_9600_8_N_1());
+	inline void init_instance(unsigned int id, Uart::uart_callback callback, Configuration config = Configuration::_9600_8_N_1());
 
-	Uart& get_instance(unsigned int id);
+	inline Uart& get_instance(unsigned int id);
 
 	//--------------------------------------------------------------------------
 	template <typename Policy>
