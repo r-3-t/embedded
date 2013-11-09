@@ -42,6 +42,7 @@ add_hal_files(HAL_IMPLEMENTED_LED		"led")
 add_hal_files(HAL_IMPLEMENTED_CLOCK		"clock")
 add_hal_files(HAL_IMPLEMENTED_UART		"uart")
 add_hal_files(HAL_IMPLEMENTED_GPIO		"gpio")
+add_hal_files(HAL_IMPLEMENTED_EXTINT		"extint")
 add_hal_files(HAL_IMPLEMENTED_SPI		"spi")
 add_hal_files(HAL_IMPLEMENTED_PINOUT	"pinout")
 
