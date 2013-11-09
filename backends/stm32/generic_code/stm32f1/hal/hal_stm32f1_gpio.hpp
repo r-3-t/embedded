@@ -51,6 +51,11 @@ namespace stm32f1xx
 			configure_pin(GPIOx, GPIO_Pin, GPIO_Mode_Out_PP);
 		}
 
+		inline void configure_extint_pin(GPIO_TypeDef* 	GPIOx, uint16_t		GPIO_Pin)
+		{
+			configure_pin(GPIOx, GPIO_Pin, GPIO_Mode_IN_FLOATING);
+		}
+
 		inline void set_pin(GPIO_TypeDef* 	GPIOx, uint16_t		GPIO_Pin)
 		{
 			GPIO_SetBits(GPIOx, GPIO_Pin);
