@@ -13,6 +13,7 @@ set (HAL_IMPLEMENTED_LED 			) # no available led
 set (HAL_IMPLEMENTED_CLOCK			${BASE_HAL_DIR}/clock.hpp)
 set (HAL_IMPLEMENTED_UART			${STM32F1_ROOT_DIR}/hal/hal_stm32f1_uart.hpp)
 set (HAL_IMPLEMENTED_GPIO			${STM32F1_ROOT_DIR}/hal/hal_stm32f1_gpio.hpp)
+set (HAL_IMPLEMENTED_EXTINT			${STM32F1_ROOT_DIR}/hal/hal_stm32f1_extint.hpp)
 set (HAL_IMPLEMENTED_SPI			${STM32F1_ROOT_DIR}/hal/hal_stm32f1_spi.hpp)
 
 set (_RAM_SIZE				20K)
