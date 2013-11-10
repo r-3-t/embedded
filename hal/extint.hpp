@@ -30,7 +30,7 @@ namespace extint {
 
 	void init_instance(::pinout::Pin_id PINId, ::pinout::Gpio_id 	GPIOId, InterruptTrigger_T Triiger, callback_T callback);
 
-	Extint& get_instance(::pinout::Pin_id PINId);
+	Extint* get_instance(::pinout::Pin_id PINId);
 
 
 }
