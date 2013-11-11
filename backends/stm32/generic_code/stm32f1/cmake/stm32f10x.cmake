@@ -8,11 +8,11 @@ set (SYSTEM_FILES_DIR "${STM32F10x_ROOT_DIR}/system_files")
 
 ################################################################################
 # stm32f4 system headers
-include_directories(${SYSTEM_FILES_DIR})
-include_directories(${STM32F1_ROOT_DIR}/system_files/STM32F10x_StdPeriph_Driver/inc/)
-include_directories(${STM32F1_ROOT_DIR}/system_files)
-include_directories(${STM32F1_ROOT_DIR}/../stm32fx/)
-
+set (TARGET_INCLUDE_DIRECTORIES ${SYSTEM_FILES_DIR}
+								${STM32F1_ROOT_DIR}/system_files/STM32F10x_StdPeriph_Driver/inc/
+								${STM32F1_ROOT_DIR}/system_files
+								${STM32F1_ROOT_DIR}/../stm32fx/
+								CACHE STRING "TARGET_INCLUDE_DIRECTORIES")
 ################################################################################
 # stm32f4 system sources
 set(STM32F1xx_StdPeriph_Driver		${STM32F1_ROOT_DIR}/system_files/STM32F10x_StdPeriph_Driver)

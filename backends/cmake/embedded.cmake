@@ -1,16 +1,16 @@
-if (_EMBEDDED)
-	return()
-endif()
-set (EMBEDDED on PARENT_SCOPE)
+#if (_EMBEDDED)
+#	return()
+#endif()
+#set (_EMBEDDED on CACHE STRING "embedded" FORCE)
 
 if (NOT CMAKE_BUILD_TYPE)
-	set (CMAKE_BUILD_TYPE Release)
+	set (CMAKE_BUILD_TYPE Release CACHE STRING "CMAKE_BUILD_TYPE" FORCE)
 endif()
 
 include (supported_architecture)
 
 # this is the hal base folder (located at the very top of the project)
-set (BASE_HAL_DIR			"${CMAKE_CURRENT_LIST_DIR}/../../hal/")
+set (BASE_HAL_DIR			"${CMAKE_CURRENT_LIST_DIR}/../../hal/" CACHE STRING "hal base dir")
 
 
 # if the user has not given a arch : print the available arch and return 
@@ -48,6 +48,9 @@ include(copy_hal_files_helper)
 
 # include the arm-none-eabi-gcc which set the compiler
 include (arm-none-eabi-gcc)
+
+# create the embedded library
+include (embedded_library)
 
 # hook add executable to append the system ans hal files
 include (add_executable_hook)

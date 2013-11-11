@@ -13,8 +13,13 @@ if (PROJECT_DRIVERS)
 	endforeach()
 endif()
 
-message ("creating : ${PROJECT_NAME}.elf}")
-ADD_EXECUTABLE(${PROJECT_NAME}.elf		${PROJECT_SOURCES})
+include_directories(${BASE_HAL_DIR}/)
+include_directories(${HAL_DIR})
+include_directories(${TARGET_INCLUDE_DIRECTORIES})
+
+ADD_EXECUTABLE(${PROJECT_NAME}.elf	${PROJECT_SOURCES})
+
+target_link_libraries(${PROJECT_NAME}.elf embedded)
 
 ADD_CUSTOM_TARGET(${PROJECT_NAME}.bin ALL DEPENDS ${PROJECT_NAME}.elf COMMAND ${OBJCOPY} -O binary ${PROJECT_NAME}.elf ${PROJECT_NAME}.bin)
 

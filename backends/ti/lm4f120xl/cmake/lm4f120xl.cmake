@@ -1,5 +1,3 @@
-INCLUDE(CMakeForceCompiler)
-
 set (LM4F120_ROOT_DIR		"${CMAKE_CURRENT_LIST_DIR}/../")
 set (TIX_ROOT_DIR		"${CMAKE_CURRENT_LIST_DIR}/../../generic_code/")
 list(APPEND MCU_HAL_FILES_SOURCES ${TIX_ROOT_DIR}/hal/hal_tix_clock.cpp)
