@@ -1,3 +1,8 @@
+if (_COPY_HAL_FILES_HELPER)
+	return()
+endif()
+set (if (_COPY_HAL_FILES_HELPER) on)
+
 ################################################################################
 # HAL FILES
 

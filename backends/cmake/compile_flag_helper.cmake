@@ -14,8 +14,6 @@ function (set_compile_flags file_list c_compile_flag cxx_compile_flag asm_compil
 			set (COMPILE_FLAGS	${${c_compile_flag}})
 		elseif (${file_ext} MATCHES ".*\\.s$")
 			set (COMPILE_FLAGS	${${asm_compile_flag}})
-		else ()
-			message ("ignoring file : ${file}")
 		endif()
 
 		if (COMPILE_FLAGS)
