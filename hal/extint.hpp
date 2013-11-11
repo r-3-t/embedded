@@ -26,11 +26,11 @@ namespace extint {
 
 	};
 
-	unsigned int	num_instance();
+	inline unsigned int	num_instance();
 
-	void init_instance(::pinout::Pin_id PINId, ::pinout::Gpio_id 	GPIOId, InterruptTrigger_T Triiger, callback_T callback);
+	inline void init_instance(::pinout::Pin_id PINId, ::pinout::Gpio_id 	GPIOId, InterruptTrigger_T Triiger, callback_T callback);
 
-	Extint* get_instance(::pinout::Pin_id PINId);
+	inline Extint* get_instance(::pinout::Pin_id PINId);
 
 
 }
