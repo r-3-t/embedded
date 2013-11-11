@@ -11,6 +11,52 @@ namespace stm32f1xx
 {
 	namespace gpio
 	{
+
+		inline GPIO_TypeDef* get_GPIO_port_from_id(::pinout::Gpio_id 	GPIOId)
+		{
+
+			switch (GPIOId)
+			{
+			case 1:
+				//GPIOA
+				return GPIOA;
+				break;
+			case 2:
+				//GPIOB
+				return GPIOB;
+				break;
+			case 3:
+				//GPIOC
+				return GPIOC;
+				break;
+			case 4:
+				//GPIOD
+				return GPIOD;
+				break;
+			case 5:
+				//GPIOE
+				return GPIOE;
+				break;
+			case 6:
+				//GPIOF
+				return GPIOF;
+				break;
+			case 7:
+				//GPIOG
+				return GPIOG;
+				break;
+			default:
+				return nullptr;
+				break;
+			}
+		}
+
+		inline uint16_t get_GPIO_pin_from_id(::pinout::Pin_id PINId)
+		{
+
+			return (1 << PINId);
+		}
+
 		inline void configure_pin(GPIO_TypeDef* 	GPIOx, uint16_t		GPIO_Pin, GPIOMode_TypeDef GpioMode)
 		{
 			uint32_t	  RCC_AHBxPeriph_GPIOx;
@@ -56,6 +102,11 @@ namespace stm32f1xx
 			configure_pin(GPIOx, GPIO_Pin, GPIO_Mode_IN_FLOATING);
 		}
 
+		inline void configure_pwm_pin(GPIO_TypeDef* 	GPIOx, uint16_t		GPIO_Pin)
+		{
+			configure_pin(GPIOx, GPIO_Pin, GPIO_Mode_AF_PP);
+		}
+
 		inline void set_pin(GPIO_TypeDef* 	GPIOx, uint16_t		GPIO_Pin)
 		{
 			GPIO_SetBits(GPIOx, GPIO_Pin);
@@ -74,56 +125,11 @@ namespace stm32f1xx
 namespace gpio
 {
 
-	inline GPIO_TypeDef* get_GPIO_port_from_id(::pinout::Gpio_id 	GPIOId)
-	{
-
-		switch (GPIOId)
-		{
-		case 1:
-			//GPIOA
-			return GPIOA;
-			break;
-		case 2:
-			//GPIOB
-			return GPIOB;
-			break;
-		case 3:
-			//GPIOC
-			return GPIOC;
-			break;
-		case 4:
-			//GPIOD
-			return GPIOD;
-			break;
-		case 5:
-			//GPIOE
-			return GPIOE;
-			break;
-		case 6:
-			//GPIOF
-			return GPIOF;
-			break;
-		case 7:
-			//GPIOG
-			return GPIOG;
-			break;
-		default:
-			return nullptr;
-			break;
-		}
-	}
-
-	inline uint16_t get_GPIO_pin_from_id(::pinout::Pin_id PINId)
-	{
-
-		return (1 << PINId);
-	}
-
 	inline void configure_gpio_pin(::pinout::Gpio_id 	GPIOId, ::pinout::Pin_id PINId)
 	{
 		GPIO_TypeDef* Port;
 
-		Port = get_GPIO_port_from_id(GPIOId);
+		Port = ::stm32f1xx::gpio::get_GPIO_port_from_id(GPIOId);
 
 		//TODO: error management when no GPIO port exists
 		if (Port == 0)
@@ -131,14 +137,14 @@ namespace gpio
 			return;
 		}
 
-		::stm32f1xx::gpio::configure_gpio_pin(Port, get_GPIO_pin_from_id(PINId));
+		::stm32f1xx::gpio::configure_gpio_pin(Port, ::stm32f1xx::gpio::get_GPIO_pin_from_id(PINId));
 	}
 
 	inline void set_pin(::pinout::Gpio_id 	GPIOId, ::pinout::Pin_id PINId)
 	{
 		GPIO_TypeDef* Port;
 
-		Port = get_GPIO_port_from_id(GPIOId);
+		Port = stm32f1xx::gpio::get_GPIO_port_from_id(GPIOId);
 
 		//TODO: error management when no GPIO port exists
 		if (Port == 0)
@@ -146,14 +152,14 @@ namespace gpio
 			return;
 		}
 
-		::stm32f1xx::gpio::set_pin(Port, get_GPIO_pin_from_id(PINId));
+		::stm32f1xx::gpio::set_pin(Port, ::stm32f1xx::gpio::get_GPIO_pin_from_id(PINId));
 	}
 
 	inline void reset_pin(::pinout::Gpio_id 	GPIOId, ::pinout::Pin_id PINId)
 	{
 		GPIO_TypeDef* Port;
 
-		Port = get_GPIO_port_from_id(GPIOId);
+		Port = ::stm32f1xx::gpio::get_GPIO_port_from_id(GPIOId);
 
 		//TODO: error management when no GPIO port exists
 		if (Port == 0)
@@ -161,7 +167,7 @@ namespace gpio
 			return;
 		}
 
-		::stm32f1xx::gpio::reset_pin(Port, get_GPIO_pin_from_id(PINId));
+		::stm32f1xx::gpio::reset_pin(Port, ::stm32f1xx::gpio::get_GPIO_pin_from_id(PINId));
 	}
 
 	class GPIO : public ::gpio::PinOut
@@ -169,8 +175,8 @@ namespace gpio
 	public:
 		GPIO(::pinout::Gpio_id 	GPIOId, ::pinout::Pin_id PINId)
 		{
-			_GPIOx = get_GPIO_port_from_id(GPIOId);
-			_Gpio_Pin = get_GPIO_pin_from_id(PINId);
+			_GPIOx = ::stm32f1xx::gpio::get_GPIO_port_from_id(GPIOId);
+			_Gpio_Pin = ::stm32f1xx::gpio::get_GPIO_pin_from_id(PINId);
 
 			::stm32f1xx::gpio::configure_gpio_pin(_GPIOx, _Gpio_Pin);
 		}
