@@ -1,3 +1,8 @@
+if (_EMBEDDED)
+	return()
+endif()
+set (EMBEDDED on PARENT_SCOPE)
+
 if (NOT CMAKE_BUILD_TYPE)
 	set (CMAKE_BUILD_TYPE Release)
 endif()

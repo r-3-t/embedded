@@ -1,7 +1,7 @@
 if (_ADD_EXECUTABLE_HOOK)
 	return()
 endif()
-
+set (_ADD_EXECUTABLE_HOOK on PARENT_SCOPE)
 
 # save the default debug/release flags
 SET(SAVE_CMAKE_C_FLAGS_DEBUG 		${CMAKE_C_FLAGS_DEBUG})
@@ -63,6 +63,3 @@ function(add_executable ...)
 	add_dependencies(${_executable_name} _stm32f10x_core_library)
 endfunction()
 
-
-
-set (_ADD_EXECUTABLE_HOOK on)
