@@ -1,7 +1,7 @@
 if (_COPY_HAL_FILES_HELPER)
 	return()
 endif()
-set (if (_COPY_HAL_FILES_HELPER) on)
+set (_COPY_HAL_FILES_HELPER on CACHE STRING "_COPY_HAL_FILES_HELPER")
 
 ################################################################################
 # HAL FILES
@@ -54,6 +54,4 @@ add_hal_files(HAL_IMPLEMENTED_TIMER		"Timer")
 add_hal_files(HAL_IMPLEMENTED_SPI		"Spi")
 add_hal_files(HAL_IMPLEMENTED_PINOUT		"Pinout")
 
-
-include_directories(${CMAKE_BINARY_DIR})
-include_directories(${BASE_HAL_DIR})
+set (HAL_DIR ${CMAKE_BINARY_DIR}/ CACHE STRING "HAL_DIR")

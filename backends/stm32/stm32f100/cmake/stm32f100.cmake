@@ -1,6 +1,3 @@
-INCLUDE(CMakeForceCompiler)
-
-
 set (STM32F1_ROOT_DIR		"${CMAKE_CURRENT_LIST_DIR}/../../generic_code/stm32f1")
 set (STM32F10x_ROOT_DIR		"${CMAKE_CURRENT_LIST_DIR}/..")
 

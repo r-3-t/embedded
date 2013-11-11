@@ -1,5 +1,3 @@
-INCLUDE(CMakeForceCompiler)
-
 set (LM4F120_ROOT_DIR		"${CMAKE_CURRENT_LIST_DIR}/../")
 set (TIX_ROOT_DIR		"${CMAKE_CURRENT_LIST_DIR}/../../generic_code/")
 

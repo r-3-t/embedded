@@ -6,11 +6,13 @@ list(APPEND MCU_HAL_FILES_SOURCES ${TIX_ROOT_DIR}/hal/hal_tix_gpio.cpp)
 ################################################################################
 # TI system headers
 set(TIX_LIBRARY_PATH ${TIX_ROOT_DIR}/system_files/)
-include_directories(${TIX_ROOT_DIR})
-include_directories(${TIX_LIBRARY_PATH})
-include_directories(${TIX_LIBRARY_PATH}/inc/)
-include_directories(${TIX_LIBRARY_PATH}/driverlib/)
-include_directories(${TIX_ROOT_DIR}/system_files/)
+set (TARGET_INCLUDE_DIRECTORIES		${TIX_ROOT_DIR}
+									${TIX_LIBRARY_PATH}
+									${TIX_LIBRARY_PATH}/inc/
+									${TIX_LIBRARY_PATH}/driverlib/
+									${TIX_ROOT_DIR}/system_files/
+									CACHE STRING "TARGET_INCLUDE_DIRECTORIES")
+
 
 # for SysCtlDelay in sysctl.c
 add_definitions(-Dgcc)

@@ -1,5 +1,3 @@
-INCLUDE(CMakeForceCompiler)
-
 set (STM32F4_ROOT_DIR		"${CMAKE_CURRENT_LIST_DIR}/..")
 
 # hal files for stm32f100
@@ -18,11 +16,11 @@ set (SYSTEM_FILES_DIR "${CMAKE_CURRENT_LIST_DIR}/../system_files")
 
 ################################################################################
 # stm32f4 system headers
-include_directories(${SYSTEM_FILES_DIR})
-include_directories(${SYSTEM_FILES_DIR}/STM32F4xx_StdPeriph_Driver/inc/)
-include_directories(${SYSTEM_FILES_DIR}/CMSIS/)
-include_directories("${STM32F4_ROOT_DIR}/../generic_code/stm32fx/")
-
+set (TARGET_INCLUDE_DIRECTORIES ${SYSTEM_FILES_DIR}
+								${SYSTEM_FILES_DIR}/STM32F4xx_StdPeriph_Driver/inc/
+								${SYSTEM_FILES_DIR}/CMSIS/
+								"${STM32F4_ROOT_DIR}/../generic_code/stm32fx/"
+								CACHE STRING "TARGET_INCLUDE_DIRECTORIES")
 
 ################################################################################
 # stm32f4 system sources
