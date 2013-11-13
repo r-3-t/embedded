@@ -1,7 +1,7 @@
 #pragma once
 
 #include <types.hpp>
-#include <functional>
+//#include <functional>
 
 
 namespace uart {
@@ -9,8 +9,8 @@ namespace uart {
 	class Uart
 	{
 	public:
-		//typedef void (*uart_callback)(const types::buffer&, uart::Uart&);
-		typedef std::function<void (const types::buffer&, uart::Uart&)> uart_callback;
+		typedef void (*uart_callback)(const types::buffer&, uart::Uart&);
+		//typedef std::function<void (const types::buffer&, uart::Uart&)> uart_callback;
 
 		Uart(uart_callback callback) : _callback(callback){};
 		virtual void send(const char* const str)								= 0;
