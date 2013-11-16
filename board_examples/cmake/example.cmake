@@ -22,7 +22,7 @@ include_directories(${TARGET_INCLUDE_DIRECTORIES})
 
 ADD_EXECUTABLE(${PROJECT_NAME}.elf	${PROJECT_SOURCES})
 
-target_link_libraries(${PROJECT_NAME}.elf embedded)
+target_link_libraries(${PROJECT_NAME}.elf -Wl,--whole-archive embedded -Wl,--no-whole-archive)
 
 ADD_CUSTOM_TARGET(${PROJECT_NAME}.bin ALL DEPENDS ${PROJECT_NAME}.elf COMMAND ${OBJCOPY} -O binary ${PROJECT_NAME}.elf ${PROJECT_NAME}.bin)
 
