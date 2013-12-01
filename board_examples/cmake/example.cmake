@@ -2,6 +2,9 @@
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/../../backends/cmake/)
 include(embedded)
 
+#add pinout support
+include(${CMAKE_CURRENT_LIST_DIR}/../../backends/generic_code/pinout/cmake/Pinout.cmake)
+
 if (PROJECT_DRIVERS)
 	foreach (driver ${PROJECT_DRIVERS})
 		if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/../../drivers/${driver})

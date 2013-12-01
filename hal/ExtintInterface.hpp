@@ -1,8 +1,5 @@
 #pragma once
 
-#include <pinout.hpp>
-#include <functional>
-
 namespace extint {
 
 	//external interrupt callback function
@@ -14,23 +11,18 @@ namespace extint {
 		RisingFallingTrigger,
 	} InterruptTrigger_T;
 
-	class Extint
+	class ExtintInterface
 	{
 	public:
-		Extint() {}
+		ExtintInterface() {}
 
 		virtual bool triggered () = 0;
 		virtual void clear() = 0;
+		virtual bool is_high() = 0;
+		virtual void disable() = 0;
 
 		callback_T _callback;
 
 	};
-
-	inline unsigned int	num_instance();
-
-	inline void init_instance(::pinout::Pin_id PINId, ::pinout::Gpio_id 	GPIOId, InterruptTrigger_T Triiger, callback_T callback);
-
-	inline Extint* get_instance(::pinout::Pin_id PINId);
-
 
 }

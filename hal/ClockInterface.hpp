@@ -3,7 +3,8 @@
 namespace clock
 {
 	unsigned int getTickCount();
-	constexpr unsigned int getTickPerMs(); 
+	unsigned int getTickPerMs();
 
 	void msleep(unsigned int nTime);
+	void usleep(unsigned int nTime);
 }

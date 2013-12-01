@@ -31,4 +31,14 @@ namespace pinout {
 	const std::vector<Pin_Description>& PinDescription();
 
 	unsigned int NumPin();
+
+	class PinoutInterface
+	{
+	public:
+		PinoutInterface() {}
+
+		virtual void high() = 0;
+		virtual void low() = 0;
+	};
+
 }
