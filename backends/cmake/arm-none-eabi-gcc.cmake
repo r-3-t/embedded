@@ -64,8 +64,8 @@ SET(CMAKE_C_FLAGS_RELEASE "-O${OPTIM_LEVEL} ${COMPIL_FLAGS_LTO}")
 SET(CMAKE_CXX_FLAGS_RELEASE "-O${OPTIM_LEVEL} ${COMPIL_FLAGS_LTO}")
 SET(CMAKE_ASM_FLAGS_RELEASE "")
 
-SET(CMAKE_CXX_LINK_FLAGS "${MCFLAGS} -T${LDSCRIPT} -Wl,--gc-sections --specs=nano.specs ${LINK_FLAGS_LTO}")
-SET(CMAKE_C_LINK_FLAGS "${MCFLAGS} -T${LDSCRIPT} -Wl,--gc-sections --specs=nano.specs ${LINK_FLAGS_LTO}")
+SET(CMAKE_CXX_LINK_FLAGS "${MCFLAGS} -T${LDSCRIPT} -Wl,--gc-sections --specs=nano.specs -u _printf_float ${LINK_FLAGS_LTO}")
+SET(CMAKE_C_LINK_FLAGS "${MCFLAGS} -T${LDSCRIPT} -Wl,--gc-sections --specs=nano.specs -u _printf_float ${LINK_FLAGS_LTO}")
 
 
 SET(CMAKE_CROSSCOMPILING TRUE) 
