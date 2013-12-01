@@ -1,19 +1,34 @@
-
-#include <hal/clock.hpp>
-#include <hal/uart.hpp>
+/******************************************************************************\
+		INCLUDES
+\******************************************************************************/
+#include <hal/Clock.hpp>
+#include <hal/Uart.hpp>
 
 #include <stdio.h>
 
-#define UNUSED(expr) do { (void)(expr); } while (0)
+/******************************************************************************\
+		DEFINES
+\******************************************************************************/
+#define CURRENT_UART  1
 
-#define CURRENT_UART  2
+/******************************************************************************\
+		PROTOTYPES
+\******************************************************************************/
+void callback (const uint8_t c);
 
-//------------------------------------------------------------------------------
+/******************************************************************************\
+		GLOBALS
+\******************************************************************************/
+::uart::ConcreteUart UartCommand(CURRENT_UART, &callback);
 
-void callback (const types::buffer& buffer, uart::Uart& uart)
+/******************************************************************************\
+		FUNCTIONS
+\******************************************************************************/
+
+void callback (const uint8_t c)
 {
-  uart.send(buffer);
-  uart.send("\r\n");
+	UartCommand.send(&c, sizeof(c));
+	UartCommand.send("\r\n");
 }
 
 //------------------------------------------------------------------------------
@@ -22,15 +37,13 @@ extern "C"
 {
 void write_stdout (const unsigned char* ptr, unsigned int len)
 {
-  uart::get_instance(CURRENT_UART).send(ptr, len);
+	UartCommand.send(ptr, len);
 }
 }
 //------------------------------------------------------------------------------
 
 int main(void)
 {
-  uart::init_instance<uart::PolicyNotifyOnChar<'\r'>>(CURRENT_UART, callback);
-
   unsigned char Idx = 0;
   while(1)
   {
