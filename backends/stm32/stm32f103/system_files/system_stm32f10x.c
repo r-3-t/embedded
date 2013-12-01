@@ -71,6 +71,10 @@
      If you are using different crystal you have to adapt those functions accordingly.
     */
     
+#ifdef USE_HSI
+#define SYSCLK_HSI_FREQ_48MHz	48000000
+#else
+
 #if defined (STM32F10X_LD_VL) || (defined STM32F10X_MD_VL) 
 /* #define SYSCLK_FREQ_HSE    HSE_Value */
  #define SYSCLK_FREQ_24MHz  24000000
@@ -82,6 +86,8 @@
 /* #define SYSCLK_FREQ_56MHz  56000000 */
 #define SYSCLK_FREQ_72MHz  72000000
 #endif
+
+#endif //USE_HSI
 
 /*!< Uncomment the following line if you need to use external SRAM mounted
      on STM3210E-EVAL board (STM32 High density and XL-density devices) as data memory  */ 
@@ -120,6 +126,8 @@
   uint32_t SystemCoreClock         = SYSCLK_FREQ_56MHz;        /*!< System Clock Frequency (Core Clock) */
 #elif defined SYSCLK_FREQ_72MHz
   uint32_t SystemCoreClock         = SYSCLK_FREQ_72MHz;        /*!< System Clock Frequency (Core Clock) */
+#elif defined SYSCLK_HSI_FREQ_48MHz
+  uint32_t SystemCoreClock		   = SYSCLK_HSI_FREQ_48MHz;
 #else /*!< HSI Selected as System Clock source */
   uint32_t SystemCoreClock         = HSI_Value;        /*!< System Clock Frequency (Core Clock) */
 #endif
@@ -147,6 +155,8 @@ static void SetSysClock(void);
   static void SetSysClockTo56(void);  
 #elif defined SYSCLK_FREQ_72MHz
   static void SetSysClockTo72(void);
+#elif defined SYSCLK_HSI_FREQ_48MHz
+  static void SetSysClockHsiTo48(void);
 #endif
 
 #ifdef DATA_IN_ExtSRAM
@@ -355,6 +365,8 @@ static void SetSysClock(void)
   SetSysClockTo56();  
 #elif defined SYSCLK_FREQ_72MHz
   SetSysClockTo72();
+#elif defined SYSCLK_HSI_FREQ_48MHz
+  SetSysClockHsiTo48();
 #endif
  
  /* If none of the define above is enabled, the HSI is used as System clock
@@ -1003,6 +1015,57 @@ static void SetSysClockTo72(void)
          configuration. User can add here some code to deal with this error */
   }
 }
+
+#elif defined SYSCLK_HSI_FREQ_48MHz
+
+static void SetSysClockHsiTo48(void)
+{
+
+#ifndef STM32F10X_CL
+
+	/* SYSCLK, HCLK, PCLK2 and PCLK1 configuration ---------------------------*/
+
+	/* Enable Prefetch Buffer */
+	FLASH->ACR |= FLASH_ACR_PRFTBE;
+
+	/* Flash 1 wait state */
+	FLASH->ACR &= (uint32_t)((uint32_t)~FLASH_ACR_LATENCY);
+	FLASH->ACR |= (uint32_t)FLASH_ACR_LATENCY_1;
+
+	/* HCLK = SYSCLK (=PLLCLK) */
+	RCC->CFGR |= (uint32_t)RCC_CFGR_HPRE_DIV1;
+
+	/* PCLK2 = HCLK */
+	RCC->CFGR |= (uint32_t)RCC_CFGR_PPRE2_DIV1;
+
+	/* PCLK1 = HCLK / 2 (@ 24) -> should not exceed 36Mhz */
+	RCC->CFGR |= (uint32_t)RCC_CFGR_PPRE1_DIV2;
+
+	/*  PLL configuration: PLLCLK (=SYSCLK) = HSI / 2 * 12 = 8 / 2 * 12 = 48 MHz */
+	RCC->CFGR &= (uint32_t)((uint32_t)~(RCC_CFGR_PLLSRC | RCC_CFGR_PLLXTPRE | RCC_CFGR_PLLMULL));
+	RCC->CFGR |= (uint32_t)(RCC_CFGR_PLLSRC_HSI_Div2 | RCC_CFGR_PLLMULL12);
+
+	/* Enable PLL */
+	RCC->CR |= RCC_CR_PLLON;
+
+	/* Wait till PLL is ready */
+	while((RCC->CR & RCC_CR_PLLRDY) == 0)
+	{
+	}
+
+	/* Select PLL as system clock source */
+	RCC->CFGR &= (uint32_t)((uint32_t)~(RCC_CFGR_SW));
+	RCC->CFGR |= (uint32_t)RCC_CFGR_SW_PLL;
+
+	/* Wait till PLL is used as system clock source */
+	while ((RCC->CFGR & (uint32_t)RCC_CFGR_SWS) != (uint32_t)0x08)
+	{
+	}
+
+#endif //STM32F10X_CL
+
+}
+
 #endif
 
 /**
