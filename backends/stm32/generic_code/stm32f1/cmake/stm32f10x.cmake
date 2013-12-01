@@ -1,6 +1,11 @@
 
 list(APPEND MCU_HAL_FILES_SOURCES ${STM32F1_BOARD_SPECIFIC_FILES})
 list(APPEND MCU_HAL_FILES_SOURCES ${STM32F1_ROOT_DIR}/hal/hal_stm32f1_clock.cpp)
+list(APPEND MCU_HAL_FILES_SOURCES ${STM32F1_ROOT_DIR}/hal/hal_stm32f1_extint.cpp)
+list(APPEND MCU_HAL_FILES_SOURCES ${STM32F1_ROOT_DIR}/hal/hal_stm32f1_uart.cpp)
+list(APPEND MCU_HAL_FILES_SOURCES ${STM32F1_ROOT_DIR}/hal/hal_stm32f1_gpio.cpp)
+list(APPEND MCU_HAL_FILES_SOURCES ${STM32F1_ROOT_DIR}/hal/hal_stm32f1_timer.cpp)
+list(APPEND MCU_HAL_FILES_SOURCES ${STM32F1_ROOT_DIR}/hal/hal_stm32f1_pwm.cpp)
 
 ################################################################################
 
@@ -82,10 +87,18 @@ endforeach()
 ################################################################################
 # just warn user if HSE is not set that default HSE value from ST std periph will be used
 ################################################################################
-if (NOT HSE)
-	message("No HSE is provide, so default HSE value will be used.")
+if (HSE AND HSI)
+	message("HSE and HSI cannot be defined together !")
+endif()
+
+if (NOT HSE AND NOT HSI)
+	message("No HSE nor HSI are provide, so default HSE value will be used.")
 else()
-	add_definitions(-DHSE_VALUE=${HSE})
+	if (HSI)
+		add_definitions(-DUSE_HSI)
+	else()
+		add_definitions(-DHSE_VALUE=${HSE})
+	endif()
 endif()
 
 ################################################################################
