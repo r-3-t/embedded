@@ -20,7 +20,7 @@ examples
 
 * stm32f103
 ```
-r-3-t:build_dir$ rm -rf * && cmake  <path_to_dev>/board_examples/leds/ -DCMAKE_BUILD_TYPE=Debug -Darch=stm32f1O3
+r-3-t:build_dir$ rm -rf * && cmake  <path_to_dev>/board_examples/leds/ -DCMAKE_BUILD_TYPE=Debug -Darch=stm32f103
 ```
     
 * stm32f100
