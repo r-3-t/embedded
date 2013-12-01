@@ -10,9 +10,10 @@ macro (add_hal_files hal_implemented hal_type)
 	else()
 
 		set(hal_filename ${hal_type}.hpp)
+		set(hal_interface_filename ${hal_type}Interface.hpp)
 
 		file (TO_NATIVE_PATH ${${hal_implemented}}				HAL_IMPLEMENTED_NATIVE_PATH)
-		file (TO_NATIVE_PATH ${BASE_HAL_DIR}/${hal_filename}	HAL_NATIVE_PATH)
+		file (TO_NATIVE_PATH ${BASE_HAL_DIR}/${hal_interface_filename}	HAL_NATIVE_PATH)
 
 		file (READ ${HAL_IMPLEMENTED_NATIVE_PATH} FILE_CONTENT)
 		file (WRITE ${CMAKE_BINARY_DIR}/hal/${hal_filename}
@@ -38,14 +39,15 @@ macro (add_hal_files hal_implemented hal_type)
 	endif()
 endmacro()
 
-add_hal_files(HAL_IMPLEMENTED_LED		"led")
-add_hal_files(HAL_IMPLEMENTED_CLOCK		"clock")
-add_hal_files(HAL_IMPLEMENTED_UART		"uart")
-add_hal_files(HAL_IMPLEMENTED_GPIO		"gpio")
-add_hal_files(HAL_IMPLEMENTED_EXTINT		"extint")
-add_hal_files(HAL_IMPLEMENTED_PWM		"pwm")
-add_hal_files(HAL_IMPLEMENTED_SPI		"spi")
-add_hal_files(HAL_IMPLEMENTED_PINOUT	"pinout")
+add_hal_files(HAL_IMPLEMENTED_LED		"Led")
+add_hal_files(HAL_IMPLEMENTED_CLOCK		"Clock")
+add_hal_files(HAL_IMPLEMENTED_UART		"Uart")
+add_hal_files(HAL_IMPLEMENTED_GPIO		"Gpio")
+add_hal_files(HAL_IMPLEMENTED_EXTINT		"Extint")
+add_hal_files(HAL_IMPLEMENTED_PWM		"Pwm")
+add_hal_files(HAL_IMPLEMENTED_TIMER		"Timer")
+add_hal_files(HAL_IMPLEMENTED_SPI		"Spi")
+add_hal_files(HAL_IMPLEMENTED_PINOUT		"Pinout")
 
 
 include_directories(${CMAKE_BINARY_DIR})
