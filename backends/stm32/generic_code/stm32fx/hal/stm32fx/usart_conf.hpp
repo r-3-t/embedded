@@ -1,6 +1,6 @@
 #pragma once
 
-
+#include <UartInterface.hpp>
 
 namespace stm32fx
 {
