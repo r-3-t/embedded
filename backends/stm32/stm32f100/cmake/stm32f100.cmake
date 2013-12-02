@@ -8,20 +8,14 @@ set (STM32F10x_ROOT_DIR		"${CMAKE_CURRENT_LIST_DIR}/..")
 add_definitions(-DSTM32F10X_MD_VL)
 
 # hal files for stm32f100
-set (HAL_IMPLEMENTED_LED 			${STM32F10x_ROOT_DIR}/hal/hal_stm32f100_led.hpp)
-set (HAL_IMPLEMENTED_CLOCK			${BASE_HAL_DIR}/clock.hpp)
+set (HAL_IMPLEMENTED_CLOCK			${BASE_HAL_DIR}/ClockInterface.hpp)
 set (HAL_IMPLEMENTED_UART			${STM32F1_ROOT_DIR}/hal/hal_stm32f1_uart.hpp)
 set (HAL_IMPLEMENTED_GPIO			${STM32F1_ROOT_DIR}/hal/hal_stm32f1_gpio.hpp)
 set (HAL_IMPLEMENTED_EXTINT			${STM32F1_ROOT_DIR}/hal/hal_stm32f1_extint.hpp)
 set (HAL_IMPLEMENTED_PWM			${STM32F1_ROOT_DIR}/hal/hal_stm32f1_pwm.hpp)
+set (HAL_IMPLEMENTED_TIMER			${STM32F1_ROOT_DIR}/hal/hal_stm32f1_timer.hpp)
 set (HAL_IMPLEMENTED_SPI			${STM32F1_ROOT_DIR}/hal/hal_stm32f1_spi.hpp)
-set (HAL_IMPLEMENTED_PINOUT			${BASE_HAL_DIR}/pinout.hpp)
 
-set (HAL_IMPLEMENTED_PINOUT_CPP		${STM32F10x_ROOT_DIR}/hal/hal_stm32f100_pinout.cpp)
-
-
-set (STM32F1_BOARD_SPECIFIC_FILES	${STM32F10x_ROOT_DIR}/hal/hal_stm32f100_led.cpp
-									${STM32F10x_ROOT_DIR}/hal/hal_stm32f100_pinout.cpp)
 
 
 set (_RAM_SIZE				8K)
