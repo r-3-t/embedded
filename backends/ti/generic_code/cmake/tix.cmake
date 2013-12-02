@@ -1,5 +1,7 @@
 
 list(APPEND MCU_HAL_FILES_SOURCES ${TIX_ROOT_DIR}/hal/hal_tix_clock.cpp)
+list(APPEND MCU_HAL_FILES_SOURCES ${TIX_ROOT_DIR}/hal/hal_tix_uart.cpp)
+list(APPEND MCU_HAL_FILES_SOURCES ${TIX_ROOT_DIR}/hal/hal_tix_gpio.cpp)
 
 ################################################################################
 # TI system headers
