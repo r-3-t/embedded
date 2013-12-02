@@ -1,5 +1,5 @@
 #include <arduino_clock.hpp>
-#include <hal/clock.hpp>
+#include <hal/Clock.hpp>
 
 namespace arduino
 {
@@ -10,10 +10,9 @@ namespace arduino
 			::clock::msleep(delay);
 		}
 
-		void delayMicroseconds(::types::uint32 _delay)
+		void delayMicroseconds(::types::uint32 delay)
 		{
-			//TODO: implement udelay
-			return delay(1);
+			::clock::usleep(delay);
 		}
 
 		::types::uint32 millis()

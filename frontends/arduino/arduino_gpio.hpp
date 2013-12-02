@@ -1,6 +1,6 @@
 #pragma once
 
-#include <pinout.hpp>
+#include <PinoutInterface.hpp>
 
 #define INPUT 				0
 #define OUTPUT 				1

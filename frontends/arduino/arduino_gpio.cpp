@@ -1,7 +1,7 @@
 #include <arduino_gpio.hpp>
-#include <hal/gpio.hpp>
-#include <gpio.hpp>
-#include <pinout.hpp>
+#include <GpioInterface.hpp>
+#include <PinoutInterface.hpp>
+#include <hal/Gpio.hpp>
 
 //TODO: must be placed in mapping file
 #define DEFAULT_GPIO_PORT							1
