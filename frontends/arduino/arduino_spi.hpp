@@ -1,6 +1,6 @@
 #pragma once
 
-#include <spi.hpp>
+#include <SpiInterface.hpp>
 
 //TODO: must be placed in mapping file
 #define DEFAULT_SPI_NUMBER							1

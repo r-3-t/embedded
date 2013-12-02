@@ -1,5 +1,5 @@
 #include "arduino_spi.hpp"
-#include <spi.hpp>
+#include <SpiInterface.hpp>
 
 
 namespace arduino
