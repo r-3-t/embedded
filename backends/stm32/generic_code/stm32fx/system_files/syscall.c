@@ -342,27 +342,30 @@ void _exit(int code)
 	}
 }
 
-/*appropriate definition of _heap and _heap_end has to be done in the linker script*/ 
+/*appropriate definition of _heap has to be done in the linker script*/
 extern int _heap;
-extern int _heap_end;
 
 void* _current_heap_ptr = NULL; 
+register char *stack_ptr asm ("r13");
 
 caddr_t  _sbrk ( int incr )
 {
     void *prev_heap;
-    void *heap_end = &_heap_end;
 
     if (_current_heap_ptr == NULL)
         _current_heap_ptr = (unsigned char *)&_heap;
     
-    if ((_current_heap_ptr + incr) < heap_end)
+    //we have to check heap doesn't overflow stack
+    if (((unsigned int)_current_heap_ptr + incr) < (unsigned int)stack_ptr)
     {
       	prev_heap = _current_heap_ptr;
       	_current_heap_ptr += incr;
     }
     else
-        return (caddr_t)-1;
+    {
+    	_write (1, "Heap and stack collision\n", 25);
+        abort ();
+    }
 
     return (caddr_t) prev_heap;
 }
