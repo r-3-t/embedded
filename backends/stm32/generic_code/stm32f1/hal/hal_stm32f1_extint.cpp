@@ -95,7 +95,7 @@ namespace stm32f1xx {
 			NVIC_InitTypeDef		NVIC_InitStructure; // this is used to configure the NVIC (nested vector interrupt controller)
 
 			//check params
-			assert(PINId < sizeof(gpExtint)/sizeof(extint::Extint));
+			assert(PINId < sizeof(gpExtint)/sizeof(extint::Extint*));
 
 			gpExtint[PINId] = this;
 

@@ -110,9 +110,11 @@ namespace stm32f1xx {
 		    {
 		    	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE);
 		    }
-
-			fprintf(stderr, "Invalid Timer : %x !\n", (unsigned int)Timer);
-			abort();
+		    else
+		    {
+		    	fprintf(stderr, "Invalid Timer : %x !\n", (unsigned int)Timer);
+		    	abort();
+		    }
 		}
 
 		static ::timer::TimerInterface* gpTimer[8];
