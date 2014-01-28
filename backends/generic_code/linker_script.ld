@@ -103,6 +103,14 @@ SECTIONS
 
   @EXTRAM_MEMORY_SECTION@
 
+  /* place vector table at the begining of RAM */
+  .vtable (NOLOAD):
+  {
+		*(vtable)           /* vtable sections */
+		*(vtable*)          /* vtable* sections */
+		. = ALIGN(4);
+  } >RAM
+
   /* used by the startup to initialize data */
   _sidata = .;
 

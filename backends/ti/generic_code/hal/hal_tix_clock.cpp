@@ -3,6 +3,7 @@
 #include <lm4f120h5qr.h>
 #include <sysctl.h>
 #include <systick.h>
+#include <interrupt.h>
 
 uint32_t guTickFactor;
 uint32_t gmTickFactor;
@@ -25,6 +26,11 @@ struct AutoInitSysTick
 
 	    guTickFactor = SysCtlClockGet() / 1000000;
 	    gmTickFactor = SysCtlClockGet() / 1000;
+
+		//
+		// Enable global interrupts
+		//
+		IntMasterEnable();
 
 	}
 };
