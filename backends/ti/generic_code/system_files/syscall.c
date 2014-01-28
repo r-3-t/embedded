@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <stdint.h>
 #include <errno.h>
 #include <sys/stat.h>
 #include <sys/times.h>
@@ -12,8 +13,6 @@
 #if defined(__cplusplus) || defined(c_plusplus)
 extern "C" {
 #endif
-
-typedef unsigned int uint32_t;
 
 void prvGetRegistersFromStack( uint32_t *pulFaultStackAddress )
 {
