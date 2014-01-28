@@ -21,7 +21,7 @@ namespace tix
 											{																								\
 												unsigned long status;																		\
 												status = UARTIntStatus(gpUarts[UsartX]->UART_Base, false);								\
-												if (status & UART_INT_RX == UART_INT_RX)													\
+												if ((status & UART_INT_RX) == UART_INT_RX)													\
 												{																							\
 													gpUarts[UsartX]->_callback(gpUarts[UsartX]->receive());							\
 												}																							\

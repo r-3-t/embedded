@@ -101,6 +101,9 @@ SECTIONS
     PROVIDE_HIDDEN (__fini_array_end = .);
   } >FLASH
 
+  /* used by the startup to initialize data */
+  _sidata = .;
+
   @EXTRAM_MEMORY_SECTION@
 
   /* place vector table at the begining of RAM */
@@ -111,8 +114,6 @@ SECTIONS
 		. = ALIGN(4);
   } >RAM
 
-  /* used by the startup to initialize data */
-  _sidata = .;
 
   /* Initialized data sections goes into RAM, load LMA copy after code */
   .data : AT ( _sidata )
