@@ -169,9 +169,11 @@ namespace stm32f1xx {
 		    {
 		    	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE);
 		    }
-
-		    fprintf(stderr, "Invalid Timer %x !\n", (unsigned int)Timer);
-		    abort();
+		    else
+		    {
+				fprintf(stderr, "Invalid Timer %x !\n", (unsigned int)Timer);
+				abort();
+		    }
 		}
 
 		//GPIOA-G / 16 pins
@@ -186,6 +188,7 @@ namespace stm32f1xx {
 			//check params
 			assert(GPIOId < STM32F1XX_GPIO_MAX_COUNT);
 			assert(PINId < STM32F1XX_PIN_MAX_COUNT);
+
 
 			gpPwm[GPIOId][PINId] = this;
 
