@@ -35,6 +35,7 @@ void Reset_Handler(void);
 static void NmiHandler(void);
 static void HardFaultHandler(void);
 static void DefaultHandler(void);
+void HardFault_Handler();
 
 //*****************************************************************************
 //
@@ -57,7 +58,7 @@ void (* const g_pfnVectors[])(void) =
     (void*)&_estack,                               // The initial stack pointer
     Reset_Handler,                               // The reset handler
     NmiHandler,                                  // The NMI handler
-    HardFaultHandler,                               // The hard fault handler
+    HardFault_Handler,                               // The hard fault handler
     DefaultHandler,                      // The MPU fault handler
     DefaultHandler,                      // The bus fault handler
     DefaultHandler,                      // The usage fault handler
