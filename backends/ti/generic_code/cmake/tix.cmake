@@ -23,6 +23,8 @@ set(TIX_SYSTICK_SOURCE				systick)
 set(TIX_GPIO_SOURCE				gpio)
 set(TIX_SSI_SOURCE				ssi)
 set(TIX_UART_SOURCE				uart)
+set(TIX_INTERRUPT_SOURCE			interrupt)
+set(TIX_CPU_SOURCE				cpu)
 
 ################################################################################
 
@@ -33,6 +35,8 @@ set(TIX_SYSTEM_SOURCES				TIX_SYSCTL_SOURCE
 						TIX_GPIO_SOURCE
 						TIX_SSI_SOURCE
 						TIX_UART_SOURCE
+						TIX_INTERRUPT_SOURCE
+						TIX_CPU_SOURCE
 						)
 																																																																																																																																																
 
@@ -57,12 +61,12 @@ endif()
 
 ################################################################################
 # find stm32 system file Devices vector table
-list(APPEND TIX_SYSTEM_FILES_SOURCES  "${TIX_ROOT_DIR}/system_files/startup_lm4f120.c")
+list(APPEND PROJECT_SOURCES  "${TIX_ROOT_DIR}/system_files/startup_lm4f120.c")
 ################################################################################
 
 ################################################################################
 # find STM32F4xx Devices vector table
-list(APPEND TIX_SYSTEM_FILES_SOURCES  "${TIX_ROOT_DIR}/system_files/syscall.c")
+list(APPEND PROJECT_SOURCES  "${TIX_ROOT_DIR}/system_files/syscall.c")
 ################################################################################
 
 
