@@ -23,9 +23,15 @@ namespace tix
 			virtual void send(const types::buffer& buf);
 			virtual void send(const unsigned char* buf, unsigned int length);
 
-		private:
+			unsigned char		 	receive();
+			unsigned long 			UART_Base;
 
-			unsigned long _UART_Base;
+		private:
+			void		 			Configure();
+
+			unsigned int			_id;
+			::uart::Configuration	_config;
+			bool					_configured;
 		};
 
 	} /* namespace uart  */
