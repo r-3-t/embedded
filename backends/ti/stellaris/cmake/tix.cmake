@@ -2,6 +2,7 @@
 list(APPEND MCU_HAL_FILES_SOURCES ${TIX_ROOT_DIR}/hal/hal_tix_clock.cpp)
 list(APPEND MCU_HAL_FILES_SOURCES ${TIX_ROOT_DIR}/hal/hal_tix_uart.cpp)
 list(APPEND MCU_HAL_FILES_SOURCES ${TIX_ROOT_DIR}/hal/hal_tix_gpio.cpp)
+list(APPEND MCU_HAL_FILES_SOURCES ${TIX_ROOT_DIR}/hal/hal_tix_i2c.cpp)
 
 ################################################################################
 # TI system headers
@@ -24,6 +25,7 @@ set(TIX_SYSCTL_SOURCE				sysctl)
 set(TIX_SYSTICK_SOURCE				systick)
 set(TIX_GPIO_SOURCE				gpio)
 set(TIX_SSI_SOURCE				ssi)
+set(TIX_I2C_SOURCE				i2c)
 set(TIX_UART_SOURCE				uart)
 set(TIX_INTERRUPT_SOURCE			interrupt)
 set(TIX_CPU_SOURCE				cpu)
@@ -36,6 +38,7 @@ set(TIX_SYSTEM_SOURCES				TIX_SYSCTL_SOURCE
 						TIX_SYSTICK_SOURCE
 						TIX_GPIO_SOURCE
 						TIX_SSI_SOURCE
+						TIX_I2C_SOURCE
 						TIX_UART_SOURCE
 						TIX_INTERRUPT_SOURCE
 						TIX_CPU_SOURCE
