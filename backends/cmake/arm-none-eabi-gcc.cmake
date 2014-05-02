@@ -1,17 +1,4 @@
-#if (_ARM_NONE_EABI_GCC)
-#	return()
-#endif()
-#set (_ARM_NONE_EABI_GCC on CACHE STRING "_ARM_NONE_EABI_GCC")
-
 INCLUDE(CMakeForceCompiler)
-
-if (NOT MCFLAGS)
-	message("MCFLAGS is not set, abort ....")
-endif()
-
-if (NOT LDSCRIPT)
-	message("LDSCRIPT is not set, abort ....")
-endif()
 
 ################################################################################
 # cross compilation tools
@@ -38,8 +25,8 @@ CMAKE_FORCE_CXX_COMPILER(${CPREF}-g++ GNU)
 ################################################################################
 
 #fix '-rdynamic' cmake 2.8.9 bug
-SET(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "" CACHE STRING "CMAKE_SHARED_LIBRARY_LINK_C_FLAGS")
-SET(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "" CACHE STRING "CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS")
+SET(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
+SET(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "")
 
 # here is the target environment is located
 SET(CMAKE_FIND_ROOT_PATH	${CROSS_COMPIL_TOOLS})
@@ -55,36 +42,15 @@ if (NOT DO_NOT_USE_LTO)
 	set (LINK_FLAGS_LTO "-O${OPTIM_LEVEL} -flto")
 endif()
 
-SET(CMAKE_ASM_FLAGS "${MCFLAGS}"  CACHE STRING "CMAKE_ASM_FLAGS" FORCE)
-SET(CMAKE_C_FLAGS "${MCFLAGS} -Wall -Wextra -Warray-bounds -ffunction-sections -fdata-sections"
-					 CACHE STRING "CMAKE_C_FLAGS" FORCE)
-SET(CMAKE_CXX_FLAGS "${MCFLAGS} -std=c++11 -Wall -Wextra -Warray-bounds -fno-builtin -fno-rtti -fno-exceptions -ffunction-sections -fdata-sections"
-					 CACHE STRING "CMAKE_CXX_FLAGS" FORCE)
+SET(CMAKE_CXX_FLAGS "-std=c++11 -fno-builtin -fno-rtti -fno-exceptions")
 
-SET(CMAKE_C_FLAGS_DEBUG "-O1 -g"
+SET(CMAKE_C_FLAGS_DEBUG "-g"
 					 CACHE STRING "CMAKE_C_FLAGS_DEBUG" FORCE)
-SET(CMAKE_CXX_FLAGS_DEBUG "-O1 -g"
+SET(CMAKE_CXX_FLAGS_DEBUG "-g"
 					 CACHE STRING "CMAKE_CXX_FLAGS_DEBUG" FORCE)
 SET(CMAKE_ASM_FLAGS_DEBUG "-g"
 					 CACHE STRING "CMAKE_ASM_FLAGS_DEBUG" FORCE)
 
-SET(CMAKE_C_FLAGS_RELEASE "-O${OPTIM_LEVEL} ${COMPIL_FLAGS_LTO}"
-					 CACHE STRING "CMAKE_C_FLAGS_RELEASE" FORCE)
-SET(CMAKE_CXX_FLAGS_RELEASE "-O${OPTIM_LEVEL} ${COMPIL_FLAGS_LTO}"
-					 CACHE STRING "CMAKE_CXX_FLAGS_RELEASE" FORCE)
-SET(CMAKE_ASM_FLAGS_RELEASE ""
-					 CACHE STRING "CMAKE_ASM_FLAGS_RELEASE" FORCE)
-
-SET(CMAKE_CXX_LINK_FLAGS "${MCFLAGS} -T${LDSCRIPT} -Wl,--gc-sections --specs=nano.specs -u _printf_float ${LINK_FLAGS_LTO}"
-					 CACHE STRING "CMAKE_CXX_LINK_FLAGS" FORCE)
-SET(CMAKE_C_LINK_FLAGS "${MCFLAGS} -T${LDSCRIPT} -Wl,--gc-sections --specs=nano.specs -u _printf_float ${LINK_FLAGS_LTO}"
-					 CACHE STRING "CMAKE_C_LINK_FLAGS" FORCE)
-
-
-SET(CMAKE_CROSSCOMPILING TRUE
-					 CACHE STRING "CMAKE_CROSSCOMPILING")
-SET(CMAKE_SYSTEM_NAME Generic
-					 CACHE STRING "CMAKE_SYSTEM_NAME")
 ENABLE_LANGUAGE(ASM)
 
 

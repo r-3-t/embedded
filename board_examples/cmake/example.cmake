@@ -1,4 +1,3 @@
-
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/../../backends/cmake/)
 include(embedded)
 
@@ -22,10 +21,7 @@ include_directories(${TARGET_INCLUDE_DIRECTORIES})
 
 ADD_EXECUTABLE(${PROJECT_NAME}.elf	${PROJECT_SOURCES})
 
-target_link_libraries(${PROJECT_NAME}.elf -Wl,--whole-archive embedded -Wl,--no-whole-archive)
+include(project)
 
-ADD_CUSTOM_TARGET(${PROJECT_NAME}.bin ALL DEPENDS ${PROJECT_NAME}.elf COMMAND ${OBJCOPY} -O binary ${PROJECT_NAME}.elf ${PROJECT_NAME}.bin)
+build_project(${PROJECT_SOURCES})
 
-add_custom_command (TARGET ${PROJECT_NAME}.elf
-					POST_BUILD
-					COMMAND arm-none-eabi-size $<TARGET_FILE:${PROJECT_NAME}.elf>)

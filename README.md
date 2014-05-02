@@ -10,44 +10,53 @@ prerequisite
 supported board and MCU
 -----------------------
 
+* STM32F0DISCOVERY
 * STM32VLDISCOVERY
 * STM32F4DISCOVERY
-* STM32F103 
+* STM32F103
 * LM4F120XL
 
 examples
 -------- 
 
-* stm32f103
+git submodule init
+git submodule update
+
+* stm32f051
 ```
-r-3-t:build_dir$ rm -rf * && cmake  <path_to_dev>/board_examples/leds/ -DCMAKE_BUILD_TYPE=Debug -Darch=stm32f103
-```
-    
-* stm32f100
-```
-r-3-t:build_dir$ rm -rf * && cmake  <path_to_dev>/board_examples/leds/ -DCMAKE_BUILD_TYPE=Debug -Darch=stm32f1OO
+r-3-t:build_dir$ rm -rf * && cmake  <path_to_dev>/board_examples/pinout/ -DCMAKE_BUILD_TYPE=Debug -Dmcu=stm32f051
 ```
 
-* stm32f4
+* stm32f100
 ```
-r-3-t:build_dir$ rm -rf * && cmake  <path_to_dev>/board_examples/leds/ -DCMAKE_BUILD_TYPE=Debug -Darch=stm32f4
+r-3-t:build_dir$ rm -rf * && cmake  <path_to_dev>/board_examples/pinout/ -DCMAKE_BUILD_TYPE=Debug -Dmcu=stm32f1OO
+```
+
+* stm32f103
+```
+r-3-t:build_dir$ rm -rf * && cmake  <path_to_dev>/board_examples/pinout/ -DCMAKE_BUILD_TYPE=Debug -Dmcu=stm32f103
+```
+    
+* stm32f407
+```
+r-3-t:build_dir$ rm -rf * && cmake  <path_to_dev>/board_examples/pinout/ -DCMAKE_BUILD_TYPE=Debug -Dmcu=stm32f407
 ```
 
 * lm4f120xl
 ```
-r-3-t:build_dir$ rm -rf * && cmake  <path_to_dev>/board_examples/gpio/ -DCMAKE_BUILD_TYPE=Debug -Darch=lm4f120xl
+r-3-t:build_dir$ rm -rf * && cmake  <path_to_dev>/board_examples/pinout/ -DCMAKE_BUILD_TYPE=Debug -Dmcu=lm4f120xl
 ```
 
 Options
 -------- 
 
-* OPTIM_SPEED
+* OPTIM_SPEED (TO REDO)
 
 You can select the optimization level by adding "-DOPTIM_LEVEL=2" on your cmake command line. (default is 3).
 This option only work in release mode.
 
 
-* LTO
+* LTO (TO REDO)
 
 You can enable LTO (Link Time Optimization, see http://gcc.gnu.org/onlinedocs/gccint/LTO.html ) by adding "-DUSE_LTO=on" on your cmake command line.
 Beware that this function is still highly experimental, and may not work with your code (or with the backend/frontend you selected)

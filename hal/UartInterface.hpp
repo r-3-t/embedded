@@ -11,6 +11,7 @@ namespace uart {
 		typedef void (*uart_callback)(const uint8_t c);
 
 		UartInterface() {}
+		UartInterface(int, void (*)(uint8_t)) {}
 
 		virtual void send(const char* const str)								= 0;
 		virtual void send(const types::buffer& buf) 							= 0;
@@ -19,6 +20,7 @@ namespace uart {
 		uart_callback _callback;
 
 	};
+
 
 	//--------------------------------------------------------------------------
 	struct Configuration
