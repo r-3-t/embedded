@@ -48,7 +48,12 @@ namespace spi {
 
 		unsigned long DataRate;       /*!< Specifies the data rate. */
 
-		static Configuration _default()
+		static Configuration _default_master()
+		{
+			return {_2Lines_FullDuplex, Master, /*_8b,*/ Low, _1_Edge, Soft, _2, MSB, 8, 1000000};
+		}
+		
+		static Configuration _default_slave()
 		{
 			return {_2Lines_FullDuplex, Master, /*_8b,*/ Low, _1_Edge, Soft, _2, MSB, 8, 1000000};
 		}
@@ -60,7 +65,7 @@ namespace spi {
 		typedef void (*spi_callback_T)(const uint8_t c);
 	
 		SpiInterface() {}
-		SpiInterface(unsigned int id, spi_callback_T spi_callback, ::spi::Configuration config = ::spi::Configuration::_default()) {}
+		SpiInterface(unsigned int id, spi_callback_T spi_callback, ::spi::Configuration config = ::spi::Configuration::_default_master()) {}
 
 		virtual uint8_t send(uint8_t data) = 0;
 		virtual uint8_t recv() = 0;
