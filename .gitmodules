@@ -2,6 +2,6 @@
 	path = drivers/arduino/RF24
 	url = https://github.com/maniacbug/RF24.git
 
-[submodule "backends/ti/generic_code/system_files/stellaris"]
-	path = backends/ti/generic_code/system_files/stellaris
+[submodule "backends/ti/stellaris/system_files/stellaris"]
+	path = backends/ti/stellaris/system_files/stellaris
 	url = https://github.com/yuvadm/stellaris.git

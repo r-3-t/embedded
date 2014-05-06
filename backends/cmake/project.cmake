@@ -27,18 +27,23 @@ set (LDSCRIPT "${CMAKE_BINARY_DIR}/linker_script.ld")
 
 #GDB / OpenOCD
 set (GDBINIT_CONTENT
-"target remote localhost:3333
+"
+target remote localhost:3333
+monitor reset init
 ")
 
 file (WRITE ${CMAKE_BINARY_DIR}/.gdbinit ${GDBINIT_CONTENT})
-file (WRITE ${CMAKE_BINARY_DIR}/openocd.cfg ${OPENOCDCFG_CONTENT})
+file (WRITE ${CMAKE_BINARY_DIR}/openocd.cfg ${${MCU}_OPENOCDCFG_CONTENT})
 
 #provide hal interface files
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../hal/)
+include_directories(${CMAKE_CURRENT_LIST_DIR}/../../hal/)
 
 function (add_mcu_lib mcu_lib_name)
 	list(REMOVE_AT ARGV 0)
 	set(sources ${ARGV})
+
+	#add MCU to list of supported MCUs
+	set_property(GLOBAL APPEND PROPERTY MCU_LIBS ${mcu_lib_name})
 
 	foreach (source ${sources})
 		if (IS_DIRECTORY ${source})
@@ -50,37 +55,46 @@ function (add_mcu_lib mcu_lib_name)
 		endif(IS_DIRECTORY ${source})
 	endforeach(source)
 
-	list(APPEND MCU_LIBS ${mcu_lib_name})
-	set(MCU_LIBS ${MCU_LIBS} CACHE STRING "MCU libs")
-
-	add_library(${mcu_lib_name} ${source_files})
+	add_library(${mcu_lib_name} EXCLUDE_FROM_ALL ${source_files})
 
 	target_include_directories(${mcu_lib_name} PUBLIC ${directories_to_include})
+
+	string(TOUPPER ${mcu_lib_name} MCU_LIB_NAME)
+
+	set_target_properties(${mcu_lib_name} PROPERTIES COMPILE_FLAGS ${${MCU_LIB_NAME}_COMPILE_FLAGS})
+
 endfunction(add_mcu_lib)
 
 function (add_mcu_hal mcu_hal_name mcu_lib_name source_path header_path)
 	file(GLOB source_files ${source_path}/*)
 	file(GLOB header_files ${header_path}/*.h*)
 
-	add_library(${mcu_hal_name} ${source_files} ${header_files})
+	add_library(${mcu_hal_name} EXCLUDE_FROM_ALL ${source_files} ${header_files})
 
 	foreach(header ${header_files})
 		LIST(APPEND include_headers -include${header})
 	endforeach(header)
 
 	target_include_directories(${mcu_hal_name} PUBLIC ${header_path})
+
+	string(TOUPPER ${mcu_lib_name} MCU_LIB_NAME)
+
 	target_compile_options(${mcu_hal_name} PUBLIC ${include_headers})
+
+	set_target_properties(${mcu_hal_name} PROPERTIES COMPILE_FLAGS ${${MCU_LIB_NAME}_COMPILE_FLAGS})
 
 	target_link_libraries(${mcu_hal_name} pinout)
 
 	target_link_libraries(${mcu_hal_name} ${mcu_lib_name})
+
 endfunction(add_mcu_hal)
 
 #add all avaible MCUs
-add_subdirectory(../../backends/ ${CMAKE_CURRENT_BINARY_DIR}/backends/)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/../../backends/ ${CMAKE_CURRENT_BINARY_DIR}/backends/)
 
 function(show_available_mcus)
 
+	get_property(MCU_LIBS GLOBAL PROPERTY MCU_LIBS)
 	message(STATUS "Available MCUs :")
 	foreach(mcu_lib ${MCU_LIBS})
 		message(STATUS "${mcu_lib}")
@@ -99,7 +113,7 @@ function (build_project source_files)
 	target_link_libraries(${PROJECT_NAME}.elf hal_${mcu} ${mcu} ${${MCU}_LINK_FLAGS} -T${LDSCRIPT})
 
 	#TODO: process automaticaly	
-	set_target_properties(${PROJECT_NAME}.elf hal_${mcu} ${mcu} pinout syscall PROPERTIES COMPILE_FLAGS ${${MCU}_COMPILE_FLAGS})
+	set_target_properties(${PROJECT_NAME}.elf pinout syscall PROPERTIES COMPILE_FLAGS ${${MCU}_COMPILE_FLAGS})
 
 	add_custom_command (TARGET ${PROJECT_NAME}.elf POST_BUILD COMMAND arm-none-eabi-size $<TARGET_FILE:${PROJECT_NAME}.elf>)
 
