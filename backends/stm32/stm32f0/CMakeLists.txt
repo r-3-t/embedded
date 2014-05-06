@@ -11,4 +11,5 @@ add_mcu_lib(stm32f051 	${STM_STD_LIB_PATHS}
 target_compile_definitions(stm32f051 PUBLIC -DSTM32F051)
 
 add_mcu_hal(hal_stm32f051 stm32f051 ${CMAKE_CURRENT_SOURCE_DIR}/hal ${CMAKE_CURRENT_SOURCE_DIR}/hal)
+target_include_directories(hal_stm32f051 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../include/)
 
