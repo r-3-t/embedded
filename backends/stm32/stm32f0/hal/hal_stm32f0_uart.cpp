@@ -20,7 +20,7 @@ namespace stm32f0xx {
 
 		static ::uart::UartInterface*		gpUarts[STM32F0XX_UART_MAX_COUNT];
 
-		Uart::Uart(unsigned int id, ::uart::UartInterface::uart_callback callback, ::uart::Configuration config)
+		Uart::Uart(unsigned int id, ::uart::UartInterface::uart_callback_T callback, ::uart::Configuration config)
 		{
 
 			//assert params

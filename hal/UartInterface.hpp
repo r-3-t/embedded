@@ -8,7 +8,7 @@ namespace uart {
 	class UartInterface
 	{
 	public:
-		typedef void (*uart_callback)(const uint8_t c);
+		typedef void (*uart_callback_T)(const uint8_t c);
 
 		UartInterface() {}
 		UartInterface(int, void (*)(uint8_t)) {}
@@ -17,7 +17,7 @@ namespace uart {
 		virtual void send(const types::buffer& buf) 							= 0;
 		virtual void send(const unsigned char* buf, unsigned int length) 		= 0;
 
-		uart_callback _callback;
+		uart_callback_T _callback;
 
 	};
 
