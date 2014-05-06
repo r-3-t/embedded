@@ -5,6 +5,7 @@
 
 namespace spi {
 
+
 	struct Configuration
 	{
 		typedef enum {_2Lines_FullDuplex, _2Lines_RxOnly, _1Line_Rx, _1Line_Tx} Direction_t;
@@ -52,27 +53,20 @@ namespace spi {
 			return {_2Lines_FullDuplex, Master, /*_8b,*/ Low, _1_Edge, Soft, _2, MSB, 8, 1000000};
 		}
 	};
-
 	
-	class Spi
+	class SpiInterface
 	{
 	public:
-		Spi(unsigned int id) : _id(id) {};
+		typedef void (*spi_callback_T)(const uint8_t c);
+	
+		SpiInterface() {}
+		SpiInterface(unsigned int id, spi_callback_T spi_callback, ::spi::Configuration config = ::spi::Configuration::_default()) {}
 
 		virtual uint8_t send(uint8_t data) = 0;
 		virtual uint8_t recv() = 0;
+		
+		spi_callback_T	_callback;
 
-		void (*_callback)(spi::Spi&);
-		virtual void register_callback(void (*callback)(spi::Spi&)) = 0;
-
-	protected:
-		unsigned int _id;
 	};
-
-	unsigned int	num_instance();
-
-	void init_instance(unsigned int id, Configuration config = Configuration::_default());
-
-	Spi& get_instance(unsigned int id);
 
 }

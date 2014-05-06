@@ -1,5 +1,6 @@
 #pragma once
 
+#include <SpiInterface.hpp>
 
 namespace stm32fx
 {
