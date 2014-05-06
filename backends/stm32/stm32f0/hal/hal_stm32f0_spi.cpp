@@ -99,6 +99,47 @@ namespace stm32f0xx {
 					
 					break;
 
+				case 2: 	
+					_SPIId = SPI2;
+					GPIOId = GPIOB;
+					pfvRCC_SPI_PeriphClockCmd = RCC_APB1PeriphClockCmd; //SPI2
+					RCC_Periph_SPIx = RCC_APB1Periph_SPI2;
+					
+					pfvRCC_UART_PeriphClockCmd = RCC_AHBPeriphClockCmd; //GPIOB
+					RCC_Periph_GPIOx = RCC_AHBPeriph_GPIOB;
+							
+					/* MOSI Pin */
+					GPIO_Pin_Mosi = GPIO_Pin_15;
+					
+					/* MISO Pin */
+					GPIO_Pin_Miso = GPIO_Pin_14;
+								
+					/* SCK Pin */
+					GPIO_Pin_Sck = GPIO_Pin_13;
+										
+					/* NSS Pin */
+					GPIO_Pin_Nss = GPIO_Pin_12;
+
+					/* ALternate configuration for MOSI Pin */
+					GPIO_PinSource_Mosi = GPIO_PinSource15;
+					Gpio_AlternateFunction_Mosi = GPIO_AF_0;
+
+					/* ALternate configuration for MISO Pin */
+					GPIO_PinSource_Miso = GPIO_PinSource14;
+					Gpio_AlternateFunction_Miso = GPIO_AF_0;
+
+					/* ALternate configuration for SCK Pin */
+					GPIO_PinSource_Sck = GPIO_PinSource13;
+					Gpio_AlternateFunction_Sck = GPIO_AF_0;
+					
+					/* ALternate configuration for NSS Pin */
+					GPIO_PinSource_Nss = GPIO_PinSource12;
+					Gpio_AlternateFunction_Nss = GPIO_AF_0;
+
+					IRQn = SPI2_IRQn;
+					
+					break;
+					
 				default:	
 					fprintf(stderr, "Unimplemented spi %i !\n", id);
 					abort();
@@ -160,7 +201,7 @@ namespace stm32f0xx {
 
 			NVIC_Init(&NVIC_InitType);
 			
-			SPI_I2S_ITConfig(SPI1, SPI_I2S_IT_RXNE, ENABLE);
+			SPI_I2S_ITConfig(_SPIId, SPI_I2S_IT_RXNE, ENABLE);
 
 		}
 
@@ -190,25 +231,24 @@ namespace stm32f0xx {
 			SPI_SendData8(_SPIId, data);
 			return SPI_ReceiveData8(_SPIId);
 		}
+		
+		uint8_t Spi::recv()
+		{
+			return SPI_ReceiveData8(_SPIId);
+		}
 
-		#define USART_IRQ_CALLBACK(UsartX)	void USART##UsartX##_IRQHandler()									\
+		#define SPI_IRQ_CALLBACK(SpiX)	void SPI##SpiX##_IRQHandler()									\
 											{																	\
-												gpSpis[UsartX - 1]->_callback(SPI_ReceiveData8(SPI##UsartX));					\
+												gpSpis[SpiX - 1]->_callback(SPI_ReceiveData8(SPI##SpiX));					\
 											}
 
 		extern "C"
 		{
 
-			USART_IRQ_CALLBACK(1)
+			SPI_IRQ_CALLBACK(1)
+			SPI_IRQ_CALLBACK(2)
 		}
 
 	} /* namespace spi  */
 
 } /* namespace stm32f0xx  */
-
-
-namespace spi
-{
-
-	typedef ::stm32f0xx::spi::Spi ConcreteSpi;
-} //namespace spi

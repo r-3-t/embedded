@@ -16,7 +16,7 @@ namespace stm32f0xx
 		class Spi : public ::spi::SpiInterface
 		{
 		public:
-			Spi(unsigned int id, spi_callback_T spi_callback, ::spi::Configuration config = ::spi::Configuration::_default());
+			Spi(unsigned int id, spi_callback_T spi_callback, ::spi::Configuration config);
 
 			virtual uint8_t send(uint8_t data);
 			virtual void send(const types::buffer& buf);
@@ -32,3 +32,9 @@ namespace stm32f0xx
 	} /* namespace spi  */
 
 } /* namespace stm32f0xx  */
+
+namespace spi
+{
+
+	typedef ::stm32f0xx::spi::Spi ConcreteSpi;
+} //namespace spi
