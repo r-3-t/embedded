@@ -26,7 +26,7 @@ namespace stm32f1xx {
 			 * \param callback function callback to call when a character has received.
 			 * \param config configuration of the UART (default : 9600 8 N 1)
 			 */
-			Uart(unsigned int id, ::uart::UartInterface::uart_callback callback, ::uart::Configuration config = ::uart::Configuration::_9600_8_N_1());
+			Uart(unsigned int id, ::uart::UartInterface::uart_callback_T callback, ::uart::Configuration config = ::uart::Configuration::_9600_8_N_1());
 
 			/**
 			 * \param send a C string
