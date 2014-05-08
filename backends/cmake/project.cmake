@@ -102,12 +102,14 @@ function(show_available_mcus)
 
 endfunction(show_available_mcus)
 
-function (build_project source_files)
+function (build_project)
 	if (NOT mcu)
 		show_available_mcus()
 		message(FATAL_ERROR "No MCU selected ! Use -Dmcu=")
 		return()
 	endif(NOT mcu)
+
+	set(source_files ${ARGV})
 
 	add_executable(${PROJECT_NAME}.elf ${source_files} $<TARGET_OBJECTS:syscall>)
 	target_link_libraries(${PROJECT_NAME}.elf hal_${mcu} ${mcu} ${${MCU}_LINK_FLAGS} -T${LDSCRIPT})
