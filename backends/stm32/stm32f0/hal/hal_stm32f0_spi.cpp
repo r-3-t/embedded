@@ -155,53 +155,64 @@ namespace stm32f0xx {
 			GPIO_PinAFConfig(GPIOId, GPIO_PinSource_Mosi, Gpio_AlternateFunction_Mosi);
 			GPIO_PinAFConfig(GPIOId, GPIO_PinSource_Miso, Gpio_AlternateFunction_Miso);
 			GPIO_PinAFConfig(GPIOId, GPIO_PinSource_Sck, Gpio_AlternateFunction_Sck);
-			GPIO_PinAFConfig(GPIOId, GPIO_PinSource_Nss, Gpio_AlternateFunction_Nss);
+			if (config.slaveSelectManagement == ::spi::Configuration::Hard)
+			{
+				GPIO_PinAFConfig(GPIOId, GPIO_PinSource_Nss, Gpio_AlternateFunction_Nss);
+			}
 
 			//configure GPIOs
-			/* MOSI Pin */
 			GPIO_StructInit(&GPIO_SPI);
-			GPIO_SPI.GPIO_Pin = GPIO_Pin_Mosi;
 			GPIO_SPI.GPIO_Mode = GPIO_Mode_AF;
+
+			/* MOSI Pin */
+			GPIO_SPI.GPIO_Pin = GPIO_Pin_Mosi;
 			GPIO_Init(GPIOId, &GPIO_SPI);
 
 			/* MISO Pin */
-			GPIO_StructInit(&GPIO_SPI);
 			GPIO_SPI.GPIO_Pin = GPIO_Pin_Miso;
-			GPIO_SPI.GPIO_Mode = GPIO_Mode_AF;
 			GPIO_Init(GPIOId, &GPIO_SPI);
 			
 			/* SCK Pin */
-			GPIO_StructInit(&GPIO_SPI);
 			GPIO_SPI.GPIO_Pin = GPIO_Pin_Sck;
-			GPIO_SPI.GPIO_Mode = GPIO_Mode_AF;
 			GPIO_Init(GPIOId, &GPIO_SPI);
 			
 			/* NSS Pin */
-			GPIO_StructInit(&GPIO_SPI);
-			GPIO_SPI.GPIO_Pin = GPIO_Pin_Nss;
-			GPIO_SPI.GPIO_Mode = GPIO_Mode_AF;
-			GPIO_Init(GPIOId, &GPIO_SPI);
+			if (config.slaveSelectManagement == ::spi::Configuration::Hard)
+			{
+				GPIO_SPI.GPIO_Pin = GPIO_Pin_Nss;
+				GPIO_Init(GPIOId, &GPIO_SPI);
+			}
 	
-			//configure SPI 1
-			SPI_InitType.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
-			SPI_InitType.SPI_Mode = SPI_Mode_Slave;
+			//configure SPI
+			SPI_InitType.SPI_Direction = ::stm32fx::spi::conf_2_direction(config.direction);
+			SPI_InitType.SPI_Mode = ::stm32fx::spi::conf_2_mode(config.mode);
 			SPI_InitType.SPI_DataSize = SPI_DataSize_8b;
-			SPI_InitType.SPI_CPOL = SPI_CPOL_Low;
-			SPI_InitType.SPI_CPHA = SPI_CPHA_1Edge;
+			SPI_InitType.SPI_CPOL = ::stm32fx::spi::conf_2_ClockPolarity(config.clockPolarity);
+			SPI_InitType.SPI_CPHA = ::stm32fx::spi::conf_2_ClockPhase(config.clockPhase);
+			SPI_InitType.SPI_NSS = ::stm32fx::spi::conf_2_SlaveSelectManagement(config.slaveSelectManagement);
+			SPI_InitType.SPI_BaudRatePrescaler = ::stm32fx::spi::conf_2_BaudRatePrescaler(config.baudRatePrescaler);
+			SPI_InitType.SPI_FirstBit = ::stm32fx::spi::conf_2_FirstBitTransmission(config.firstBitTransmission);
+			SPI_InitType.SPI_CRCPolynomial = 7;
 
 			SPI_Init(_SPIId, &SPI_InitType);
 
+			//enable RX interrupt on first byte received !
+			SPI_RxFIFOThresholdConfig(_SPIId, SPI_RxFIFOThreshold_QF);
+
+			if (config.mode == ::spi::Configuration::Slave)
+			{
+				/*************** SPI INTERRUPT ****************/
+				NVIC_InitType.NVIC_IRQChannel = IRQn;
+				NVIC_InitType.NVIC_IRQChannelPriority = 0;
+				NVIC_InitType.NVIC_IRQChannelCmd = ENABLE;
+
+				NVIC_Init(&NVIC_InitType);
+				
+				SPI_I2S_ITConfig(_SPIId, SPI_I2S_IT_RXNE, ENABLE);
+			}
+
 			//enable !
 			SPI_Cmd(_SPIId, ENABLE);
-			
-			/*************** SPI INTERRUPT ****************/
-			NVIC_InitType.NVIC_IRQChannel = IRQn;
-			NVIC_InitType.NVIC_IRQChannelPriority = 0;
-			NVIC_InitType.NVIC_IRQChannelCmd = ENABLE;
-
-			NVIC_Init(&NVIC_InitType);
-			
-			SPI_I2S_ITConfig(_SPIId, SPI_I2S_IT_RXNE, ENABLE);
 
 		}
 

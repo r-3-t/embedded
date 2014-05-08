@@ -1,6 +1,7 @@
 /******************************************************************************\
 		INCLUDES
 \******************************************************************************/
+#include <ClockInterface.hpp>
 #include <UartInterface.hpp>
 #include <SpiInterface.hpp>
 #include <stdio.h>
@@ -53,6 +54,7 @@ int main ()
   {
     printf ("send ... %02X\r\n", i);
     Spi1.send (i);
+    clock::msleep(1000);
   }
 
   while (1);

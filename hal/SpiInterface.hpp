@@ -55,7 +55,7 @@ namespace spi {
 		
 		static Configuration _default_slave()
 		{
-			return {_2Lines_FullDuplex, Master, /*_8b,*/ Low, _1_Edge, Soft, _2, MSB, 8, 1000000};
+			return {_2Lines_FullDuplex, Slave, /*_8b,*/ Low, _1_Edge, Soft, _2, MSB, 8, 1000000};
 		}
 	};
 	
