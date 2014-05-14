@@ -38,7 +38,7 @@ namespace tix
 
 		}
 
-		Uart::Uart(unsigned int id, ::uart::UartInterface::uart_callback callback, ::uart::Configuration config)
+		Uart::Uart(unsigned int id, ::uart::UartInterface::uart_callback_T callback, ::uart::Configuration config)
 		{
 			_id = id;
 			_callback = callback;

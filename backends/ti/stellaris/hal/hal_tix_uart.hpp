@@ -16,7 +16,7 @@ namespace tix
 		{
 		public:
 
-			Uart(unsigned int id, ::uart::UartInterface::uart_callback callback,
+			Uart(unsigned int id, ::uart::UartInterface::uart_callback_T callback,
 					::uart::Configuration config = ::uart::Configuration::_9600_8_N_1());
 
 			virtual void send(const char* const str);
