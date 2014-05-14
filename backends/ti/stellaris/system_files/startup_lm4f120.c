@@ -39,6 +39,13 @@ void HardFault_Handler();
 
 //*****************************************************************************
 //
+// External Clock Initialization
+//
+//*****************************************************************************
+extern int InitClock(void);
+
+//*****************************************************************************
+//
 // The entry point for the application.
 //
 //*****************************************************************************
@@ -281,6 +288,9 @@ Reset_Handler(void)
 
     // Call static constructors
     __libc_init_array();
+    
+    // Init clock
+    InitClock();
 
     //
     // Call the application's entry point.

@@ -9,24 +9,24 @@
 uint32_t guTickFactor;
 uint32_t gmTickFactor;
 
-struct AutoInitSysTick
+extern "C"
 {
-	AutoInitSysTick()
+	void InitClock()
 	{
-	    //
-	    // Set the clocking to run directly from the PLL at 80 MHz
-	    //
-	    SysCtlClockSet(SYSCTL_SYSDIV_2_5 | SYSCTL_USE_PLL | SYSCTL_XTAL_16MHZ |
-	                               SYSCTL_OSC_MAIN);
+		//
+		// Set the clocking to run directly from the PLL at 80 MHz
+		//
+		SysCtlClockSet(SYSCTL_SYSDIV_2_5 | SYSCTL_USE_PLL | SYSCTL_XTAL_16MHZ |
+								   SYSCTL_OSC_MAIN);
 
-	    //we set a period with to max representation of uint16_t
-	    SysTickPeriodSet(0x0000FFFF + 1);
+		//we set a period with to max representation of uint16_t
+		SysTickPeriodSet(0x0000FFFF + 1);
 
-	    //enable systick counter
-	    SysTickEnable();
+		//enable systick counter
+		SysTickEnable();
 
-	    guTickFactor = SysCtlClockGet() / 1000000;
-	    gmTickFactor = SysCtlClockGet() / 1000;
+		guTickFactor = SysCtlClockGet() / 1000000;
+		gmTickFactor = SysCtlClockGet() / 1000;
 
 		//
 		// Enable global interrupts
@@ -34,9 +34,7 @@ struct AutoInitSysTick
 		IntMasterEnable();
 
 	}
-};
-
-AutoInitSysTick gAutoInitSysTick;
+}
 
 namespace clock
 {
