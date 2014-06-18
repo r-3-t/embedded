@@ -72,27 +72,35 @@ namespace tix
 			{
 			case GPIO_PORTA_BASE:
 				SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
+				return;
 				break;
 			case GPIO_PORTB_BASE:
 				SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
+				return;
 				break;
 			case GPIO_PORTC_BASE:
 				SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOC);
+				return;
 				break;
 			case GPIO_PORTD_BASE:
 				SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);
+				return;
 				break;
 			case GPIO_PORTE_BASE:
 				SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
+				return;
 				break;
 			case GPIO_PORTF_BASE:
 				SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
+				return;
 				break;
 			case GPIO_PORTG_BASE:
 				SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOG);
+				return;
 				break;
 			case GPIO_PORTH_BASE:
 				SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOH);
+				return;
 				break;
 			}
 
