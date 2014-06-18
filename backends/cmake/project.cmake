@@ -3,6 +3,7 @@ include(arm-none-eabi-gcc)
 
 #common compile flags
 set(COMMON_COMPILE_FLAGS "-Os -g -Werror -Wextra -Warray-bounds -ffunction-sections -fdata-sections")
+#set(COMMON_COMPILE_FLAGS "-Os -Werror -Wextra -Warray-bounds -ffunction-sections -fdata-sections")
 #-u _printf_float
 set(COMMON_LINK_FLAGS "-Wl,--gc-sections --specs=nano.specs")
 
@@ -45,6 +46,7 @@ function (add_mcu_lib mcu_lib_name)
 	#add MCU to list of supported MCUs
 	set_property(GLOBAL APPEND PROPERTY MCU_LIBS ${mcu_lib_name})
 
+	#add all sources for this MCU
 	foreach (source ${sources})
 		if (IS_DIRECTORY ${source})
 			file(GLOB directory_source_files ${source}/*)
@@ -55,12 +57,15 @@ function (add_mcu_lib mcu_lib_name)
 		endif(IS_DIRECTORY ${source})
 	endforeach(source)
 
+	#add MCU target
 	add_library(${mcu_lib_name} EXCLUDE_FROM_ALL ${source_files})
 
+	#add previously found directories to includes
 	target_include_directories(${mcu_lib_name} PUBLIC ${directories_to_include})
 
 	string(TOUPPER ${mcu_lib_name} MCU_LIB_NAME)
 
+	#add needed flags for this MCU
 	set_target_properties(${mcu_lib_name} PROPERTIES COMPILE_FLAGS ${${MCU_LIB_NAME}_COMPILE_FLAGS})
 
 endfunction(add_mcu_lib)
