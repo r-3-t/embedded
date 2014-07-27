@@ -1,6 +1,5 @@
 #pragma once
 
-#include <hal/usart_conf.hpp>
 #include <string.h>
 #include <hw_types.h>
 #include <hw_memmap.h>
@@ -16,16 +15,21 @@ namespace tix
 		{
 		public:
 
-			I2c(unsigned int id, ::i2c::I2cInterface::i2c_callback callback,
-					::i2c::Configuration config = ::i2c::Configuration::_Master());
+			I2c(unsigned int id, ::i2c::I2cInterface::i2c_receive_callback receive_callback,
+					::i2c::Configuration config = ::i2c::Configuration::_Master(),
+					::i2c::I2cInterface::i2c_on_master_request_callback on_master_request_callback = (i2c_on_master_request_callback)0);
 
 			virtual void send(const char car);
 			virtual void send(const types::buffer& buf);
 			virtual void setSlaveAddress(const unsigned char Address, ::i2c::MasterOperation_T MasterOperation = ::i2c::MasterWriteToSlave);
+			virtual void waitBusy();
+			virtual void request();
+			virtual void request(int BytesCount);
 
 			unsigned char		 	receive();
 			unsigned long 			I2C_Base;
 			::i2c::Configuration	config;
+			bool					requestEnabled;
 
 		private:
 			void		 			Configure();

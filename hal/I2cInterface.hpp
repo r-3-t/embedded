@@ -14,7 +14,8 @@ namespace i2c {
 	class I2cInterface
 	{
 	public:
-		typedef void (*i2c_callback)(const uint8_t c);
+		typedef void (*i2c_receive_callback)(const uint8_t c);
+		typedef void (*i2c_on_master_request_callback)();
 
 		I2cInterface() {}
 
@@ -22,7 +23,8 @@ namespace i2c {
 		virtual void send(const types::buffer& buf) 							= 0;
 		virtual void setSlaveAddress(const unsigned char Address, MasterOperation_T MasterOperation)			 		= 0;
 
-		i2c_callback _callback;
+		i2c_receive_callback _receive_callback;
+		i2c_on_master_request_callback _on_master_request_callback;
 
 	};
 
