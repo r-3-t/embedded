@@ -116,11 +116,11 @@ function (build_project)
 
 	set(source_files ${ARGV})
 
-	add_executable(${PROJECT_NAME}.elf ${source_files} $<TARGET_OBJECTS:syscall>)
+	add_executable(${PROJECT_NAME}.elf ${source_files} $<TARGET_OBJECTS:syscall> $<TARGET_OBJECTS:error>)
 	target_link_libraries(${PROJECT_NAME}.elf hal_${mcu} ${mcu} ${${MCU}_LINK_FLAGS} -T${LDSCRIPT})
 
 	#TODO: process automaticaly	
-	set_target_properties(${PROJECT_NAME}.elf pinout syscall PROPERTIES COMPILE_FLAGS ${${MCU}_COMPILE_FLAGS})
+	set_target_properties(${PROJECT_NAME}.elf pinout syscall error PROPERTIES COMPILE_FLAGS ${${MCU}_COMPILE_FLAGS})
 
 	add_custom_command (TARGET ${PROJECT_NAME}.elf POST_BUILD COMMAND arm-none-eabi-size $<TARGET_FILE:${PROJECT_NAME}.elf>)
 
