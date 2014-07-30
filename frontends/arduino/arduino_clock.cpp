@@ -1,5 +1,5 @@
 #include <arduino_clock.hpp>
-#include <hal/Clock.hpp>
+#include <ClockInterface.hpp>
 
 namespace arduino
 {

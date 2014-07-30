@@ -1,6 +1,8 @@
 #include "arduino_spi.hpp"
 #include <SpiInterface.hpp>
 
+::spi::ConcreteSpi			Spi1(1, 0,::spi::Configuration::_default_master());
+
 
 namespace arduino
 {
@@ -9,13 +11,12 @@ namespace arduino
 
 		void ArduinoSPI::begin()
 		{
-			  ::spi::init_instance(DEFAULT_SPI_NUMBER);
 			return;
 		}
 
 		uint8_t ArduinoSPI::transfer(uint8_t val)
 		{
-			return ::spi::get_instance(DEFAULT_SPI_NUMBER).send(val);
+			Spi1.send(val);
 		}
 
 	} //namespace spi
