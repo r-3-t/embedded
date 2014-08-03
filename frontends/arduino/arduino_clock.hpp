@@ -12,5 +12,7 @@ namespace arduino
 		::types::uint32 millis();
 
 		::types::uint32 micros();
+		
+		::types::uint32 elapsedMicros(uint32_t PreviousTickCounter);
 	}
 }

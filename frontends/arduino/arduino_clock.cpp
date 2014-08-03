@@ -24,5 +24,10 @@ namespace arduino
 		{
 			return ::clock::getTickCount() / ::clock::getTickPerUs();
 		}
+		
+		::types::uint32 elapsedMicros(uint32_t PreviousTickCounter)
+		{
+			return ::clock::elapsedMicros(PreviousTickCounter);
+		}
 	}
 }
