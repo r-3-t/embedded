@@ -71,6 +71,23 @@ namespace clock
 
 		}
 	}
+	
+	uint32_t elapsedMicros(unsigned int PreviousTickCounter)
+	{
+		uint32_t CurrentTickCounter = getTickCount();
+		uint32_t elapseTicks;
+		
+		if (CurrentTickCounter > PreviousTickCounter)
+		{
+			elapseTicks = 0xFFFFFF - (CurrentTickCounter - PreviousTickCounter);
+		}
+		else
+		{
+			elapseTicks = PreviousTickCounter - CurrentTickCounter;
+		}
+		
+		return (elapseTicks/guTickFactor);
+	}
 
 	void usleep(unsigned int nTime)
 	{

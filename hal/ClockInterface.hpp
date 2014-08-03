@@ -6,6 +6,8 @@ namespace clock
 	unsigned int getTickPerMs();
 	unsigned int getTickPerUs();
 
+	uint32_t elapsedMicros(unsigned int PreviousTickCounter);
+
 	void msleep(unsigned int nTime);
 	void usleep(unsigned int nTime);
 }
