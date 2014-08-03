@@ -19,8 +19,8 @@ extern "C"
 		SysCtlClockSet(SYSCTL_SYSDIV_2_5 | SYSCTL_USE_PLL | SYSCTL_XTAL_16MHZ |
 								   SYSCTL_OSC_MAIN);
 
-		//we set a period with to max representation of uint16_t
-		SysTickPeriodSet(0x0000FFFF + 1);
+		//we set a period to its max representation (24 bits)
+		SysTickPeriodSet(0x00FFFFFF + 1);
 
 		//enable systick counter
 		SysTickEnable();
@@ -41,16 +41,16 @@ namespace clock
 
 	uint32_t getTickCount()
 	{
-		return NVIC_ST_CURRENT_R;
+		return (NVIC_ST_CURRENT_R & 0xFFFFFF);
 	}
 
 	void decrease_ticks(uint32_t nbTicks)
 	{
-		uint16_t PreviousTickCounter = getTickCount();
-		uint16_t CurrentTickCounter;
+		uint32_t PreviousTickCounter = getTickCount();
+		uint32_t CurrentTickCounter;
 
 		//ticks count in one iteration
-		uint16_t elapseTicks = 0;
+		uint32_t elapseTicks = 0;
 
 		while( nbTicks > elapseTicks)
 		{
@@ -59,7 +59,14 @@ namespace clock
 
 			//calculate nb ticks between now and previous iteration
 			CurrentTickCounter = getTickCount();
-			elapseTicks = PreviousTickCounter - CurrentTickCounter;
+			if (CurrentTickCounter > PreviousTickCounter)
+			{
+				elapseTicks = 0xFFFFFF - (CurrentTickCounter - PreviousTickCounter);
+			}
+			else
+			{
+				elapseTicks = PreviousTickCounter - CurrentTickCounter;
+			}
 			PreviousTickCounter = CurrentTickCounter;
 
 		}
