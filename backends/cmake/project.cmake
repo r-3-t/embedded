@@ -126,4 +126,21 @@ function (build_project)
 
 endfunction(build_project)
 
+function (build_library library_name)
+	if (NOT mcu)
+		show_available_mcus()
+		message(FATAL_ERROR "No MCU selected ! Use -Dmcu=")
+		return()
+	endif(NOT mcu)
+
+	list(REMOVE_AT ARGV 0)
+	set(source_files ${ARGV})
+
+	add_library(${library_name} ${source_files})
+
+	#TODO: process automaticaly	
+	set_target_properties(${library_name} PROPERTIES COMPILE_FLAGS ${${MCU}_COMPILE_FLAGS})
+
+endfunction(build_library)
+
 
