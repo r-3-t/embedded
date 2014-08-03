@@ -19,5 +19,10 @@ namespace arduino
 		{
 			return ::clock::getTickCount() / ::clock::getTickPerMs();
 		}
+
+		::types::uint32 micros()
+		{
+			return ::clock::getTickCount() / ::clock::getTickPerUs();
+		}
 	}
 }
