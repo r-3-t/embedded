@@ -50,7 +50,9 @@ namespace tix
 
 		void Uart::Configure()
 		{
-
+			//already done
+			if (_configured) return;
+			
 			//GPIO configuration for UART use
 			unsigned long RxPinConfig;
 			unsigned long TxPinConfig;

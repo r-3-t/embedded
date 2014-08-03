@@ -25,9 +25,9 @@ namespace tix
 
 			unsigned char		 	receive();
 			unsigned long 			UART_Base;
+			void		 			Configure();
 
 		private:
-			void		 			Configure();
 
 			unsigned int			_id;
 			::uart::Configuration	_config;
