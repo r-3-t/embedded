@@ -2,7 +2,7 @@
 include(arm-none-eabi-gcc)
 
 #common compile flags
-set(COMMON_COMPILE_FLAGS "-Os -g -Werror -Wextra -Warray-bounds -ffunction-sections -fdata-sections")
+set(COMMON_COMPILE_FLAGS "-Os -g -Werror -Wno-error=cpp -Wextra -Warray-bounds -ffunction-sections -fdata-sections")
 #set(COMMON_COMPILE_FLAGS "-Os -Werror -Wextra -Warray-bounds -ffunction-sections -fdata-sections")
 #-u _printf_float
 set(COMMON_LINK_FLAGS "-Wl,--gc-sections --specs=nano.specs")
