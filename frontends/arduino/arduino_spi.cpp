@@ -9,6 +9,8 @@ namespace arduino
 	namespace spi
 	{
 
+		ArduinoSPI SPI;
+
 		void ArduinoSPI::begin()
 		{
 			return;

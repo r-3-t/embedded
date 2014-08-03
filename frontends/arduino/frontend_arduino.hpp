@@ -9,6 +9,7 @@ using namespace ::arduino::gpio;
 using namespace ::arduino::clock;
 using namespace ::arduino::wire;
 using namespace ::arduino::serial;
+using namespace ::arduino::spi;
 
 #include <algorithm>
 using namespace std;

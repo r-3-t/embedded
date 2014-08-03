@@ -21,6 +21,8 @@ namespace arduino
 	}; //class SPI
 
 	typedef ArduinoSPI HardwareSPI;
+	extern ArduinoSPI SPI;
+
 
 	} //namespace spi
 
