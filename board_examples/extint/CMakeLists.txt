@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.6)
 
-project("test_extint")
+set(EMBEDDED_PATH ${CMAKE_CURRENT_LIST_DIR}/../../)
+include(${EMBEDDED_PATH}/backends/cmake/project.cmake)
 
-set (PROJECT_SOURCES	main.cpp)
+build_project(test_extint main.cpp)
 
-include(../cmake/example.cmake) 

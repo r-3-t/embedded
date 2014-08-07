@@ -109,22 +109,23 @@ function(show_available_mcus)
 
 endfunction(show_available_mcus)
 
-function (build_project)
+function (build_project project_name)
 	if (NOT mcu)
 		show_available_mcus()
 		message(FATAL_ERROR "No MCU selected ! Use -Dmcu=")
 		return()
 	endif(NOT mcu)
 
+	list(REMOVE_AT ARGV 0)
 	set(source_files ${ARGV})
 
-	add_executable(${PROJECT_NAME}.elf ${source_files} $<TARGET_OBJECTS:syscall> $<TARGET_OBJECTS:error>)
-	target_link_libraries(${PROJECT_NAME}.elf hal_${mcu} ${mcu} ${${MCU}_LINK_FLAGS} -T${LDSCRIPT})
+	add_executable(${project_name} ${source_files} $<TARGET_OBJECTS:syscall> $<TARGET_OBJECTS:error>)
+	target_link_libraries(${project_name} hal_${mcu} ${mcu} ${${MCU}_LINK_FLAGS} -T${LDSCRIPT})
 
 	#TODO: process automaticaly	
-	set_target_properties(${PROJECT_NAME}.elf pinout syscall error PROPERTIES COMPILE_FLAGS ${${MCU}_COMPILE_FLAGS})
+	set_target_properties(${project_name} pinout syscall error PROPERTIES COMPILE_FLAGS ${${MCU}_COMPILE_FLAGS})
 
-	add_custom_command (TARGET ${PROJECT_NAME}.elf POST_BUILD COMMAND arm-none-eabi-size $<TARGET_FILE:${PROJECT_NAME}.elf>)
+	add_custom_command (TARGET ${project_name} POST_BUILD COMMAND arm-none-eabi-size $<TARGET_FILE:${project_name}>)
 
 endfunction(build_project)
 
@@ -138,11 +139,13 @@ function (build_library library_name)
 	list(REMOVE_AT ARGV 0)
 	set(source_files ${ARGV})
 
-	add_library(${library_name} ${source_files})
+	add_library(${library_name} EXCLUDE_FROM_ALL ${source_files})
 
 	#TODO: process automaticaly	
 	set_target_properties(${library_name} PROPERTIES COMPILE_FLAGS ${${MCU}_COMPILE_FLAGS})
 
 endfunction(build_library)
 
+#add optional arduino frontend
+include(${CMAKE_CURRENT_LIST_DIR}/../../frontends/arduino/arduino.cmake)
 
