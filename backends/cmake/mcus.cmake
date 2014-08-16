@@ -13,6 +13,14 @@ set (STM32F051_FLASH_SIZE			64K)
 set (STM32F051_MIN_STACK_SIZE			0x800)
 set (STM32F051_MIN_HEAP_SIZE			0x800)
 
+#template
+set (STM32F051_LED0_PORT			3)
+set (STM32F051_LED0_PIN				8)
+set (STM32F051_BUTTON0_PORT			1)
+set (STM32F051_BUTTON0_PIN			0)
+set (STM32F051_DEFAULT_UART			1)
+set (STM32F051_DEFAULT_TIMER			2)
+
 set (STM32F051_OPENOCDCFG_CONTENT
 "
 source [find board/stm32f0discovery.cfg]
@@ -32,6 +40,14 @@ set (STM32F103_RAM_SIZE				20K)
 set (STM32F103_FLASH_SIZE			64K)
 set (STM32F103_MIN_STACK_SIZE			0x800)
 set (STM32F103_MIN_HEAP_SIZE			0x800)
+
+#template
+set (STM32F103_LED0_PORT			1)
+set (STM32F103_LED0_PIN				0)
+set (STM32F103_BUTTON0_PORT			2)
+set (STM32F103_BUTTON0_PIN			0)
+set (STM32F103_DEFAULT_UART			1)
+set (STM32F103_DEFAULT_TIMER			2)
 
 set (STM32F103_OPENOCDCFG_CONTENT
 "
@@ -66,9 +82,45 @@ set (STM32F100_FLASH_SIZE			128K)
 set (STM32F100_MIN_STACK_SIZE			0x800)
 set (STM32F100_MIN_HEAP_SIZE			0x800)
 
+#template
+set (STM32F100_LED0_PORT			3)
+set (STM32F100_LED0_PIN				8)
+set (STM32F100_BUTTON0_PORT			1)
+set (STM32F100_BUTTON0_PIN			0)
+set (STM32F100_DEFAULT_UART			1)
+set (STM32F100_DEFAULT_TIMER			2)
+
 set (STM32F100_OPENOCDCFG_CONTENT
 "
 source [find board/stm32vldiscovery.cfg]
+")
+
+######################################################################
+########################### STM32F407 ################################
+######################################################################
+#compile flags for targets
+set(STM32F407_COMPILE_FLAGS "${COMMON_COMPILE_FLAGS} -mthumb -mcpu=cortex-m4 -DSTM32F4XX -DHSE_VALUE=8000000")
+set(STM32F407_LINK_FLAGS "${COMMON_LINK_FLAGS} -mthumb -mcpu=cortex-m4")
+
+#linker script
+set (STM32F407_FLASH_ORIGIN			0x08000000)
+set (STM32F407_RAM_ORIGIN			0x20000000)
+set (STM32F407_RAM_SIZE				192K)
+set (STM32F407_FLASH_SIZE			1024K)
+set (STM32F407_MIN_STACK_SIZE			0x800)
+set (STM32F407_MIN_HEAP_SIZE			0x800)
+
+#template
+set (STM32F407_LED0_PORT			4)
+set (STM32F407_LED0_PIN				15)
+set (STM32F407_BUTTON0_PORT			1)
+set (STM32F407_BUTTON0_PIN			0)
+set (STM32F407_DEFAULT_UART			2)
+set (STM32F407_DEFAULT_TIMER			2)
+
+set (STM32F407_OPENOCDCFG_CONTENT
+"
+source [find board/stm32f4discovery.cfg]
 ")
 
 ######################################################################
@@ -85,6 +137,15 @@ set (LM4F120XL_RAM_SIZE				32K)
 set (LM4F120XL_FLASH_SIZE			256K)
 set (LM4F120XL_MIN_STACK_SIZE			0x800)
 set (LM4F120XL_MIN_HEAP_SIZE			0x800)
+set (LM4F120XL_DEFAULT_TIMER			1)
+
+#template
+set (LM4F120XL_LED0_PORT			6)
+set (LM4F120XL_LED0_PIN				1)
+set (LM4F120XL_BUTTON0_PORT			6)
+set (LM4F120XL_BUTTON0_PIN			0)
+set (LM4F120XL_DEFAULT_UART			1)
+set (LM4F120XL_DEFAULT_TIMER			1)
 
 set (LM4F120XL_OPENOCDCFG_CONTENT
 "

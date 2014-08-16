@@ -9,10 +9,6 @@
 /******************************************************************************\
 		DEFINES
 \******************************************************************************/
-#define LED_PORT							1
-#define LED_PIN								0
-
-#define TIMER_ID							2
 
 /******************************************************************************\
 		PROTOTYPES
@@ -23,10 +19,10 @@ void Led_High_ISR();
 		GLOBALS
 \******************************************************************************/
 //configure led
-::pinout::ConcretePinout pinLed(LED_PORT, LED_PIN);
+::pinout::ConcretePinout pinLed(LED0_PORT, LED0_PIN);
 
 //configure timer
-::timer::ConcreteTimer timer0(TIMER_ID, ::timer::SubdivisionDelayMs, 1000 /*Period*/, &Led_High_ISR);
+::timer::ConcreteTimer timer0(DEFAULT_TIMER, ::timer::SubdivisionDelayMs, 1000 /*Period*/, &Led_High_ISR);
 
 /******************************************************************************\
 		FUNCTIONS

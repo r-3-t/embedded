@@ -125,6 +125,12 @@ function (build_project project_name)
 	#TODO: process automaticaly	
 	set_target_properties(${project_name} pinout syscall error PROPERTIES COMPILE_FLAGS ${${MCU}_COMPILE_FLAGS})
 
+	#Templates
+	list(APPEND MCU_TEMPLATE LED0_PORT=${${MCU}_LED0_PORT};LED0_PIN=${${MCU}_LED0_PIN};BUTTON0_PORT=${${MCU}_BUTTON0_PORT};BUTTON0_PIN=${${MCU}_BUTTON0_PIN})
+	list(APPEND MCU_TEMPLATE DEFAULT_UART=${${MCU}_DEFAULT_UART};DEFAULT_TIMER=${${MCU}_DEFAULT_TIMER})
+
+	target_compile_definitions(${project_name} PUBLIC ${MCU_TEMPLATE})
+
 	add_custom_command (TARGET ${project_name} POST_BUILD COMMAND arm-none-eabi-size $<TARGET_FILE:${project_name}>)
 
 endfunction(build_project)
@@ -144,8 +150,13 @@ function (build_library library_name)
 	#TODO: process automaticaly	
 	set_target_properties(${library_name} PROPERTIES COMPILE_FLAGS ${${MCU}_COMPILE_FLAGS})
 
+	#Templates
+	list(APPEND MCU_TEMPLATE LED0_PORT=${${MCU}_LED0_PORT};LED0_PIN=${${MCU}_LED0_PIN};BUTTON0_PORT=${${MCU}_BUTTON0_PORT};BUTTON0_PIN=${${MCU}_BUTTON0_PIN})
+	list(APPEND MCU_TEMPLATE DEFAULT_UART=${${MCU}_DEFAULT_UART};DEFAULT_TIMER=${${MCU}_DEFAULT_TIMER})
+
+	target_compile_definitions(${library_name} PUBLIC ${MCU_TEMPLATE})
+
 endfunction(build_library)
 
 #add optional arduino frontend
 include(${CMAKE_CURRENT_LIST_DIR}/../../frontends/arduino/arduino.cmake)
-
