@@ -8,8 +8,5 @@ set(STM_STD_LIB_PATHS ${CMAKE_CURRENT_SOURCE_DIR}/system_files/STM32F0xx_StdPeri
 add_mcu_lib(stm32f051 	${STM_STD_LIB_PATHS}
 						${CMAKE_CURRENT_SOURCE_DIR}/system_files/STM32F0xx_StdPeriph_Lib_V1.3.1/Libraries/CMSIS/Device/ST/STM32F0xx/Source/Templates/TrueSTUDIO/startup_stm32f051.s
 						)
-target_compile_definitions(stm32f051 PUBLIC -DSTM32F051)
-
-add_mcu_hal(hal_stm32f051 stm32f051 ${CMAKE_CURRENT_SOURCE_DIR}/hal ${CMAKE_CURRENT_SOURCE_DIR}/hal)
-target_include_directories(hal_stm32f051 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../include/)
+#target_compile_definitions(stm32f051 PUBLIC -DSTM32F051)
 

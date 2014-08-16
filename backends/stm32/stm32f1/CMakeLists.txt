@@ -13,7 +13,7 @@ add_mcu_lib(stm32f103 	${STM_STD_LIB_PATHS}
 						${STM32F1_STD_PERIPH_PATH}/CMSIS/CM3/DeviceSupport/ST/STM32F10x/startup/TrueSTUDIO/startup_stm32f10x_md.s
 						)
 target_compile_definitions(stm32f103 PUBLIC -DSTM32F10X_MD)
-add_mcu_hal(hal_stm32f103 stm32f103 ${CMAKE_CURRENT_SOURCE_DIR}/hal ${CMAKE_CURRENT_SOURCE_DIR}/hal)
+#add_mcu_hal(hal_stm32f103 stm32f103 ${CMAKE_CURRENT_SOURCE_DIR}/hal ${CMAKE_CURRENT_SOURCE_DIR}/hal)
 
 ################################################################################
 ################################ STM32F100 #####################################
@@ -22,5 +22,5 @@ add_mcu_lib(stm32f100 	${STM_STD_LIB_PATHS}
 						${STM32F1_STD_PERIPH_PATH}/CMSIS/CM3/DeviceSupport/ST/STM32F10x/startup/TrueSTUDIO/startup_stm32f10x_md_vl.s
 						)
 target_compile_definitions(stm32f100 PUBLIC -DSTM32F10X_MD_VL)
-add_mcu_hal(hal_stm32f100 stm32f100 ${CMAKE_CURRENT_SOURCE_DIR}/hal ${CMAKE_CURRENT_SOURCE_DIR}/hal)
+#add_mcu_hal(hal_stm32f100 stm32f100 ${CMAKE_CURRENT_SOURCE_DIR}/hal ${CMAKE_CURRENT_SOURCE_DIR}/hal)
 

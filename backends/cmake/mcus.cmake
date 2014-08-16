@@ -2,7 +2,7 @@
 ########################### STM32F051 ################################
 ######################################################################
 #compile flags for targets
-set(STM32F051_COMPILE_FLAGS "${COMMON_COMPILE_FLAGS} -mthumb -mcpu=cortex-m0")
+set(STM32F051_COMPILE_FLAGS "${COMMON_COMPILE_FLAGS} -mthumb -mcpu=cortex-m0 -DSTM32F0XX")
 set(STM32F051_LINK_FLAGS "${COMMON_LINK_FLAGS} -mthumb -mcpu=cortex-m0")
 
 #linker script
@@ -30,7 +30,7 @@ source [find board/stm32f0discovery.cfg]
 ########################### STM32F103 ################################
 ######################################################################
 #compile flags for targets
-set(STM32F103_COMPILE_FLAGS "${COMMON_COMPILE_FLAGS} -mthumb -mcpu=cortex-m3")
+set(STM32F103_COMPILE_FLAGS "${COMMON_COMPILE_FLAGS} -mthumb -mcpu=cortex-m3 -DSTM32F1XX")
 set(STM32F103_LINK_FLAGS "${COMMON_LINK_FLAGS} -mthumb -mcpu=cortex-m3")
 
 #linker script
@@ -71,7 +71,7 @@ reset_config trst_and_srst separate
 ########################### STM32F100 ################################
 ######################################################################
 #compile flags for targets
-set(STM32F100_COMPILE_FLAGS "${COMMON_COMPILE_FLAGS} -mthumb -mcpu=cortex-m3")
+set(STM32F100_COMPILE_FLAGS "${COMMON_COMPILE_FLAGS} -mthumb -mcpu=cortex-m3 -DSTM32F1XX")
 set(STM32F100_LINK_FLAGS "${COMMON_LINK_FLAGS} -mthumb -mcpu=cortex-m3")
 
 #linker script
