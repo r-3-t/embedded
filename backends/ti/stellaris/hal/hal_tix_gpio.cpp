@@ -1,6 +1,7 @@
 #include <hw_types.h>
 #include <gpio.h>
 #include <hw_gpio.h>
+#include <hw_ints.h>
 #include <hw_memmap.h>
 #include <sysctl.h>
 
@@ -116,6 +117,17 @@ namespace tix
 
 		}
 
+		void configure_extint_pin(unsigned long ulPort, unsigned char ucPins)
+		{
+			enable_port_clock(ulPort);
+
+			//configure as input
+			GPIOPinTypeGPIOInput(ulPort, ucPins);
+
+			GPIOPadConfigSet(ulPort, ucPins, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD);
+
+		}
+
 		void set_pin(unsigned long ulPort, unsigned char ucPins)
 		{
 			GPIOPinWrite(ulPort, ucPins, ucPins);
@@ -124,6 +136,18 @@ namespace tix
 		void reset_pin(unsigned long ulPort, unsigned char ucPins)
 		{
 			GPIOPinWrite(ulPort, ucPins, 0);
+		}
+
+		bool is_pin_high(unsigned long ulPort, unsigned char ucPins)
+		{
+			if ( (GPIOPinRead(ulPort, ucPins) & ucPins) == ucPins)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 	}
@@ -141,6 +165,15 @@ namespace gpio
 		ulPort = ::tix::gpio::get_GPIO_port_from_id(GPIOId);
 
 		::tix::gpio::configure_gpio_pin(ulPort, ::tix::gpio::get_GPIO_pin_from_id(PINId));
+	}
+
+	void configure_extint_pin(::pinout::Gpio_id 	GPIOId, ::pinout::Pin_id PINId)
+	{
+		unsigned long ulPort;
+
+		ulPort = ::tix::gpio::get_GPIO_port_from_id(GPIOId);
+
+		::tix::gpio::configure_extint_pin(ulPort, ::tix::gpio::get_GPIO_pin_from_id(PINId));
 	}
 
 	void set_pin(::pinout::Gpio_id 	GPIOId, ::pinout::Pin_id PINId)

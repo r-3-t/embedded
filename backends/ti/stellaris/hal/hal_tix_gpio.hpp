@@ -17,6 +17,11 @@ namespace tix
 
 		unsigned long get_GPIO_port_from_id(::pinout::Gpio_id 	GPIOId);
 		unsigned long get_GPIO_pin_from_id(::pinout::Pin_id PINId);
+		void configure_gpio_pin(unsigned long ulPort, unsigned char ucPins);
+		void configure_extint_pin(unsigned long ulPort, unsigned char ucPins);
+		void set_pin(unsigned long ulPort, unsigned char ucPins);
+		void reset_pin(unsigned long ulPort, unsigned char ucPins);
+		bool is_pin_high(unsigned long ulPort, unsigned char ucPins);
 
 	}
 }
@@ -26,9 +31,7 @@ namespace tix
 namespace gpio
 {
 
-	void configure_gpio_pin(::pinout::Gpio_id 	GPIOId, ::pinout::Pin_id PINId);
-	void set_pin(::pinout::Gpio_id 	GPIOId, ::pinout::Pin_id PINId);
-	void reset_pin(::pinout::Gpio_id 	GPIOId, ::pinout::Pin_id PINId);
+
 
 
 } //namespace gpio
