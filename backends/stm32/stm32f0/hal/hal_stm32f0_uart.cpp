@@ -140,6 +140,10 @@ namespace stm32f0xx {
 
 		}
 
+		void Uart::Configure()
+		{
+			return;
+		}
 
 		void Uart::send(const char* const str)
 		{

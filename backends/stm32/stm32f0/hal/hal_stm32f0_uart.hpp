@@ -43,6 +43,8 @@ namespace stm32f0xx {
 			 */
 			virtual void send(const unsigned char* buf, unsigned int length);
 
+			virtual void Configure();
+
 		private:
 
 			USART_TypeDef* _USARTx;
