@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 
 ::uart::ConcreteUart UartCommand(ARDUINO_DEFAULT_SERIAL, &::arduino::serial::uart_callback);
