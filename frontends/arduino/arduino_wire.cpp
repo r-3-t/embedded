@@ -49,7 +49,7 @@ namespace arduino
 
 		void ArduinoWire::beginTransmission(unsigned char SlaveAddress)
 		{
-			DefaultMasterI2c.setSlaveAddress(SlaveAddress, ::i2c::MasterWriteToSlave);
+			DefaultMasterI2c.setSlaveAddress(SlaveAddress);
 			return;
 		}
 
@@ -112,7 +112,7 @@ namespace arduino
 
 		int ArduinoWire::requestFrom(unsigned char slave_address, int size)
 		{
-			DefaultMasterI2c.setSlaveAddress(slave_address, ::i2c::MasterReadFromSlave);
+			DefaultMasterI2c.setSlaveAddress(slave_address);
 			DefaultMasterI2c.request(size);
 			DefaultMasterI2c.waitBusy();
 			return this->available();

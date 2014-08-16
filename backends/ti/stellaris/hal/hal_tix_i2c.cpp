@@ -66,6 +66,7 @@ namespace tix
 			this->config = config;
 			_configured = false;
 			this->requestEnabled = false;
+			this->_slave_address = 0xFF;
 
 			gpI2cs[id - 1] = this;
 		}
@@ -201,6 +202,8 @@ namespace tix
 			{
 				this->waitBusy();
 
+				I2CMasterSlaveAddrSet(this->I2C_Base, this->_slave_address, false /*write to slave*/);
+
 				this->requestEnabled = false;
 				I2CMasterDataPut(I2C_Base, c & 0xFF);
 				I2CMasterControl(I2C_Base, I2C_MASTER_CMD_SINGLE_SEND);
@@ -255,6 +258,8 @@ cleanup:
 				}
 
 				this->waitBusy();
+
+				I2CMasterSlaveAddrSet(this->I2C_Base, this->_slave_address, false /*write to slave*/);
 
 				//send first byte
 				c = buf[0];
@@ -326,6 +331,8 @@ cleanup:
 			{
 				this->requestEnabled = true;
 
+				I2CMasterSlaveAddrSet(this->I2C_Base, this->_slave_address, true /*read from slave*/);
+
 				I2CMasterControl(I2C_Base, I2C_MASTER_CMD_SINGLE_RECEIVE);
 
 				//wait controller to be ready
@@ -357,9 +364,10 @@ cleanup:
 				return;
 			}
 
-
 			if (this->config.Mode == ::i2c::Configuration::Master)
 			{
+				I2CMasterSlaveAddrSet(this->I2C_Base, this->_slave_address, true /*read from slave*/);
+
 				this->requestEnabled = true;
 
 				//send first request
@@ -409,7 +417,7 @@ cleanup:
 
 		}
 
-		void I2c::setSlaveAddress(const unsigned char Address, ::i2c::MasterOperation_T MasterOperation)
+		void I2c::setSlaveAddress(const unsigned char Address)
 		{
 			if (_configured == false)
 			{
@@ -418,14 +426,7 @@ cleanup:
 			
 			if (this->config.Mode == ::i2c::Configuration::Master)
 			{
-				if (MasterOperation == ::i2c::MasterWriteToSlave)
-				{
-					I2CMasterSlaveAddrSet(this->I2C_Base, Address, false /*write to slave*/);
-				}
-				else
-				{
-					I2CMasterSlaveAddrSet(this->I2C_Base, Address, true /*read from slave*/);
-				}
+				this->_slave_address = Address;
 			}
 			else
 			{

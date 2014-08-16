@@ -19,9 +19,10 @@ namespace i2c {
 
 		I2cInterface() {}
 
-		virtual void send(const char  car)										= 0;
-		virtual void send(const types::buffer& buf) 							= 0;
-		virtual void setSlaveAddress(const unsigned char Address, MasterOperation_T MasterOperation)			 		= 0;
+		virtual void send(const char car)													= 0;
+		virtual void send(const types::buffer& buf)											= 0;
+		virtual void setSlaveAddress(const uint8_t slave_address)							= 0;
+		virtual void request(const int BytesCount)											= 0;
 
 		i2c_receive_callback _receive_callback;
 		i2c_on_master_request_callback _on_master_request_callback;

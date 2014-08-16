@@ -89,21 +89,23 @@ int main(void)
 
 
 	printf("Set I2C slave address.\r\n");
+	//address this slave
 	I2cSlave.setSlaveAddress(I2C_SLAVE_ADDRESS);
 
+	//master will communicate with this slave
+	I2cMaster.setSlaveAddress(I2C_SLAVE_ADDRESS);
 
 	printf("Begin I2C loop.\r\n");
 	while(1)
 	{
 		printf("===========================================\r\n");
+
 		buf.push_back(Idx);
 
 		//send to slave
-		I2cMaster.setSlaveAddress(I2C_SLAVE_ADDRESS, ::i2c::MasterWriteToSlave);
 		I2cMaster.send(buf);
 
 		//receive from slave
-		I2cMaster.setSlaveAddress(I2C_SLAVE_ADDRESS, ::i2c::MasterReadFromSlave);
 		//send back last char thrice
 		I2cMaster.request(3);
 

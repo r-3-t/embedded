@@ -21,7 +21,7 @@ namespace tix
 
 			virtual void send(const char car);
 			virtual void send(const types::buffer& buf);
-			virtual void setSlaveAddress(const unsigned char Address, ::i2c::MasterOperation_T MasterOperation = ::i2c::MasterWriteToSlave);
+			virtual void setSlaveAddress(const unsigned char Address);
 			virtual void waitBusy();
 			virtual void request();
 			virtual void request(int BytesCount);
@@ -36,6 +36,7 @@ namespace tix
 
 			unsigned int			_id;
 			bool					_configured;
+			uint8_t					_slave_address;
 		};
 
 	} /* namespace i2c  */
