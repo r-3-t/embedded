@@ -23,7 +23,7 @@ void Led_High_ISR();
 \******************************************************************************/
 
 //configure led
-::pinout::ConcretePinout pinLed(LED_PORT, LED_PIN);
+::pinout::ConcretePinout pinLed(LED0_PORT, LED0_PIN);
 ::extint::ConcreteExtint Eint(EXTINT_PIN, EXTINT_PORT, ::extint::RisingTrigger, &Led_High_ISR);
 
 /******************************************************************************\
