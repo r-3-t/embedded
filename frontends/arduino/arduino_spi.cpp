@@ -16,9 +16,32 @@ namespace arduino
 			return;
 		}
 
+		void ArduinoSPI::end()
+		{
+			return;
+		}
+
 		uint8_t ArduinoSPI::transfer(uint8_t val)
 		{
-			Spi1.send(val);
+			return Spi1.send(val);
+		}
+
+		void ArduinoSPI::setBitOrder(uint8_t order)
+		{
+			//TODO: setBitOrder
+			return;
+		}
+
+		void ArduinoSPI::setClockDivider(uint8_t diverder)
+		{
+			//TODO: setClockDivider
+			return;
+		}
+
+		void ArduinoSPI::setDataMode(uint8_t mode)
+		{
+			//TODO: setDataMode
+			return;
 		}
 
 	} //namespace spi
