@@ -1,0 +1,1 @@
+#define ARDUINO 100

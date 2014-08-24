@@ -1,4 +1,5 @@
 #include "binary.h"
+#include "Arduino.h"
 #include "arduino_gpio.hpp"
 #include "arduino_clock.hpp"
 #include "arduino_spi.hpp"
