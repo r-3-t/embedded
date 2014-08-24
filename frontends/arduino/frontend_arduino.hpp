@@ -4,12 +4,14 @@
 #include "arduino_spi.hpp"
 #include "arduino_serial.hpp"
 #include "arduino_wire.hpp"
+#include "Print.hpp"
 
 using namespace ::arduino::gpio;
 using namespace ::arduino::clock;
 using namespace ::arduino::wire;
 using namespace ::arduino::serial;
 using namespace ::arduino::spi;
+using namespace ::arduino::print;
 
 #include <algorithm>
 using namespace std;

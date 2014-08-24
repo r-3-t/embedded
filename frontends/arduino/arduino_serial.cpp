@@ -40,69 +40,27 @@ namespace arduino
 			UartCommand.send((const unsigned char*)&c, sizeof(c));
 		}
 
-		void ArduinoSerial::print(const char* pString)
+		int ArduinoSerial::write(const char* pString)
 		{
+			int i;
+
+			i = 0;
 			while (*pString)
 			{
-				UartCommand.send((const unsigned char*)&(pString[0]), sizeof(pString[0]));
+				this->write((const unsigned char*)&(pString[0]), sizeof(pString[0]));
 				pString++;
+				i++;
 			}
+
+			return i;
 		}
 
-		void ArduinoSerial::print(const char c)
+		size_t ArduinoSerial::write(const unsigned char* pc, unsigned int size)
 		{
-			UartCommand.send((const unsigned char*)&c, sizeof(c));
+			UartCommand.send((const unsigned char*)pc, size);
+			return size;
 		}
 
-
-		void ArduinoSerial::print(const int c, ArduinoFormat_T format)
-		{
-			char Buffer[32];
-			memset(Buffer, 0, sizeof(Buffer));
-
-			if (format == DEC)
-			{
-				sprintf(Buffer, "%i", c);
-			}
-			else if (format == HEX)
-			{
-				sprintf(Buffer, "%x", c);
-			}
-			else
-			{
-				sprintf(Buffer, "%x", c);
-			}
-			this->print(Buffer);
-
-		}
-
-		void ArduinoSerial::print(double d, int size)
-		{
-			char Buffer[16];
-			memset(Buffer, 0, sizeof(Buffer));
-
-			sprintf(Buffer, "%05f", d);
-
-			this->print(Buffer);
-
-		}
-
-		void ArduinoSerial::println(const char c, ArduinoFormat_T format)
-		{
-			this->print(c, format);
-			this->println();
-		}
-
-		void ArduinoSerial::println(const char* pString)
-		{
-			this->print(pString);
-			this->println();
-		}
-
-		void ArduinoSerial::println()
-		{
-			this->print("\r\n");
-		}
 
 		int ArduinoSerial::available()
 		{
@@ -110,12 +68,12 @@ namespace arduino
 		}
 
 
-		unsigned char ArduinoSerial::read()
+		int ArduinoSerial::read()
 		{
 			uint8_t c;
 			c = this->uart_receive_fifo.front();
 			this->uart_receive_fifo.pop_front();
-			return c;
+			return (int)c;
 		}
 
 
