@@ -14,7 +14,6 @@ using namespace ::arduino::spi;
 using namespace ::arduino::print;
 
 #include <algorithm>
-using namespace std;
 typedef uint8_t							byte;
 #define F(X)							X
 #define pgm_read_byte(X)				(*X)
