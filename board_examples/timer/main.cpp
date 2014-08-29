@@ -1,9 +1,8 @@
 /******************************************************************************\
 		INCLUDES
 \******************************************************************************/
-#include <hal/Gpio.hpp>
-#include <hal/Clock.hpp>
-#include <hal/Timer.hpp>
+#include <ClockInterface.hpp>
+#include <TimerInterface.hpp>
 #include <Pinout.hpp>
 
 /******************************************************************************\
