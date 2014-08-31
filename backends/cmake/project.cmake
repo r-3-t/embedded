@@ -1,3 +1,9 @@
+if (_PROJECT_CMAKE)
+	return()
+endif(_PROJECT_CMAKE)
+
+set(_PROJECT_CMAKE 1)
+
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/)
 
 #configure compiler
