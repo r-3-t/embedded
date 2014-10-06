@@ -56,6 +56,8 @@ Console::Console(QWidget *parent)
     p.setColor(QPalette::Text, Qt::green);
     setPalette(p);
 
+    setFont(QFont("Courier", 15));
+
 }
 
 void Console::putData(const QByteArray &data)
