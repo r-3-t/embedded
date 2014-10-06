@@ -1,11 +1,14 @@
-embedded
-========
+How To Begin
+============
 
 prerequisite
 ------------
 
 * [cmake](http://cmake.org) must be installed on your system
 * [GNU Tools for ARM Embedded Processors](https://launchpad.net/gcc-arm-embedded) must be installed on your system
+*  git clone https://github.com/r-3-t/embedded.git/
+*  git submodule init
+*  git submodule update
 
 supported board and MCU
 -----------------------
@@ -18,9 +21,6 @@ supported board and MCU
 
 examples
 -------- 
-
-git submodule init
-git submodule update
 
 * stm32f051
 ```
