@@ -12,8 +12,10 @@ namespace pinout
 	public:
 		Pinout(::pinout::Gpio_id 	GPIOId, ::pinout::Pin_id PINId);
 
+		virtual void configure_input();
 		virtual void high();
 		virtual void low();
+		virtual bool is_pin_high();
 
 	private:
 		::pinout::Gpio_id				_Gpio_id;

@@ -17,6 +17,10 @@ namespace pinout
 		gpio::configure_gpio_pin(_Gpio_id, _Pin_id);
 	}
 
+	void Pinout::configure_input()
+	{
+		gpio::configure_input_pin(_Gpio_id, _Pin_id);
+	}
 
 	void Pinout::high()
 	{
@@ -26,6 +30,11 @@ namespace pinout
 	void Pinout::low()
 	{
 		::gpio::reset_pin(_Gpio_id, _Pin_id);
+	}
+
+	bool Pinout::is_pin_high()
+	{
+		return ::gpio::is_pin_high(_Gpio_id, _Pin_id);
 	}
 
 } //namespace pinout
