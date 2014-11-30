@@ -20,7 +20,7 @@ namespace tix
 					::i2c::I2cInterface::i2c_on_master_request_callback on_master_request_callback = (i2c_on_master_request_callback)0);
 
 			virtual void send(const char car);
-			virtual void send(const types::buffer& buf);
+			virtual void send(types::buffer& buf);
 			virtual void setSlaveAddress(const unsigned char Address);
 			virtual void waitBusy();
 			virtual void request();

@@ -230,10 +230,10 @@ cleanup:
 		}
 
 
-		void I2c::send(const types::buffer& buf)
+		void I2c::send(types::fifo& send_fifo)
 		{
 			unsigned int i;
-			char c;
+			unsigned char c;
 
 			if (_configured == false)
 			{
@@ -245,15 +245,20 @@ cleanup:
 				this->requestEnabled = false;
 
 				//if no data
-				if (buf.size() == 0)
+				if (send_fifo.cnt == 0)
 				{
 					return;
 				}
 
 				//if buf has only one data
-				if (buf.size() == 1)
+				if (send_fifo.cnt == 1)
 				{
-					this->send(buf[0]);
+					if (cbuff_dequeue1_to_register(&send_fifo, &c) != 0)
+					{
+						fprintf(stderr, "cbuff_dequeue1_to_register 0 failed !\n");
+						abort();
+					}
+					this->send(c);
 					return;
 				}
 
@@ -262,7 +267,12 @@ cleanup:
 				I2CMasterSlaveAddrSet(this->I2C_Base, this->_slave_address, false /*write to slave*/);
 
 				//send first byte
-				c = buf[0];
+				if (cbuff_dequeue1_to_register(&send_fifo, &c) != 0)
+				{
+					fprintf(stderr, "cbuff_dequeue1_to_register 1 failed !\n");
+					abort();
+				}
+
 				I2CMasterDataPut(I2C_Base, c & 0xFF);
 				I2CMasterControl(I2C_Base, I2C_MASTER_CMD_BURST_SEND_START);
 
@@ -273,10 +283,15 @@ cleanup:
 					goto cleanup;
 				}
 
-				for (i = 1; i < buf.size() - 1; i++)
+				while (send_fifo.cnt > 1)
 				{
+					if (cbuff_dequeue1_to_register(&send_fifo, &c) != 0)
+					{
+						fprintf(stderr, "cbuff_dequeue1_to_register 1 failed !\n");
+						abort();
+					}
+
 					//send bytes
-					c = buf[i];
 					I2CMasterDataPut(I2C_Base, c & 0xFF);
 					I2CMasterControl(I2C_Base, I2C_MASTER_CMD_BURST_SEND_CONT);
 
@@ -290,7 +305,12 @@ cleanup:
 				}
 
 				//send last byte
-				c = buf[buf.size() - 1];
+				if (cbuff_dequeue1_to_register(&send_fifo, &c) != 0)
+				{
+					fprintf(stderr, "cbuff_dequeue1_to_register 2 failed !\n");
+					abort();
+				}
+
 				I2CMasterDataPut(I2C_Base, c & 0xFF);
 				I2CMasterControl(I2C_Base, I2C_MASTER_CMD_BURST_SEND_FINISH);
 
