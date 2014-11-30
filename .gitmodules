@@ -5,3 +5,6 @@
 [submodule "backends/ti/stellaris/system_files/stellaris"]
 	path = backends/ti/stellaris/system_files/stellaris
 	url = https://github.com/yuvadm/stellaris.git
+[submodule "libs/Microcontroller-Circular-Buffer"]
+	path = libs/Microcontroller-Circular-Buffer
+	url = https://github.com/cmlburnett/Microcontroller-Circular-Buffer.git
