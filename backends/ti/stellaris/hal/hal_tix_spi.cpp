@@ -218,9 +218,11 @@ namespace tix
 			return result & 0xFF;
 		}
 
-		void Spi::send(const types::buffer& buf)
+		void Spi::send(types::fifo& send_fifo)
 		{
-			for (auto c : buf)
+			unsigned char c;
+
+			while (cbuff_dequeue(&send_fifo, &c, sizeof(c)) > 0)
 			{
 				send(c & 0xFF);
 			}

@@ -21,7 +21,7 @@ namespace  spi {
 
 			virtual uint8_t send(uint8_t data);;
 			virtual uint8_t recv();;
-			virtual void send(const types::buffer& buf);
+			virtual void send(types::fifo& send_fifo);
 			virtual void send(const unsigned char* buf, unsigned int length);
 
 			unsigned long	  		SSI_Base;
