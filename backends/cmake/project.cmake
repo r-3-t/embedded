@@ -98,14 +98,15 @@ function (add_mcu_hal mcu_hal_name mcu_lib_name source_path header_path)
 
 	set_target_properties(${mcu_hal_name} PROPERTIES COMPILE_FLAGS ${${MCU_LIB_NAME}_COMPILE_FLAGS})
 
-	#target_link_libraries(${mcu_hal_name} pinout)
-
-	#target_link_libraries(${mcu_hal_name} ${mcu_lib_name})
+	target_link_libraries(${mcu_hal_name} Stats cbuff)
 
 endfunction(add_mcu_hal)
 
 #add all avaible MCUs
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/../../backends/ ${CMAKE_CURRENT_BINARY_DIR}/backends/)
+
+#add libs
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/../../libs/ ${CMAKE_CURRENT_BINARY_DIR}/libs/)
 
 function(show_available_mcus)
 
@@ -153,7 +154,7 @@ function (build_project project_name)
 	target_compile_definitions(${project_name} PUBLIC $<TARGET_PROPERTY:hal_${mcu},COMPILE_DEFINITIONS>)
 
 	#TODO: process automaticaly	
-	set_target_properties(${project_name} pinout syscall error PROPERTIES COMPILE_FLAGS ${${MCU}_COMPILE_FLAGS})
+	set_target_properties(${project_name} pinout Stats cbuff syscall error PROPERTIES COMPILE_FLAGS ${${MCU}_COMPILE_FLAGS})
 
 	#Templates
 	math(EXPR NUM_LED "${${MCU}_NUM_LED} - 1")
