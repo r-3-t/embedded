@@ -10,7 +10,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/)
 include(arm-none-eabi-gcc)
 
 #common compile flags
-set(COMMON_COMPILE_FLAGS "-O0 -g -Werror -Wno-error=cpp -Wextra -Warray-bounds -ffunction-sections -fdata-sections")
+set(COMMON_COMPILE_FLAGS "-Os -g -Werror -Wno-error=cpp -Wextra -Warray-bounds -ffunction-sections -fdata-sections")
 #set(COMMON_COMPILE_FLAGS "-Os -Werror -Wextra -Warray-bounds -ffunction-sections -fdata-sections")
 #-u _printf_float
 set(COMMON_LINK_FLAGS "-Wl,--gc-sections --specs=nano.specs -u _printf_float")
@@ -47,14 +47,12 @@ file (WRITE ${CMAKE_BINARY_DIR}/openocd.cfg ${${MCU}_OPENOCDCFG_CONTENT})
 #provide hal interface files
 include_directories(${CMAKE_CURRENT_LIST_DIR}/../../hal/)
 
-function (register_mcu mcu_name)
-	#add MCU to list of supported MCUs
-	set_property(GLOBAL APPEND PROPERTY MCU_LIBS ${mcu_name})
-endfunction (register_mcu mcu_name)
-
 function (add_mcu_lib mcu_lib_name)
 	list(REMOVE_AT ARGV 0)
 	set(sources ${ARGV})
+
+	#add MCU to list of supported MCUs
+	set_property(GLOBAL APPEND PROPERTY MCU_LIBS ${mcu_lib_name})
 
 	#add all sources for this MCU
 	foreach (source ${sources})
@@ -68,7 +66,7 @@ function (add_mcu_lib mcu_lib_name)
 	endforeach(source)
 
 	#add MCU target
-	add_library(${mcu_lib_name} OBJECT ${source_files})
+	add_library(${mcu_lib_name} EXCLUDE_FROM_ALL ${source_files})
 
 	#add previously found directories to includes
 	target_include_directories(${mcu_lib_name} PUBLIC ${directories_to_include})
@@ -84,7 +82,7 @@ function (add_mcu_hal mcu_hal_name mcu_lib_name source_path header_path)
 	file(GLOB source_files ${source_path}/*)
 	file(GLOB header_files ${header_path}/*.h*)
 
-	add_library(${mcu_hal_name} OBJECT ${source_files} ${header_files})
+	add_library(${mcu_hal_name} EXCLUDE_FROM_ALL ${source_files} ${header_files})
 
 	foreach(header ${header_files})
 		LIST(APPEND include_headers -include${header})
@@ -98,7 +96,10 @@ function (add_mcu_hal mcu_hal_name mcu_lib_name source_path header_path)
 
 	set_target_properties(${mcu_hal_name} PROPERTIES COMPILE_FLAGS ${${MCU_LIB_NAME}_COMPILE_FLAGS})
 
-	target_link_libraries(${mcu_hal_name} Stats cbuff)
+	target_link_libraries(${mcu_hal_name} pinout Stats cbuff)
+
+	target_link_libraries(${mcu_hal_name} ${mcu_lib_name})
+
 
 endfunction(add_mcu_hal)
 
@@ -125,33 +126,11 @@ function (build_project project_name)
 		return()
 	endif(NOT mcu)
 
-	get_property(MCU_LIBS GLOBAL PROPERTY MCU_LIBS)
-	list (FIND MCU_LIBS ${mcu} IsMcuExists)
-	if (IsMcuExists EQUAL -1)		
-		message(FATAL_ERROR "Invalid MCU selected !!! Please selct one in : ${MCU_LIBS}")
-		return()
-	endif(IsMcuExists EQUAL -1)
-
-
-	if (NOT EXISTS ${project_${mcu}})
-		message (FATAL_ERROR "'backend '${mcu}' does not provide a project_${mcu} variable that contains the file to create ${mcu} library' ('${project_${mcu}}')")
-	endif()
-
-	# call the mcu cmake file
-	include(${project_${mcu}})
-
 	list(REMOVE_AT ARGV 0)
 	set(source_files ${ARGV})
 
-	add_executable(${project_name} ${source_files} $<TARGET_OBJECTS:syscall> $<TARGET_OBJECTS:error> $<TARGET_OBJECTS:hal_${mcu}> $<TARGET_OBJECTS:${mcu}> $<TARGET_OBJECTS:pinout>)
-	target_link_libraries(${project_name}  ${${MCU}_LINK_FLAGS} -T${LDSCRIPT})
-
-	include_directories($<TARGET_PROPERTY:pinout,INCLUDE_DIRECTORIES>)
-	include_directories($<TARGET_PROPERTY:${mcu},INCLUDE_DIRECTORIES>)
-	#include_directories($<TARGET_PROPERTY:hal_${mcu},INCLUDE_DIRECTORIES>)
-
-	target_compile_options(${project_name} PUBLIC $<TARGET_PROPERTY:hal_${mcu},COMPILE_OPTIONS>)
-	target_compile_definitions(${project_name} PUBLIC $<TARGET_PROPERTY:hal_${mcu},COMPILE_DEFINITIONS>)
+	add_executable(${project_name} ${source_files} $<TARGET_OBJECTS:syscall> $<TARGET_OBJECTS:error>)
+	target_link_libraries(${project_name} hal_${mcu} ${mcu} ${${MCU}_LINK_FLAGS} -T${LDSCRIPT})
 
 	#TODO: process automaticaly	
 	set_target_properties(${project_name} pinout Stats cbuff syscall error PROPERTIES COMPILE_FLAGS ${${MCU}_COMPILE_FLAGS})
@@ -182,7 +161,7 @@ function (build_library library_name)
 	list(REMOVE_AT ARGV 0)
 	set(source_files ${ARGV})
 
-	add_library(${library_name} OBJECT ${source_files})
+	add_library(${library_name} EXCLUDE_FROM_ALL ${source_files})
 
 	#TODO: process automaticaly	
 	set_target_properties(${library_name} PROPERTIES COMPILE_FLAGS ${${MCU}_COMPILE_FLAGS})
@@ -202,4 +181,4 @@ function (build_library library_name)
 endfunction(build_library)
 
 #add optional arduino frontend
-#include(${CMAKE_CURRENT_LIST_DIR}/../../frontends/arduino/arduino.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/../../frontends/arduino/arduino.cmake)
