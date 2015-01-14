@@ -2,11 +2,11 @@
 
 namespace clock
 {
-	unsigned int getTickCount();
+	uint32_t getTickCount();
 	unsigned int getTickPerMs();
 	unsigned int getTickPerUs();
 
-	uint32_t elapsedMicros(unsigned int PreviousTickCounter);
+	uint32_t elapsedMicros(uint32_t PreviousTickCounter);
 
 	void msleep(unsigned int nTime);
 	void usleep(unsigned int nTime);

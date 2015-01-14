@@ -15,6 +15,11 @@ namespace arduino
 			::clock::usleep(delay);
 		}
 
+		::types::uint32 getTickCount()
+		{
+			return ::clock::getTickCount();
+		}
+
 		::types::uint32 millis()
 		{
 			return ::clock::getTickCount() / ::clock::getTickPerMs();

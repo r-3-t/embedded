@@ -9,6 +9,8 @@ namespace arduino
 
 		void delayMicroseconds(::types::uint32 delay);
 
+		::types::uint32 getTickCount();
+
 		::types::uint32 millis();
 
 		::types::uint32 micros();
