@@ -47,6 +47,12 @@ namespace tix
 			_config = config;
 			_configured = false;
 
+			if (gpUarts[id - 1] != 0)
+			{
+				fprintf(stderr, "This device is already used !\n");
+				abort();
+
+			}
 			gpUarts[id - 1] = this;
 		}
 
