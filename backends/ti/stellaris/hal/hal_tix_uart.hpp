@@ -20,7 +20,7 @@ namespace tix
 					::uart::Configuration config = ::uart::Configuration::_9600_8_N_1());
 
 			virtual void send(const char* const str);
-			virtual void send(const types::buffer& buf);
+			virtual void send(types::buffer& buf);
 			virtual void send(const unsigned char* buf, unsigned int length);
 			virtual void set_callback(::uart::UartInterface::uart_callback_T callback);
 

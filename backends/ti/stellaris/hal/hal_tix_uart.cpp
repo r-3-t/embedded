@@ -164,13 +164,16 @@ namespace tix
 		}
 
 
-		void Uart::send(const types::buffer& buf)
+		void Uart::send(types::fifo& send_fifo)
 		{
+			unsigned char c;
+
 			if (_configured == false)
 			{
 				this->Configure();
 			}
-			for (auto c : buf)
+
+			while (cbuff_dequeue(&send_fifo, &c, sizeof(c)) > 0)
 			{
 				UARTCharPut(UART_Base, c & 0xFF);
 			}
