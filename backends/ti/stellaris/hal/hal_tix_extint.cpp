@@ -66,21 +66,7 @@ namespace tix
 
 			::tix::gpio::configure_extint_pin(this->GpioPortBase, (unsigned char)this->GpioPin);
 
-			switch (Mode){
-			case ::extint::RisingTrigger:
-				GPIOIntTypeSet(this->GpioPortBase, this->GpioPin, GPIO_RISING_EDGE);
-				break;
-			case ::extint::FallingTrigger:
-				GPIOIntTypeSet(this->GpioPortBase, this->GpioPin, GPIO_FALLING_EDGE);
-				break;
-			case ::extint::RisingFallingTrigger:
-				GPIOIntTypeSet(this->GpioPortBase, this->GpioPin, GPIO_BOTH_EDGES);
-				break;
-			default:
-				fprintf(stderr, "Invalid trigger mode !\n");
-				abort();
-				break;
-			}
+			this->set_mode(Mode);
 
 			switch (GPIOId)
 			{
@@ -129,7 +115,7 @@ namespace tix
 		bool Extint::triggered()
 		{
 			//is this external line generate the interrupt ?
-			if ( (GPIOPinIntStatus(this->GpioPortBase, false) & this->GpioPin) == this->GpioPin)
+			if ( (GPIOPinIntStatus(this->GpioPortBase, true) & this->GpioPin) == this->GpioPin)
 			{
 				return true;
 			}
@@ -150,7 +136,32 @@ namespace tix
 
 		void Extint::enable()
 		{
+			//enable
 			GPIOPinIntEnable(this->GpioPortBase, this->GpioPin);
+		}
+
+		void Extint::set_callback(::extint::callback_T callback)
+		{
+			this->_callback = callback;
+		}
+
+		void Extint::set_mode(::extint::InterruptTrigger_T Mode)
+		{
+			switch (Mode){
+			case ::extint::RisingTrigger:
+				GPIOIntTypeSet(this->GpioPortBase, this->GpioPin, GPIO_RISING_EDGE);
+				break;
+			case ::extint::FallingTrigger:
+				GPIOIntTypeSet(this->GpioPortBase, this->GpioPin, GPIO_FALLING_EDGE);
+				break;
+			case ::extint::RisingFallingTrigger:
+				GPIOIntTypeSet(this->GpioPortBase, this->GpioPin, GPIO_BOTH_EDGES);
+				break;
+			default:
+				fprintf(stderr, "Invalid trigger mode !\n");
+				abort();
+				break;
+			}
 		}
 
 	} /* namespace extint  */

@@ -26,6 +26,8 @@ namespace tix
 			bool is_high();
 			void disable();
 			void enable();
+			void set_callback(::extint::callback_T callback);
+			void set_mode(::extint::InterruptTrigger_T Mode);
 
 		private:
 			void		 			Configure();
