@@ -25,6 +25,35 @@ namespace arduino
 			this->write(c);
 		}
 
+		void Print::print(const uint32_t v)
+		{
+			this->write(v);
+		}
+
+		void Print::print(const uint16_t v)
+		{
+			this->write(v);
+		}
+
+		void Print::print(const ::types::byte b)
+		{
+			this->write(b);
+		}
+
+		void Print::print(const int32_t v)
+		{
+			this->write(v);
+		}
+
+		void Print::print(const int16_t v)
+		{
+			this->write(v);
+		}
+
+		void Print::print(const float f)
+		{
+			this->write(f);
+		}
 
 		void Print::print(const int c, ArduinoFormat_T format)
 		{
@@ -61,6 +90,12 @@ namespace arduino
 		void Print::println(const char c, ArduinoFormat_T format)
 		{
 			this->print(c, format);
+			this->println();
+		}
+
+		void Print::println(const ::types::byte b)
+		{
+			this->write(b);
 			this->println();
 		}
 

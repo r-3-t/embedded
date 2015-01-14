@@ -31,8 +31,15 @@ namespace arduino
 
 			int print(const char* pString);
 			void print(const char c);
+			void print(const ::types::uint32 v);
+			void print(const ::types::uint16 v);
+			void print(const ::types::byte b);
+			void print(const ::types::int32 v);
+			void print(const ::types::int16 v);
+			void print(const float f);
 			void print(const int c, ArduinoFormat_T format);
 			void print(double d, int size);
+			void println(const ::types::byte b);
 			void println(const char c, ArduinoFormat_T format);
 			void println(const char* pString);
 			void println();
