@@ -5,6 +5,9 @@
 //TODO: must be placed in mapping file
 #define DEFAULT_SPI_NUMBER							1
 
+#define SPI_SLOT_RESERVED							1
+#define SPI_SLOT_FREE								0
+
 namespace arduino
 {
 	namespace spi
@@ -26,6 +29,8 @@ namespace arduino
 	{
 	public:
 
+		ArduinoSPI(unsigned int Priority);
+
 		void begin();
 		void end();
 
@@ -33,6 +38,9 @@ namespace arduino
 		void setBitOrder(uint8_t order);
 		void setClockDivider(uint8_t diverder);
 		void setDataMode(uint8_t mode);
+
+	private:
+		unsigned int _internalSPIid;
 
 	}; //class SPI
 
