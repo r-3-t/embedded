@@ -20,7 +20,7 @@ namespace i2c {
 		I2cInterface() {}
 
 		virtual void send(const char car)													= 0;
-		virtual void send(const types::buffer& buf)											= 0;
+		virtual void send(types::buffer& buf)											= 0;
 		virtual void setSlaveAddress(const uint8_t slave_address)							= 0;
 		virtual void request(const int BytesCount)											= 0;
 

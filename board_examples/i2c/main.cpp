@@ -85,8 +85,13 @@ void write_stderr (const unsigned char* ptr, unsigned int len)
 int main(void)
 {
 	unsigned char Idx = 'a';
-	types::buffer buf;
+	int i;
+	int count = 1;
 
+	types::fifo send_fifo;
+	unsigned char	send_buffer[512];
+
+	cbuff_init(&send_fifo, send_buffer, sizeof(send_buffer));
 
 	printf("Set I2C slave address.\r\n");
 	//address this slave
@@ -100,10 +105,16 @@ int main(void)
 	{
 		printf("===========================================\r\n");
 
-		buf.push_back(Idx);
+		for (i = 0; i<count;i++)
+		{
+			printf("Enqueue : %c.\r\n", Idx);
+			cbuff_enqueue(&send_fifo, &Idx, sizeof(Idx));
+			Idx++;
+		}
+		count++;
 
 		//send to slave
-		I2cMaster.send(buf);
+		I2cMaster.send(send_fifo);
 
 		//receive from slave
 		//send back last char thrice
@@ -111,7 +122,6 @@ int main(void)
 
 		//next
 		clock::msleep(1000);
-		Idx++;
 	}
 }
 
