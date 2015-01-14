@@ -100,9 +100,6 @@ namespace tix
 				break;
 			}
 
-			//enable interrupts
-			this->enable();
-
 			IntMasterEnable();
 		}
 

@@ -45,6 +45,8 @@ int main(void)
 	//force led low
 	pinLed.low();
 
+	Eint.enable(); //enable interrupt pin
+
 
 	while (1)
 	{
