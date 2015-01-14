@@ -52,7 +52,7 @@ namespace tix
 		}
 
 
-		Extint::Extint(::pinout::Pin_id PINId, ::pinout::Gpio_id 	GPIOId, ::extint::InterruptTrigger_T Mode, ::extint::callback_T callback)
+		Extint::Extint(::pinout::Pin_id PINId, ::pinout::Gpio_id 	GPIOId, ::extint::InterruptTrigger_T Mode, ::extint::callback_T callback, Priority_T priority)
 		{
 			assert(PINId < sizeof(gpExtint)/sizeof(Extint*));
 

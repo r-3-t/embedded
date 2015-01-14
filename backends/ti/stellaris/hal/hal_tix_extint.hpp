@@ -6,6 +6,7 @@
 
 #include <ExtintInterface.hpp>
 #include <PinoutInterface.hpp>
+#include <Priority.hpp>
 
 namespace tix
 {
@@ -18,7 +19,7 @@ namespace tix
 		public:
 
 			Extint() {}
-			Extint(::pinout::Pin_id PINId, ::pinout::Gpio_id 	GPIOId, ::extint::InterruptTrigger_T Mode, ::extint::callback_T callback);
+			Extint(::pinout::Pin_id PINId, ::pinout::Gpio_id 	GPIOId, ::extint::InterruptTrigger_T Mode, ::extint::callback_T callback, Priority_T priority = INTERRUPT_PRIORITY(0));
 
 			void clear();
 			bool triggered();
