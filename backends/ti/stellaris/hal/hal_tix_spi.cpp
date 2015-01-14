@@ -184,12 +184,6 @@ namespace tix
 			SSIConfigSetExpClk(SSI_Base, SysCtlClockGet(), (conf_2_ClockPolarity(_config.clockPolarity) << 1) | conf_2_ClockPhase(_config.clockPhase),
 					conf_2_mode(_config.mode), _config.DataRate, 8);
 
-			//
-			// Enable interrupt on RX event
-			//
-			SSIIntEnable(SSI_Base, SSI_RXFF | SSI_RXTO);
-
-
 			//enable SSI
 			SSIEnable(SSI_Base);
 
