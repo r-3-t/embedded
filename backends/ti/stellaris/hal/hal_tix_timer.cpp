@@ -1,4 +1,7 @@
 #include <timer.h>
+#include <interrupt.h>
+#include <hw_memmap.h>
+#include <hw_ints.h>
 
 #include <TimerInterface.hpp>
 #include <ClockInterface.hpp>
@@ -14,30 +17,70 @@ namespace tix {
 	namespace timer
 	{
 
-		static ::tix::timer::Timer* gpTimer[TIX_TIMER_COUNT];
-
-	//		#define TIMER_IRQ_CALLBACK(TimX) void TIM##TimX##_IRQHandler()									\
-	//											{																\
-	//												gpTimer[TimX]->_callback();					\
-	//												gpTimer[TimX]->clear(); /* clear interrupt */\
-	//											}
-	//
-	//		extern "C"
-	//		{
-	//			TIMER_IRQ_CALLBACK(2)
-	//			TIMER_IRQ_CALLBACK(3)
-	//			TIMER_IRQ_CALLBACK(4)
-	//		}
-
-		extern "C"
+		static const unsigned long g_ppulTimerIntMap[][2] =
 		{
-		void WTIMER0_Handler()
+			{ TIMER0_BASE, INT_TIMER0A },
+			{ TIMER1_BASE, INT_TIMER1A },
+			{ TIMER2_BASE, INT_TIMER2A },
+			{ TIMER3_BASE, INT_TIMER3A },
+			{ TIMER4_BASE, INT_TIMER4A },
+			{ TIMER5_BASE, INT_TIMER5A },
+			{ WTIMER0_BASE, INT_WTIMER0A },
+			{ WTIMER1_BASE, INT_WTIMER1A },
+			{ WTIMER2_BASE, INT_WTIMER2A },
+			{ WTIMER3_BASE, INT_WTIMER3A },
+			{ WTIMER4_BASE, INT_WTIMER4A },
+			{ WTIMER5_BASE, INT_WTIMER5A },
+		};
+
+		static long
+		TimerIntNumberGet(unsigned long ulBase)
 		{
-			gpTimer[0]->_callback();
-			gpTimer[0]->clear();
+			unsigned long ulIdx;
+
+			//
+			// Loop through the table that maps timer base addresses to interrupt
+			// numbers.
+			//
+			for(ulIdx = 0; ulIdx < (sizeof(g_ppulTimerIntMap) /
+									sizeof(g_ppulTimerIntMap[0])); ulIdx++)
+			{
+				//
+				// See if this base address matches.
+				//
+				if(g_ppulTimerIntMap[ulIdx][0] == ulBase)
+				{
+					//
+					// Return the corresponding interrupt number.
+					//
+					return(g_ppulTimerIntMap[ulIdx][1]);
+				}
+			}
+
+			//
+			// The base address could not be found, so return an error.
+			//
+			return(-1);
 		}
 
-		} //extern "C"
+
+		static ::tix::timer::Timer* gpTimer[TIX_TIMER_COUNT];
+
+			#define TIMER_IRQ_CALLBACK(TimX) void WTIMER##TimX##_Handler()									\
+												{																\
+													gpTimer[TimX]->_callback();					\
+													gpTimer[TimX]->clear(); /* clear interrupt */\
+												}
+
+			extern "C"
+			{
+				TIMER_IRQ_CALLBACK(0)
+				TIMER_IRQ_CALLBACK(1)
+				TIMER_IRQ_CALLBACK(2)
+				TIMER_IRQ_CALLBACK(3)
+				TIMER_IRQ_CALLBACK(4)
+				TIMER_IRQ_CALLBACK(5)
+			}
 
 
 		unsigned long get_timer_base_from_id(::timer::Timer_Id TimerId)
@@ -101,7 +144,7 @@ namespace tix {
 		}
 
 
-		Timer::Timer(::timer::Timer_Id TimerId, ::timer::SubdivisionDelay_T Delay, uint16_t Period, ::timer::callback_T callback)
+		Timer::Timer(::timer::Timer_Id TimerId, ::timer::SubdivisionDelay_T Delay, uint16_t Period, ::timer::callback_T callback, Priority_T Priority)
 		{
 
 			assert( (TimerId - 1) < sizeof(gpTimer)/sizeof(Timer*));
@@ -112,6 +155,7 @@ namespace tix {
 			this->_callback = callback;
 			this->_SubdivisionDelay = Delay;
 			this->_Period = Period;
+			this->_Priority = Priority;
 
 			this->_configured = false;
 
@@ -130,8 +174,36 @@ namespace tix {
 			//configure period
 			this->setPeriod(this->_Period);
 
-			//register interrupt handler
-			TimerIntRegister(this->_TimerBase, TIMER_BOTH, WTIMER0_Handler);
+			switch(this->_TimerId)
+			{
+			case 1:
+				//register interrupt handler
+				TimerIntRegister(this->_TimerBase, TIMER_BOTH, WTIMER0_Handler);
+				break;
+			case 2:
+				//register interrupt handler
+				TimerIntRegister(this->_TimerBase, TIMER_BOTH, WTIMER1_Handler);
+				break;
+			case 3:
+				//register interrupt handler
+				TimerIntRegister(this->_TimerBase, TIMER_BOTH, WTIMER2_Handler);
+				break;
+			case 4:
+				//register interrupt handler
+				TimerIntRegister(this->_TimerBase, TIMER_BOTH, WTIMER3_Handler);
+				break;
+			case 5:
+				//register interrupt handler
+				TimerIntRegister(this->_TimerBase, TIMER_BOTH, WTIMER4_Handler);
+				break;
+			case 6:
+				//register interrupt handler
+				TimerIntRegister(this->_TimerBase, TIMER_BOTH, WTIMER5_Handler);
+				break;
+			}
+
+			//set priority
+			IntPrioritySet(TimerIntNumberGet(this->_TimerBase), this->_Priority);
 
 			//enable interrupt on counter overflow
 			TimerIntEnable(this->_TimerBase, TIMER_TIMA_TIMEOUT);

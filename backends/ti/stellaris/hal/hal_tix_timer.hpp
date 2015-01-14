@@ -3,6 +3,7 @@
 #include <timer.h>
 
 #include <TimerInterface.hpp>
+#include <Priority.hpp>
 
 namespace tix {
 
@@ -12,7 +13,7 @@ namespace tix {
 		class Timer : public ::timer::TimerInterface
 		{
 		public:
-			Timer(::timer::Timer_Id TimerId, ::timer::SubdivisionDelay_T Delay, uint16_t Period, ::timer::callback_T callback);
+			Timer(::timer::Timer_Id TimerId, ::timer::SubdivisionDelay_T Delay, uint16_t Period, ::timer::callback_T callback, Priority_T priority = INTERRUPT_PRIORITY(0));
 
 			void clear();
 
@@ -34,6 +35,7 @@ namespace tix {
 			unsigned long					_TimerBase;
 			::timer::Timer_Id 				_TimerId;
 			uint16_t						_Period;
+			Priority_T						_Priority;
 
 		};
 
