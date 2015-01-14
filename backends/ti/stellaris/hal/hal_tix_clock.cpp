@@ -72,7 +72,7 @@ namespace clock
 		}
 	}
 	
-	uint32_t elapsedMicros(unsigned int PreviousTickCounter)
+	uint32_t elapsedMicros(uint32_t PreviousTickCounter)
 	{
 		uint32_t CurrentTickCounter = getTickCount();
 		uint32_t elapseTicks;
