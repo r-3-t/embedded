@@ -126,7 +126,11 @@ namespace tix
 
 					SSIIntRegister(SSI_Base, SPI1_IRQHandler);
 
+					break;
+
 				case 3:
+					/* This one is unusable on EK-LM4F120XL : PB7 & PB6 0-Ω resistor to PD1 & PD0 */
+
 					//SSI base
 					SSI_Base					= SSI2_BASE;
 
