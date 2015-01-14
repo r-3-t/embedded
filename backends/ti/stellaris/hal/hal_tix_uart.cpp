@@ -6,6 +6,8 @@
 
 #include <gpio.h>
 #include <uart.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #define TIXX_UART_MAX_COUNT								3
 
@@ -23,7 +25,7 @@ namespace tix
 												status = UARTIntStatus(gpUarts[UsartX]->UART_Base, false);								\
 												if ((status & UART_INT_RX) == UART_INT_RX)													\
 												{																							\
-													gpUarts[UsartX]->_callback(gpUarts[UsartX]->receive());							\
+													gpUarts[UsartX]->callback(gpUarts[UsartX]->receive());							\
 												}																							\
 												status = UARTIntStatus(gpUarts[UsartX]->UART_Base, true);								\
 												UARTIntClear(gpUarts[UsartX]->UART_Base, status);										\
@@ -41,7 +43,7 @@ namespace tix
 		Uart::Uart(unsigned int id, ::uart::UartInterface::uart_callback_T callback, ::uart::Configuration config)
 		{
 			_id = id;
-			_callback = callback;
+			this->callback = callback;
 			_config = config;
 			_configured = false;
 
@@ -184,6 +186,11 @@ namespace tix
 		unsigned char Uart::receive()
 		{
 			return (unsigned char) (UARTCharGetNonBlocking(UART_Base) & 0xFF);
+		}
+
+		void Uart::set_callback(::uart::UartInterface::uart_callback_T callback)
+		{
+			this->callback = callback;
 		}
 
 

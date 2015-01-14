@@ -14,10 +14,11 @@ namespace uart {
 		UartInterface(int, void (*)(uint8_t)) {}
 
 		virtual void send(const char* const str)								= 0;
-		virtual void send(const types::buffer& buf) 							= 0;
+		virtual void send(types::buffer& buf) 							= 0;
 		virtual void send(const unsigned char* buf, unsigned int length) 		= 0;
+		virtual void set_callback(::uart::UartInterface::uart_callback_T callback) = 0;
 
-		uart_callback_T _callback;
+		uart_callback_T callback;
 
 	};
 

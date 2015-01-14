@@ -22,6 +22,7 @@ namespace tix
 			virtual void send(const char* const str);
 			virtual void send(const types::buffer& buf);
 			virtual void send(const unsigned char* buf, unsigned int length);
+			virtual void set_callback(::uart::UartInterface::uart_callback_T callback);
 
 			unsigned char		 	receive();
 			unsigned long 			UART_Base;
