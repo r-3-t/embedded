@@ -1,6 +1,7 @@
 #pragma once
 
 #include <types.hpp>
+#include <UartInterface.hpp>
 
 #include "Print.hpp"
 
@@ -26,6 +27,8 @@ namespace arduino
 
 			int available();
 			int read();
+
+			void set_callback(::uart::UartInterface::uart_callback_T callback);
 
 			::types::fifo uart_receive_fifo;
 

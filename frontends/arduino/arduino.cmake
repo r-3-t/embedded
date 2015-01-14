@@ -7,4 +7,4 @@ list(APPEND ARDUINO_FRONTEND_SOURCES ${CMAKE_CURRENT_LIST_DIR}/frontend_arduino.
 list(APPEND ARDUINO_FRONTEND_SOURCES ${CMAKE_CURRENT_LIST_DIR}/Print.cpp)
 build_library(frontend_arduino ${ARDUINO_FRONTEND_SOURCES})
 target_include_directories(frontend_arduino PUBLIC ${CMAKE_CURRENT_LIST_DIR}/)
-target_link_libraries(frontend_arduino pinout)
+target_link_libraries(frontend_arduino pinout Stats)

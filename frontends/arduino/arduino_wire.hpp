@@ -2,6 +2,12 @@
 
 #include <I2cInterface.hpp>
 
+#ifdef MONITOR_MEMORY_USAGE
+#include <Stats.hpp>
+extern Stats			ArduinoWireReceiveStats;
+extern Stats			ArduinoWireSendStats;
+#endif //MONITOR_MEMORY_USAGE
+
 //TODO: must be placed in mapping file
 #define DEFAULT_I2C_NUMBER							1
 
@@ -38,8 +44,8 @@ namespace arduino
 		int available();
 		uint8_t read();
 
-		::types::buffer i2c_send_buffer;
-		::types::fifo i2c_receive_buffer;
+		::types::fifo	i2c_send_fifo;
+		::types::fifo 	i2c_receive_fifo;
 
 	private:
 		unsigned char SlaveAddress;
