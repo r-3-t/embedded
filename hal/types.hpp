@@ -5,14 +5,20 @@
 
 #include <stdint.h>
 
+#include <cbuff.h>
+
 namespace types {
 
-	typedef unsigned char			byte;
+	typedef uint8_t					byte;
 	typedef byte*					bytes;
 
-	typedef unsigned int			uint32;
-	typedef unsigned int			uint16;
+	typedef uint32_t				uint32;
+	typedef uint16_t				uint16;
+	typedef uint8_t					uint8;
 
-	typedef std::vector<byte>		buffer;
-	typedef std::list<byte>		fifo;
+	typedef int32_t					int32;
+	typedef int16_t					int16;
+
+	typedef cbuff_t					buffer;
+	typedef cbuff_t					fifo;
 }
