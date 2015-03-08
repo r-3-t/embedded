@@ -83,63 +83,167 @@ namespace tix {
 			}
 
 
-		unsigned long get_timer_base_from_id(::timer::Timer_Id TimerId)
+		unsigned long get_timer_base_from_id(::timer::Timer_Id TimerId, bool wide)
 		{
-			switch (TimerId)
+			if (wide == true)
 			{
-			//64 bits only
-			case 1:
-				return WTIMER0_BASE;
-				break;
-			case 2:
-				return WTIMER1_BASE;
-				break;
-			case 3:
-				return WTIMER2_BASE;
-				break;
-			case 4:
-				return WTIMER3_BASE;
-				break;
-			case 5:
-				return WTIMER4_BASE;
-				break;
-			case 6:
-				return WTIMER5_BASE;
-				break;
+				switch (TimerId)
+				{
+				//64 bits only
+				case 1:
+					return WTIMER0_BASE;
+					break;
+				case 2:
+					return WTIMER1_BASE;
+					break;
+				case 3:
+					return WTIMER2_BASE;
+					break;
+				case 4:
+					return WTIMER3_BASE;
+					break;
+				case 5:
+					return WTIMER4_BASE;
+					break;
+				case 6:
+					return WTIMER5_BASE;
+					break;
 
+				}
+			}
+			else
+			{
+				switch (TimerId)
+				{
+				//32 bits only
+				case 1:
+					return TIMER0_BASE;
+					break;
+				case 2:
+					return TIMER1_BASE;
+					break;
+				case 3:
+					return TIMER2_BASE;
+					break;
+				case 4:
+					return TIMER3_BASE;
+					break;
+				case 5:
+					return TIMER4_BASE;
+					break;
+				case 6:
+					return TIMER5_BASE;
+					break;
+
+				}
 			}
 
 			fprintf(stderr, "Invalid Timer_Id : %i !\n", TimerId);
 			abort();
 		}
 
-		unsigned long get_timer_clock_from_id(::timer::Timer_Id TimerId)
+		unsigned long get_timer_clock_from_id(::timer::Timer_Id TimerId, bool wide)
 		{
-			switch (TimerId)
+			if (wide == true)
 			{
-			//64 bits only
-			case 1:
-				return SYSCTL_PERIPH_WTIMER0;
-				break;
-			case 2:
-				return SYSCTL_PERIPH_WTIMER1;
-				break;
-			case 3:
-				return SYSCTL_PERIPH_WTIMER2;
-				break;
-			case 4:
-				return SYSCTL_PERIPH_WTIMER3;
-				break;
-			case 5:
-				return SYSCTL_PERIPH_WTIMER4;
-				break;
-			case 6:
-				return SYSCTL_PERIPH_WTIMER5;
-				break;
+				switch (TimerId)
+				{
+				//64 bits only
+				case 1:
+					return SYSCTL_PERIPH_WTIMER0;
+					break;
+				case 2:
+					return SYSCTL_PERIPH_WTIMER1;
+					break;
+				case 3:
+					return SYSCTL_PERIPH_WTIMER2;
+					break;
+				case 4:
+					return SYSCTL_PERIPH_WTIMER3;
+					break;
+				case 5:
+					return SYSCTL_PERIPH_WTIMER4;
+					break;
+				case 6:
+					return SYSCTL_PERIPH_WTIMER5;
+					break;
+				}
 
+			}
+			else
+			{
+				switch (TimerId)
+				{
+				//32 bits only
+				case 1:
+					return SYSCTL_PERIPH_TIMER0;
+					break;
+				case 2:
+					return SYSCTL_PERIPH_TIMER1;
+					break;
+				case 3:
+					return SYSCTL_PERIPH_TIMER2;
+					break;
+				case 4:
+					return SYSCTL_PERIPH_TIMER3;
+					break;
+				case 5:
+					return SYSCTL_PERIPH_TIMER4;
+					break;
+				case 6:
+					return SYSCTL_PERIPH_TIMER5;
+					break;
+				}
 			}
 
 			fprintf(stderr, "Invalid Timer_Id : %i !\n", TimerId);
+			abort();
+		}
+
+		unsigned long get_timer_clock_from_base(unsigned long TimerBase)
+		{
+			switch (TimerBase)
+			{
+			//64 bits only
+			case WTIMER0_BASE:
+				return SYSCTL_PERIPH_WTIMER0;
+				break;
+			case WTIMER1_BASE:
+				return SYSCTL_PERIPH_WTIMER1;
+				break;
+			case WTIMER2_BASE:
+				return SYSCTL_PERIPH_WTIMER2;
+				break;
+			case WTIMER3_BASE:
+				return SYSCTL_PERIPH_WTIMER3;
+				break;
+			case WTIMER4_BASE:
+				return SYSCTL_PERIPH_WTIMER4;
+				break;
+			case WTIMER5_BASE:
+				return SYSCTL_PERIPH_WTIMER5;
+				break;
+			case TIMER0_BASE:
+				return SYSCTL_PERIPH_TIMER0;
+				break;
+			case TIMER1_BASE:
+				return SYSCTL_PERIPH_TIMER1;
+				break;
+			case TIMER2_BASE:
+				return SYSCTL_PERIPH_TIMER2;
+				break;
+			case TIMER3_BASE:
+				return SYSCTL_PERIPH_TIMER3;
+				break;
+			case TIMER4_BASE:
+				return SYSCTL_PERIPH_TIMER4;
+				break;
+			case TIMER5_BASE:
+				return SYSCTL_PERIPH_TIMER5;
+				break;
+			}
+
+			fprintf(stderr, "Invalid TimerBase : %i !\n", TimerBase);
 			abort();
 		}
 
@@ -151,7 +255,7 @@ namespace tix {
 			gpTimer[TimerId - 1] = this;
 
 			this->_TimerId = TimerId;
-			this->_TimerBase = get_timer_base_from_id(TimerId);
+			this->_TimerBase = get_timer_base_from_id(TimerId, true);
 			this->_callback = callback;
 			this->_SubdivisionDelay = Delay;
 			this->_Period = Period;
@@ -166,7 +270,7 @@ namespace tix {
 			this->_configured = true;
 
 			//enable clock
-			SysCtlPeripheralEnable(get_timer_clock_from_id(this->_TimerId));
+			SysCtlPeripheralEnable(get_timer_clock_from_id(this->_TimerId, true));
 
 			//configure for periodic interrupt
 			TimerConfigure(this->_TimerBase, TIMER_CFG_PERIODIC);

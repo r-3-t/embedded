@@ -10,10 +10,14 @@ namespace tix {
 	namespace timer
 	{
 
+		unsigned long get_timer_base_from_id(::timer::Timer_Id TimerId, bool wide);
+		unsigned long get_timer_clock_from_id(::timer::Timer_Id TimerId, bool wide);
+		unsigned long get_timer_clock_from_base(unsigned long TimerBase);
+
 		class Timer : public ::timer::TimerInterface
 		{
 		public:
-			Timer(::timer::Timer_Id TimerId, ::timer::SubdivisionDelay_T Delay, uint16_t Period, ::timer::callback_T callback, Priority_T priority = INTERRUPT_PRIORITY(0));
+			Timer(::timer::Timer_Id TimerId, ::timer::SubdivisionDelay_T Delay, uint16_t Period, ::timer::callback_T callback, Priority_T priority = INTERRUPT_PRIORITY(1));
 
 			void clear();
 
