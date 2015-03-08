@@ -51,6 +51,139 @@ namespace tix
 
 		}
 
+		//*****************************************************************************
+		//
+		//! \internal
+		//! Gets the GPIO interrupt number.
+		//!
+		//! \param ulPort is the base address of the GPIO port.
+		//!
+		//! Given a GPIO base address, this function returns the corresponding
+		//! interrupt number.
+		//!
+		//! \return Returns a GPIO interrupt number, or -1 if \e ulPort is invalid.
+		//
+		//*****************************************************************************
+		static long
+		GPIOGetIntNumber(unsigned long ulPort)
+		{
+		    long lInt;
+
+		    //
+		    // Determine the GPIO interrupt number for the given module.
+		    //
+		    switch(ulPort)
+		    {
+		        case GPIO_PORTA_BASE:
+		        case GPIO_PORTA_AHB_BASE:
+		        {
+		            lInt = INT_GPIOA;
+		            break;
+		        }
+
+		        case GPIO_PORTB_BASE:
+		        case GPIO_PORTB_AHB_BASE:
+		        {
+		            lInt = INT_GPIOB;
+		            break;
+		        }
+
+		        case GPIO_PORTC_BASE:
+		        case GPIO_PORTC_AHB_BASE:
+		        {
+		            lInt = INT_GPIOC;
+		            break;
+		        }
+
+		        case GPIO_PORTD_BASE:
+		        case GPIO_PORTD_AHB_BASE:
+		        {
+		            lInt = INT_GPIOD;
+		            break;
+		        }
+
+		        case GPIO_PORTE_BASE:
+		        case GPIO_PORTE_AHB_BASE:
+		        {
+		            lInt = INT_GPIOE;
+		            break;
+		        }
+
+		        case GPIO_PORTF_BASE:
+		        case GPIO_PORTF_AHB_BASE:
+		        {
+		            lInt = INT_GPIOF;
+		            break;
+		        }
+
+		        case GPIO_PORTG_BASE:
+		        case GPIO_PORTG_AHB_BASE:
+		        {
+		            lInt = INT_GPIOG;
+		            break;
+		        }
+
+		        case GPIO_PORTH_BASE:
+		        case GPIO_PORTH_AHB_BASE:
+		        {
+		            lInt = INT_GPIOH;
+		            break;
+		        }
+
+		        case GPIO_PORTJ_BASE:
+		        case GPIO_PORTJ_AHB_BASE:
+		        {
+		            lInt = INT_GPIOJ;
+		            break;
+		        }
+
+		        case GPIO_PORTK_BASE:
+		        {
+		            lInt = INT_GPIOK;
+		            break;
+		        }
+
+		        case GPIO_PORTL_BASE:
+		        {
+		            lInt = INT_GPIOL;
+		            break;
+		        }
+
+		        case GPIO_PORTM_BASE:
+		        {
+		            lInt = INT_GPIOM;
+		            break;
+		        }
+
+		        case GPIO_PORTN_BASE:
+		        {
+		            lInt = INT_GPION;
+		            break;
+		        }
+
+		        case GPIO_PORTP_BASE:
+		        {
+		            lInt = INT_GPIOP0;
+		            break;
+		        }
+
+		        case GPIO_PORTQ_BASE:
+		        {
+		            lInt = INT_GPIOQ0;
+		            break;
+		        }
+
+		        default:
+		        {
+		            return(-1);
+		        }
+		    }
+
+		    //
+		    // Return GPIO interrupt number.
+		    //
+		    return(lInt);
+		}
 
 		Extint::Extint(::pinout::Pin_id PINId, ::pinout::Gpio_id 	GPIOId, ::extint::InterruptTrigger_T Mode, ::extint::callback_T callback, Priority_T priority)
 		{
@@ -64,9 +197,14 @@ namespace tix
 
 			this->GpioPin = ::tix::gpio::get_GPIO_pin_from_id(PINId);
 
+			this->_Priority = priority;
+
 			::tix::gpio::configure_extint_pin(this->GpioPortBase, (unsigned char)this->GpioPin);
 
 			this->set_mode(Mode);
+
+			//set priority
+			IntPrioritySet(GPIOGetIntNumber(this->GpioPortBase), this->_Priority);
 
 			switch (GPIOId)
 			{

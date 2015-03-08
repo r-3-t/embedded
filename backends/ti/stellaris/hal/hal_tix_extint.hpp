@@ -19,7 +19,7 @@ namespace tix
 		public:
 
 			Extint() {}
-			Extint(::pinout::Pin_id PINId, ::pinout::Gpio_id 	GPIOId, ::extint::InterruptTrigger_T Mode, ::extint::callback_T callback, Priority_T priority = INTERRUPT_PRIORITY(0));
+			Extint(::pinout::Pin_id PINId, ::pinout::Gpio_id 	GPIOId, ::extint::InterruptTrigger_T Mode, ::extint::callback_T callback, Priority_T priority = INTERRUPT_PRIORITY(1));
 
 			void clear();
 			bool triggered();
@@ -34,6 +34,7 @@ namespace tix
 
 			unsigned long 			GpioPortBase;
 			unsigned long			GpioPin;
+			Priority_T				_Priority;
 		};
 
 	} /* namespace extint  */
