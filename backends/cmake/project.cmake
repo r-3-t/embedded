@@ -39,6 +39,7 @@ set (GDBINIT_CONTENT
 "
 target remote localhost:3333
 monitor reset init
+set history save
 ")
 
 file (WRITE ${CMAKE_BINARY_DIR}/.gdbinit ${GDBINIT_CONTENT})
