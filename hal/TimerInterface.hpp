@@ -1,10 +1,6 @@
-/*
- * pwm.hpp
- *
- *  Created on: 10 nov. 2013
- *      Author: val
- */
 #pragma once
+
+#include <stdint.h>
 
 namespace timer {
 

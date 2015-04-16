@@ -89,6 +89,12 @@ namespace clock
 		return (elapseTicks/guTickFactor);
 	}
 
+	uint32_t ticksToUs(uint32_t Ticks)
+	{
+
+		return (Ticks/guTickFactor);
+	}
+
 	void usleep(unsigned int nTime)
 	{
 		//ticks count for the requested time

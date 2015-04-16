@@ -7,6 +7,7 @@ namespace clock
 	unsigned int getTickPerUs();
 
 	uint32_t elapsedMicros(uint32_t PreviousTickCounter);
+	uint32_t ticksToUs(uint32_t Ticks);
 
 	void msleep(unsigned int nTime);
 	void usleep(unsigned int nTime);
