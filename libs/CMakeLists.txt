@@ -1,0 +1,7 @@
+set(CIRCULAR_BUFFER_PATH ${CMAKE_CURRENT_SOURCE_DIR}/Microcontroller-Circular-Buffer/)
+set(CIRCULAR_BUFFER_SOURCES ${CIRCULAR_BUFFER_PATH}/cbuff.c ${CIRCULAR_BUFFER_PATH}/cbuff.h)
+SET_SOURCE_FILES_PROPERTIES(${CIRCULAR_BUFFER_SOURCES} PROPERTIES LANGUAGE CXX )
+add_library(cbuff ${CIRCULAR_BUFFER_SOURCES})
+target_include_directories(cbuff PUBLIC ${CIRCULAR_BUFFER_PATH}/)
+target_link_libraries(cbuff hal_${mcu})
+
