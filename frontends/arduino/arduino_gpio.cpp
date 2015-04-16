@@ -8,11 +8,6 @@
 #include <stdlib.h>
 #include <assert.h>
 
-//TODO: must be placed in mapping file
-#define DEFAULT_GPIO_OUTPUT_PORT					1
-#define DEFAULT_GPIO_INPUT_PORT						2
-#define DEFAULT_EXINT_PIN							0
-
 namespace arduino
 {
 	namespace gpio
@@ -24,11 +19,11 @@ namespace arduino
 	}
 }
 
-::extint::ConcreteExtint Eint0(0, DEFAULT_GPIO_INPUT_PORT, ::extint::RisingFallingTrigger, &::arduino::gpio::pinInterruptHandler);
-::extint::ConcreteExtint Eint1(1, DEFAULT_GPIO_INPUT_PORT, ::extint::RisingFallingTrigger, &::arduino::gpio::pinInterruptHandler);
-::extint::ConcreteExtint Eint2(2, DEFAULT_GPIO_INPUT_PORT, ::extint::RisingFallingTrigger, &::arduino::gpio::pinInterruptHandler);
-::extint::ConcreteExtint Eint3(3, DEFAULT_GPIO_INPUT_PORT, ::extint::RisingFallingTrigger, &::arduino::gpio::pinInterruptHandler);
-
+//::extint::ConcreteExtint Eint0(nullptr, nullptr, ::extint::RisingFallingTrigger, &::arduino::gpio::pinInterruptHandler, INTERRUPT_PRIORITY(2));
+/*::extint::ConcreteExtint Eint1(1, DEFAULT_GPIO_INPUT_PORT, ::extint::RisingFallingTrigger, &::arduino::gpio::pinInterruptHandler, INTERRUPT_PRIORITY(2));
+::extint::ConcreteExtint Eint2(2, DEFAULT_GPIO_INPUT_PORT, ::extint::RisingFallingTrigger, &::arduino::gpio::pinInterruptHandler, INTERRUPT_PRIORITY(2));
+::extint::ConcreteExtint Eint3(3, DEFAULT_GPIO_INPUT_PORT, ::extint::RisingFallingTrigger, &::arduino::gpio::pinInterruptHandler, INTERRUPT_PRIORITY(2));
+*/
 namespace arduino
 {
 	namespace gpio
@@ -45,15 +40,25 @@ namespace arduino
 		}
 		}
 
-		void pinMode(::pinout::Pin_id pin, int Pin_Mode)
+		unsigned int get_port_from_gpio_pin_id(::pinout::Gpio_Pin_id GpioPin)
+		{
+			return (GpioPin >> 16) & 0xFFFF;
+		}
+
+		unsigned int get_pin_from_gpio_pin_id(::pinout::Gpio_Pin_id GpioPin)
+		{
+			return (GpioPin) & 0xFFFF;
+		}
+
+		void pinMode(::pinout::Gpio_Pin_id GpioPin, int Pin_Mode)
 		{
 			switch (Pin_Mode)
 			{
 			case OUTPUT:
-				::gpio::configure_gpio_pin(DEFAULT_GPIO_OUTPUT_PORT, pin);
+				::gpio::configure_gpio_pin(get_port_from_gpio_pin_id(GpioPin), get_pin_from_gpio_pin_id(GpioPin));
 				break;
 			case INPUT:
-				::gpio::configure_input_pin(DEFAULT_GPIO_INPUT_PORT, pin);
+				::gpio::configure_input_pin(get_port_from_gpio_pin_id(GpioPin), get_pin_from_gpio_pin_id(GpioPin));
 				break;
 			default:
 				//unsupported
@@ -62,22 +67,22 @@ namespace arduino
 
 		}
 
-		void digitalWrite(::pinout::Pin_id pin, int Pin_State)
+		void digitalWrite(::pinout::Gpio_Pin_id GpioPin, int Pin_State)
 		{
 			switch (Pin_State)
 			{
 			case HIGH:
-				::gpio::set_pin(DEFAULT_GPIO_OUTPUT_PORT, pin);
+				::gpio::set_pin(get_port_from_gpio_pin_id(GpioPin), get_pin_from_gpio_pin_id(GpioPin));
 				break;
 			case LOW:
-				::gpio::reset_pin(DEFAULT_GPIO_OUTPUT_PORT, pin);
+				::gpio::reset_pin(get_port_from_gpio_pin_id(GpioPin), get_pin_from_gpio_pin_id(GpioPin));
 				break;
 			}
 		}
 
-		int digitalRead(::pinout::Pin_id pin)
+		int digitalRead(::pinout::Gpio_Pin_id GpioPin)
 		{
-			if (::gpio::is_pin_high(DEFAULT_GPIO_INPUT_PORT, pin) == true)
+			if (::gpio::is_pin_high(get_port_from_gpio_pin_id(GpioPin), get_pin_from_gpio_pin_id(GpioPin)) == true)
 			{
 				return 1;
 			}
@@ -87,13 +92,13 @@ namespace arduino
 			}
 		}
 
-		::extint::ExtintInterface* get_exint(::pinout::Pin_id pin)
+		::extint::ExtintInterface* get_exint(::pinout::Gpio_Pin_id pin)
 		{
 			::extint::ConcreteExtint* pEint;
 
 			switch (pin)
 			{
-			case 0:
+			/*case 0:
 				pEint = &Eint0;
 				break;
 			case 1:
@@ -104,7 +109,7 @@ namespace arduino
 				break;
 			case 3:
 				pEint = &Eint3;
-				break;
+				break;*/
 			default:
 				fprintf(stderr, "Invalid pin id !\n");
 				abort();
@@ -114,7 +119,7 @@ namespace arduino
 			return pEint;
 		}
 
-		void attachInterrupt(::pinout::Pin_id pin, ::extint::callback_T cb, int mode)
+		void attachInterrupt(::pinout::Gpio_Pin_id pin, ::extint::callback_T cb, int mode)
 		{
 			::extint::InterruptTrigger_T Mode;
 			::extint::ExtintInterface* pEint;
@@ -143,7 +148,7 @@ namespace arduino
 			pEint->enable();
 		}
 
-		void detachInterrupt(::pinout::Pin_id pin)
+		void detachInterrupt(::pinout::Gpio_Pin_id pin)
 		{
 			get_exint(pin)->disable();
 		}

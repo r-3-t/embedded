@@ -14,6 +14,8 @@ namespace pinout {
 
 	typedef unsigned int Bus_id;
 
+	typedef unsigned int Gpio_Pin_id;
+
 
 
 
