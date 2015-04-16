@@ -7,8 +7,7 @@ prerequisite
 * [cmake](http://cmake.org) must be installed on your system
 * [GNU Tools for ARM Embedded Processors](https://launchpad.net/gcc-arm-embedded) must be installed on your system
 *  git clone https://github.com/r-3-t/embedded.git/
-*  git submodule init
-*  git submodule update
+*  git submodule update --init --recursive
 
 supported board and MCU
 -----------------------
@@ -24,28 +23,38 @@ examples
 
 * stm32f051
 ```
-r-3-t:build_dir$ rm -rf * && cmake  <path_to_dev>/board_examples/pinout/ -DCMAKE_BUILD_TYPE=Debug -Dmcu=stm32f051
+r-3-t:build_dir$ rm -rf * && cmake  <path_to_dev>/board_examples/uart/ -DCMAKE_BUILD_TYPE=Debug -Dmcu=stm32f051 && make
 ```
 
 * stm32f100
 ```
-r-3-t:build_dir$ rm -rf * && cmake  <path_to_dev>/board_examples/pinout/ -DCMAKE_BUILD_TYPE=Debug -Dmcu=stm32f1OO
+r-3-t:build_dir$ rm -rf * && cmake  <path_to_dev>/board_examples/uart/ -DCMAKE_BUILD_TYPE=Debug -Dmcu=stm32f1OO && make
 ```
 
 * stm32f103
 ```
-r-3-t:build_dir$ rm -rf * && cmake  <path_to_dev>/board_examples/pinout/ -DCMAKE_BUILD_TYPE=Debug -Dmcu=stm32f103
+r-3-t:build_dir$ rm -rf * && cmake  <path_to_dev>/board_examples/uart/ -DCMAKE_BUILD_TYPE=Debug -Dmcu=stm32f103 && make
 ```
     
 * stm32f407
 ```
-r-3-t:build_dir$ rm -rf * && cmake  <path_to_dev>/board_examples/pinout/ -DCMAKE_BUILD_TYPE=Debug -Dmcu=stm32f407
+r-3-t:build_dir$ rm -rf * && cmake  <path_to_dev>/board_examples/uart/ -DCMAKE_BUILD_TYPE=Debug -Dmcu=stm32f407 && make
 ```
 
 * lm4f120xl
 ```
-r-3-t:build_dir$ rm -rf * && cmake  <path_to_dev>/board_examples/pinout/ -DCMAKE_BUILD_TYPE=Debug -Dmcu=lm4f120xl
+r-3-t:build_dir$ rm -rf * && cmake  <path_to_dev>/board_examples/uart/ -DCMAKE_BUILD_TYPE=Debug -Dmcu=lm4f120xl && make
 ```
+
+Debug
+-------- 
+
+openocd
+
+arm-none-eabi-gdb <project>.elf
+> load
+
+> continue
 
 Options
 -------- 
