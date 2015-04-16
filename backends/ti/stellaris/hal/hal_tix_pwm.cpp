@@ -2,6 +2,8 @@
 #include <interrupt.h>
 #include <hw_memmap.h>
 #include <hw_ints.h>
+#include <hw_timer.h>
+#include <hw_types.h>
 
 #include <PwmInterface.hpp>
 #include <TimerInterface.hpp>
@@ -13,87 +15,10 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#define TIX_TIMER_COUNT							6
-
 namespace tix {
 
 	namespace pwm
 	{
-
-		unsigned long get_timer_base_from_pin(::pinout::Gpio_id GPIOId, ::pinout::Pin_id PINId)
-		{
-			switch (GPIOId)
-			{
-			//port B
-			case 2:
-				switch (PINId)
-				{
-				case 0:
-				case 1:
-					return TIMER2_BASE;
-					break;
-				case 2:
-				case 3:
-					return TIMER3_BASE;
-					break;
-				case 4:
-				case 5:
-					return TIMER1_BASE;
-					break;
-				case 6:
-				case 7:
-					return TIMER0_BASE;
-					break;
-				}
-				break;
-			//port C
-			case 3:
-				switch (PINId)
-				{
-				case 0:
-				case 1:
-					return TIMER4_BASE;
-					break;
-				case 2:
-				case 3:
-					return TIMER5_BASE;
-					break;
-				case 4:
-				case 5:
-					return WTIMER0_BASE;
-					break;
-				case 6:
-				case 7:
-					return WTIMER1_BASE;
-					break;
-				}
-				break;
-			//port D
-			case 4:
-				switch (PINId)
-				{
-				case 0:
-				case 1:
-					return WTIMER2_BASE;
-					break;
-				case 2:
-				case 3:
-					return WTIMER3_BASE;
-					break;
-				case 4:
-				case 5:
-					return WTIMER4_BASE;
-					break;
-				case 6:
-				case 7:
-					return WTIMER5_BASE;
-					break;
-				}
-				break;
-
-			}
-			abort();
-		}
 
 		unsigned long get_pwm_config_from_pin(::pinout::Gpio_id GPIOId, ::pinout::Pin_id PINId)
 		{
@@ -107,35 +32,14 @@ namespace tix {
 			}
 		}
 
-		unsigned long get_timer_config_from_pin(::pinout::Gpio_id GPIOId, ::pinout::Pin_id PINId)
-		{
-			if ((PINId % 2) == 0)
-			{
-				return TIMER_A;
-			}
-			else
-			{
-				return TIMER_B;
-			}
-		}
-
-		bool is_wide_timer(unsigned long TimerBase)
-		{
-			if ((TimerBase == WTIMER0_BASE) || (TimerBase == WTIMER1_BASE) || (TimerBase == WTIMER2_BASE) || (TimerBase == WTIMER3_BASE) || (TimerBase == WTIMER4_BASE) || (TimerBase == WTIMER5_BASE))
-			{
-				return true;
-			}
-			return false;
-		}
-
 		Pwm::Pwm(::pinout::Gpio_id GPIOId, ::pinout::Pin_id PINId, uint32_t Frequency, uint32_t MaxDuty)
 		{
-			this->_TimerBase = get_timer_base_from_pin(GPIOId, PINId);
+			this->_TimerBase = ::tix::timer::get_timer_base_from_pin(GPIOId, PINId);
 			this->_Frequency = Frequency;
 			this->_PeriodUs = (1000000/Frequency);
 			this->_MaxDuty = MaxDuty;
 			this->_PwmConfig = get_pwm_config_from_pin(GPIOId, PINId);
-			this->_TimerConfig = get_timer_config_from_pin(GPIOId, PINId);
+			this->_TimerConfig = ::tix::timer::get_timer_config_from_pin(GPIOId, PINId);
 			this->_TickCountForFrequency = 0;
 			this->_GPIOId = GPIOId;
 			this->_PINId = PINId;
@@ -414,7 +318,7 @@ namespace tix {
 
 			value = this->_TickCountForFrequency * Duty / this->_MaxDuty;
 
-			if (is_wide_timer(this->_TimerBase) == true)
+			if (::tix::timer::is_wide_timer(this->_TimerBase) == true)
 			{
 				TimerMatchSet(this->_TimerBase, this->_TimerConfig, value);
 			}

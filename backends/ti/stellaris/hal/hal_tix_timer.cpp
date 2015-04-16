@@ -10,8 +10,6 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#define TIX_TIMER_COUNT							6
-
 namespace tix {
 
 	namespace timer
@@ -33,8 +31,7 @@ namespace tix {
 			{ WTIMER5_BASE, INT_WTIMER5A },
 		};
 
-		static long
-		TimerIntNumberGet(unsigned long ulBase)
+		long TimerIntNumberGet(unsigned long ulBase)
 		{
 			unsigned long ulIdx;
 
@@ -82,6 +79,98 @@ namespace tix {
 				TIMER_IRQ_CALLBACK(5)
 			}
 
+		unsigned long get_timer_base_from_pin(::pinout::Gpio_id GPIOId, ::pinout::Pin_id PINId)
+		{
+			switch (GPIOId)
+			{
+			//port B
+			case 2:
+				switch (PINId)
+				{
+				case 0:
+				case 1:
+					return TIMER2_BASE;
+					break;
+				case 2:
+				case 3:
+					return TIMER3_BASE;
+					break;
+				case 4:
+				case 5:
+					return TIMER1_BASE;
+					break;
+				case 6:
+				case 7:
+					return TIMER0_BASE;
+					break;
+				}
+				break;
+			//port C
+			case 3:
+				switch (PINId)
+				{
+				case 0:
+				case 1:
+					return TIMER4_BASE;
+					break;
+				case 2:
+				case 3:
+					return TIMER5_BASE;
+					break;
+				case 4:
+				case 5:
+					return WTIMER0_BASE;
+					break;
+				case 6:
+				case 7:
+					return WTIMER1_BASE;
+					break;
+				}
+				break;
+			//port D
+			case 4:
+				switch (PINId)
+				{
+				case 0:
+				case 1:
+					return WTIMER2_BASE;
+					break;
+				case 2:
+				case 3:
+					return WTIMER3_BASE;
+					break;
+				case 4:
+				case 5:
+					return WTIMER4_BASE;
+					break;
+				case 6:
+				case 7:
+					return WTIMER5_BASE;
+					break;
+				}
+				break;
+			//port F
+			case 6:
+				switch (PINId)
+				{
+				case 0:
+				case 1:
+					return TIMER0_BASE;
+					break;
+				case 2:
+				case 3:
+					return TIMER1_BASE;
+					break;
+				case 4:
+					return TIMER2_BASE;
+					break;
+
+				}
+				break;
+
+			}
+			abort();
+		}
 
 		unsigned long get_timer_base_from_id(::timer::Timer_Id TimerId, bool wide)
 		{
@@ -140,6 +229,27 @@ namespace tix {
 
 			fprintf(stderr, "Invalid Timer_Id : %i !\n", TimerId);
 			abort();
+		}
+
+		unsigned long get_timer_config_from_pin(::pinout::Gpio_id GPIOId, ::pinout::Pin_id PINId)
+		{
+			if ((PINId % 2) == 0)
+			{
+				return TIMER_A;
+			}
+			else
+			{
+				return TIMER_B;
+			}
+		}
+
+		bool is_wide_timer(unsigned long TimerBase)
+		{
+			if ((TimerBase == WTIMER0_BASE) || (TimerBase == WTIMER1_BASE) || (TimerBase == WTIMER2_BASE) || (TimerBase == WTIMER3_BASE) || (TimerBase == WTIMER4_BASE) || (TimerBase == WTIMER5_BASE))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		unsigned long get_timer_clock_from_id(::timer::Timer_Id TimerId, bool wide)

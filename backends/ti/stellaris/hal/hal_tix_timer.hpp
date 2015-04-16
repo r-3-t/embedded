@@ -5,14 +5,22 @@
 #include <TimerInterface.hpp>
 #include <Priority.hpp>
 
+#define TIX_TIMER_COUNT							6
+#define TIX_WTIMER_COUNT							6
+
 namespace tix {
 
 	namespace timer
 	{
 
+		long	TimerIntNumberGet(unsigned long ulBase);
+
 		unsigned long get_timer_base_from_id(::timer::Timer_Id TimerId, bool wide);
 		unsigned long get_timer_clock_from_id(::timer::Timer_Id TimerId, bool wide);
 		unsigned long get_timer_clock_from_base(unsigned long TimerBase);
+		unsigned long get_timer_base_from_pin(::pinout::Gpio_id GPIOId, ::pinout::Pin_id PINId);
+		unsigned long get_timer_config_from_pin(::pinout::Gpio_id GPIOId, ::pinout::Pin_id PINId);
+		bool is_wide_timer(unsigned long TimerBase);
 
 		class Timer : public ::timer::TimerInterface
 		{
