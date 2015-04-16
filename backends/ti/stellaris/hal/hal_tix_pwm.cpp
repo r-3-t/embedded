@@ -57,6 +57,9 @@ namespace tix {
 			unsigned long GPIO_Port;
 			unsigned char GPIO_Pin;			// the selected pin
 
+			unsigned long Ctl;
+			unsigned long Timer_O_TnMR;
+
 			this->_configured = true;
 
 			switch (this->_GPIOId)
@@ -277,13 +280,43 @@ namespace tix {
 			//enable clock
 			SysCtlPeripheralEnable(::tix::timer::get_timer_clock_from_base(this->_TimerBase));
 
+			//get previous control flags
+			Ctl = HWREG(this->_TimerBase + TIMER_O_CTL);
+
+			if (_TimerConfig == TIMER_A)
+			{
+				//we save timer B config before erased by TimerConfigure
+				Timer_O_TnMR = HWREG(this->_TimerBase + TIMER_O_TBMR);
+			}
+			else //TIMER_B
+			{
+				//we save timer A config before erased by TimerConfigure
+				Timer_O_TnMR = HWREG(this->_TimerBase + TIMER_O_TAMR);
+
+			}
+
 			//configure for periodic interrupt
-			TimerConfigure(this->_TimerBase, TIMER_CFG_SPLIT_PAIR | this->_PwmConfig);
+			TimerConfigure(this->_TimerBase, TIMER_CFG_SPLIT_PAIR | get_pwm_config_from_pin(_GPIOId, _PINId));
+
+			if (_TimerConfig == TIMER_A)
+			{
+				//we restore timer B config
+				HWREG(this->_TimerBase + TIMER_O_TBMR) = Timer_O_TnMR;
+			}
+			else //TIMER_B
+			{
+				//we restore timer A config
+				HWREG(this->_TimerBase + TIMER_O_TAMR) = Timer_O_TnMR;
+
+			}
+
+			//reapply previous control
+			HWREG(this->_TimerBase + TIMER_O_CTL) = Ctl;
 
 			//invert output
 			TimerControlLevel(this->_TimerBase, this->_TimerConfig, true);
 
-			if (is_wide_timer(this->_TimerBase) == true)
+			if (::tix::timer::is_wide_timer(this->_TimerBase) == true)
 			{
 				this->_prescalerFactor = 1;
 			}
@@ -309,7 +342,10 @@ namespace tix {
 
 		void Pwm::setDuty(uint32_t Duty)
 		{
-			unsigned long value;
+
+			unsigned long 					value;
+
+			this->_Current_duty = Duty;
 
 			if (this->_configured != true)
 			{

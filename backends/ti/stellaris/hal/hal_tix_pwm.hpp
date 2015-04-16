@@ -35,6 +35,8 @@ namespace tix {
 			unsigned long					_GPIOId;
 			unsigned long					_PINId;
 
+			unsigned long 					_Current_duty;
+
 		};
 
 
