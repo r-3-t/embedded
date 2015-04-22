@@ -4,10 +4,17 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/)
 include(arm-none-eabi-gcc)
 
 #common compile flags
-set(COMMON_COMPILE_FLAGS "-O0 -g -Werror -Wno-error=cpp -Wextra -Warray-bounds -ffunction-sections -fdata-sections")
+if (${CMAKE_BUILD_TYPE} MATCHES "Debug")
+	set(COMMON_COMPILE_FLAGS "-O0 -g -Werror -Wno-error=cpp -Wextra -Warray-bounds -ffunction-sections -fdata-sections")
+else()
+	set(COMMON_COMPILE_FLAGS "-O3 -Werror -Wno-error=cpp -Wextra -Warray-bounds -ffunction-sections -fdata-sections -fno-toplevel-reorder")
+	add_definitions(-DNDEBUG)
+endif()
 #set(COMMON_COMPILE_FLAGS "-Os -Werror -Wextra -Warray-bounds -ffunction-sections -fdata-sections")
 #-u _printf_float
 set(COMMON_LINK_FLAGS "-Wl,--gc-sections --specs=nano.specs -u _printf_float")
+
+
 
 #load all mcus
 include(mcus)
@@ -162,6 +169,8 @@ function (build_project project_name)
 	target_compile_definitions(${project_name} PUBLIC ${MCU_TEMPLATE})
 
 	add_custom_command (TARGET ${project_name} POST_BUILD COMMAND arm-none-eabi-size $<TARGET_FILE:${project_name}>)
+	add_custom_command (TARGET ${project_name} POST_BUILD COMMAND arm-none-eabi-objcopy $<TARGET_FILE:${project_name}> -O binary $<TARGET_FILE_DIR:${project_name}>/$<TARGET_FILE_NAME:${project_name}>.bin)
+	add_custom_command (TARGET ${project_name} POST_BUILD COMMAND arm-none-eabi-strip $<TARGET_FILE:${project_name}>)
 
 endfunction(build_project)
 
