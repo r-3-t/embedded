@@ -8,6 +8,8 @@ if (NOT EXISTS ${CROSS_COMPIL_TOOLS})
 	message (FATAL_ERROR "Can't find cross compilation tool chain")
 endif()
 
+
+
 SET(CPREF				${CROSS_COMPIL_TOOLS}/arm-none-eabi)
 SET(CMAKE_C_COMPILER	${CPREF}-gcc CACHE STRING "arm-none-eabi-gcc" FORCE)
 SET(CMAKE_CXX_COMPILER	${CPREF}-g++ CACHE STRING "arm-none-eabi-g++" FORCE)
@@ -28,10 +30,12 @@ CMAKE_FORCE_CXX_COMPILER(${CPREF}-g++ GNU)
 SET(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
 SET(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "")
 
+
 # here is the target environment is located
 SET(CMAKE_FIND_ROOT_PATH	${CROSS_COMPIL_TOOLS})
 include_directories(${CROSS_COMPIL_TOOLS}/../arm-none-eabi/include/)
-include_directories(${CROSS_COMPIL_TOOLS}/../arm-none-eabi/include/c++/4.8.4)
+file(GLOB _CPP_INCLUDE_DIR_ ${CROSS_COMPIL_TOOLS}/../arm-none-eabi/include/c++/*)
+include_directories(${_CPP_INCLUDE_DIR_})
 
 if (NOT OPTIM_LEVEL)
 	set (OPTIM_LEVEL "3")
